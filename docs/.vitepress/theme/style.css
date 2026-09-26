@@ -5,6 +5,79 @@
  * 不覆盖默认主题的配色与骨架 —— 那些留给主题自己维护，升级时不会跟我打架。
  */
 
+/* ---------- 0. 全站 AI 声明横幅 ---------- */
+
+/* 由 theme/index.ts 注入到 `layout-top` 插槽，固定在每一页的最上方。
+   VitePress 内置了配套变量，必须一并设置，否则吸顶的导航栏会盖住横幅：
+     --vp-layout-top-height 让 VPNav / VPSidebar / VPContent / VPHero 各自下移；
+     --vp-z-index-layout-top 是官方给该插槽预留的层级（40，高于 nav 的 30）。 */
+:root {
+  --vp-layout-top-height: 36px;
+}
+
+.ai-notice {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--vp-z-index-layout-top);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: var(--vp-layout-top-height);
+  padding: 0 16px;
+  background: var(--vp-c-warning-soft);
+  border-bottom: 1px solid var(--vp-c-warning-1);
+  color: var(--vp-c-text-1);
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.ai-notice-badge {
+  flex-shrink: 0;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--vp-c-warning-1);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.ai-notice-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 窄屏换用短文案，避免被省略号截断 */
+.ai-notice-text--short {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .ai-notice-text--full {
+    display: none;
+  }
+
+  .ai-notice-text--short {
+    display: inline;
+  }
+
+  .ai-notice {
+    font-size: 12px;
+    padding: 0 12px;
+  }
+
+  .ai-notice-badge {
+    font-size: 10px;
+    padding: 1px 5px;
+  }
+}
+
 /* ---------- 1. 数学公式 ---------- */
 
 /* MathJax 渲染出的 display 公式可能超宽，给容器一条横向滚动通道，

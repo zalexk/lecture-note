@@ -26,7 +26,6 @@ export default withMermaid(
 
       nav: [
         { text: '首页', link: '/' },
-        { text: '课程总览', link: '/courses' },
         {
           text: '课程',
           items: courses.map((c) => ({
@@ -73,7 +72,7 @@ export default withMermaid(
       socialLinks: [{ icon: 'github', link: repoUrl }],
 
       footer: {
-        message: '课程笔记归档 · 内容为个人学习整理，仅供参考',
+        message: '本站笔记由 AI 辅助整理，可能存在错误，请以课件与教材原文为准',
         copyright: '仅供学习交流使用',
       },
     },

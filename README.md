@@ -4,6 +4,9 @@ CUHK-Shenzhen 课程笔记的公开归档站点。基于 [VitePress](https://vit
 
 站点地址：<https://zalexk.github.io/lecture-note/>
 
+> [!WARNING]
+> **内容声明：本仓库的课程笔记均由 AI 辅助整理生成，未经逐字人工校订，可能存在事实错误、推导错误或术语误用。** 笔记中的「独立复算」「我补充」等标注同样不保证正确。请以课件、教材与课堂讲授原文为准，不要将本站内容作为学术依据或作业答案来源。
+
 ---
 
 ## 目录结构
@@ -17,8 +20,7 @@ lecture-note/
 │   │   ├── courses.mts             # 课程与笔记清单 —— 全站导航的唯一数据源
 │   │   └── theme/                  # 主题自定义（如需）
 │   ├── public/logo.svg             # 原样复制的静态资源
-│   ├── index.md                    # 首页
-│   ├── courses.md                  # 课程总览页
+│   ├── index.md                    # 首页（AI 生成声明 + 课程卡片）
 │   └── ECO2021-Principles-of-Macroeconomics/
 │       ├── index.md                # 课程概览页
 │       └── ch6-wages-and-unemployment.md
@@ -75,8 +77,8 @@ npm run docs:preview # 预览构建产物
 ## 新增一门课程
 
 1. 在 `docs/` 下新建 `课程代码-课程英文名` 目录，把笔记放进去。
-2. 在 `docs/.vitepress/courses.mts` 的 `courses` 数组里追加一条记录（`code` / `name` / `dir` / `summary` / `notes`）。
-3. 在 `docs/courses.md` 的表格里补一行。导航与侧边栏会由 `courses.mts` 自动生成。
+2. 在 `docs/.vitepress/courses.mts` 的 `courses` 数组里追加一条记录（`code` / `name` / `dir` / `summary` / `notes`）—— 顶部导航与左侧边栏会据此自动生成。
+3. 到 `docs/index.md` 的 `features` 里补一张课程卡片（首页卡片是手写的，不随 `courses.mts` 变化）。
 
 ---
 
@@ -106,6 +108,12 @@ npm run docs:preview # 预览构建产物
 - **本地全文搜索** —— 无需外部服务
 - **提示容器** —— `::: tip` / `::: warning` / `::: danger` / `::: info` / `::: details`
 
-## 注意
+## 内容声明
 
-笔记内容为个人学习整理，可能存在错误或过时之处，不构成官方教学材料。
+本站笔记由 AI 辅助整理生成，**未经逐字人工校订**，可能存在：
+
+- 事实错误、推导错误或术语误用；
+- 从课件图表上人工读取的近似数值；
+- 对课件口径的个人理解偏差。
+
+笔记只反映整理者个人对课件的理解，不代表任课教师观点，也不构成官方教学材料。**请始终以课件与教材原文为准。**
