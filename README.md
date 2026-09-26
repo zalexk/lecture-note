@@ -108,7 +108,11 @@ npm run docs:preview # 预览构建产物
 ## 已内置的 Markdown 能力
 
 - **数学公式** —— `$...$` 与 `$$...$$`，由 **KaTeX** 在构建时渲染（配 `@vscode/markdown-it-katex`，输出 HTML + MathML，样式表在 `theme/index.ts` 里显式引入）
-- **Mermaid 图表** —— ` ```mermaid ` 代码块，由 `vitepress-plugin-mermaid` 渲染
+- **Mermaid 图表** —— ` ```mermaid ` 代码块，由 `vitepress-plugin-mermaid` 渲染。
+  组件是**惰性注册**的（`theme/index.ts` 里用 `defineAsyncComponent`），且**没有用** 插件自带的
+  `withMermaid()`：那条路会把 mermaid 核心静态塞进入口 chunk，导致每一页都无条件预加载
+  约 1.08 MB 的图形代码（首页也照背）。现在只有真正画图的那一页、渲染到图时才下载。
+  改配置前务必先读 `config.mts` 里 `mermaidConfigShim()` 的注释。
 - **本地全文搜索** —— 无需外部服务
 - **提示容器** —— `::: tip` / `::: warning` / `::: danger` / `::: info` / `::: details`
 
