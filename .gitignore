@@ -1,0 +1,15 @@
+# 依赖
+node_modules/
+
+# VitePress 构建产物与缓存
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+docs/.vitepress/.temp/
+
+# Vite 加载 config 时产生的临时文件（正常会被自动清理，异常中断时会残留）
+*.timestamp-*.mjs
+
+# 杂项
+.DS_Store
+Thumbs.db
+*.log

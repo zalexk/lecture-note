@@ -1,0 +1,85 @@
+/**
+ * 全站样式微调。
+ *
+ * 原则：只解决笔记这类长文在 VitePress 默认主题下的真实排版痛点，
+ * 不覆盖默认主题的配色与骨架 —— 那些留给主题自己维护，升级时不会跟我打架。
+ */
+
+/* ---------- 1. 数学公式 ---------- */
+
+/* MathJax 渲染出的 display 公式可能超宽，给容器一条横向滚动通道，
+   避免整页被一个长公式撑出横向滚动条。 */
+.vp-doc mjx-container {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+}
+
+.vp-doc mjx-container[display='true'] {
+  margin: 1.25em 0;
+  padding: 2px 0;
+}
+
+/* 行内公式不要被压扁 */
+.vp-doc mjx-container:not([display='true']) {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+/* ---------- 2. Mermaid 图表 ---------- */
+
+.vp-doc .mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.5em 0;
+  /* 宽图在窄屏上横向滚动，而不是溢出 */
+  overflow-x: auto;
+}
+
+.vp-doc .mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------- 3. 长表格 ---------- */
+
+/* 笔记里大量多列对照表，列一多就会挤压换行。
+   允许表格在自身区域内横向滚动，保持单元格不换行到难以阅读。 */
+.vp-doc table {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.vp-doc table thead,
+.vp-doc table tbody {
+  display: table;
+  width: 100%;
+  table-layout: auto;
+}
+
+/* 表格单元格略紧凑一些，让更多列能在同一屏里看完 */
+.vp-doc th,
+.vp-doc td {
+  padding: 6px 12px;
+}
+
+/* ---------- 4. 中文正文 ---------- */
+
+.vp-doc {
+  /* 中英文混排时，段落的行高比默认稍松一点更耐读 */
+  line-height: 1.75;
+}
+
+.vp-doc h2 {
+  /* 笔记分节很多，让二级标题更好定位 */
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--vp-c-divider);
+}
+
+.vp-doc h3 {
+  margin-top: 1.6rem;
+}
