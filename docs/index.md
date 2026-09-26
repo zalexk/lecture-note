@@ -2,16 +2,10 @@
 layout: home
 
 hero:
-  name: Lecture Notes
-  text: CUHK-Shenzhen 课程笔记
+  name: AI Lecture Notes
+  text: LLMs-powered 课程笔记
   tagline: 按「课程代码 + 课程名」分组归档，持续更新中
   actions:
-    - theme: brand
-      text: 进入 CSC3100
-      link: /CSC3100-Data-Structures/
-    - theme: alt
-      text: 进入 ECO2021
-      link: /ECO2021-Principles-of-Macroeconomics/
     - theme: alt
       text: GitHub 仓库
       link: https://github.com/zalexk/lecture-note
