@@ -7,6 +7,9 @@ hero:
   tagline: 按「课程代码 + 课程名」分组归档，持续更新中
   actions:
     - theme: brand
+      text: 进入 CSC3100
+      link: /CSC3100-Data-Structures/
+    - theme: alt
       text: 进入 ECO2021
       link: /ECO2021-Principles-of-Macroeconomics/
     - theme: alt
@@ -14,9 +17,14 @@ hero:
       link: https://github.com/zalexk/lecture-note
 
 features:
+  - icon: 🌲
+    title: CSC3100 · Data Structures
+    details: 数据结构。已收录：Lecture 6 分治与递归的复杂度（Complexity of Divide-and-Conquer and Recursion）。
+    link: /CSC3100-Data-Structures/
+    linkText: 进入课程
   - icon: 📗
     title: ECO2021 · Principles of Macroeconomics
-    details: 宏观经济学原理。已收录：Ch6 工资与失业（Wages and Unemployment）。
+    details: 宏观经济学原理。已收录：Ch5 通货膨胀与价格水平（Inflation and the Price Level）、Ch6 工资与失业（Wages and Unemployment）。
     link: /ECO2021-Principles-of-Macroeconomics/
     linkText: 进入课程
 ---
@@ -33,10 +41,8 @@ features:
 
 ## 关于本站
 
-这里是我在 CUHK-Shenzhen 读书期间整理的课堂笔记公开归档。
+这里是我在香港中文大学深圳读书期间使用 LLMs 整理的课堂笔记公开归档。
 
 **组织方式** —— 每门课一个目录，目录名是 `课程代码-课程英文名`（例如 `ECO2021-Principles-of-Macroeconomics`）。同一门课的多讲笔记平铺在该目录下，侧边栏会自动按课程折叠分组。
 
 **笔记内容** —— 基于课件（PDF/PPT）整理，包含公式推导、例题全解、易错点提示，以及一份「诚实备注」用来区分哪些来自课件原文、哪些是补充与勘误。
-
-**内容边界** —— 笔记只反映我一个人对课件的理解，不代表任课教师的观点，也不构成任何官方教学材料。

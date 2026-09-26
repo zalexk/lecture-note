@@ -33,11 +33,27 @@ export interface CourseEntry {
 
 export const courses: CourseEntry[] = [
   {
+    code: 'CSC3100',
+    name: 'Data Structures',
+    dir: 'CSC3100-Data-Structures',
+    summary: '数据结构 —— 渐进记号、递归与分治的复杂度分析，以及经典排序与查找算法的设计与证明。',
+    notes: [
+      {
+        text: 'Lecture 6 分治与递归的复杂度（Complexity of Divide-and-Conquer and Recursion）',
+        file: 'lecture6-divide-and-conquer-and-recursion',
+      },
+    ],
+  },
+  {
     code: 'ECO2021',
     name: 'Principles of Macroeconomics',
     dir: 'ECO2021-Principles-of-Macroeconomics',
     summary: '宏观经济学原理 —— 从 GDP 核算、通胀与物价水平，到劳动市场与失业。',
     notes: [
+      {
+        text: 'Ch5 通货膨胀与价格水平（Inflation and the Price Level）',
+        file: 'ch5-inflation-and-the-price-level',
+      },
       {
         text: 'Ch6 工资与失业（Wages and Unemployment）',
         file: 'ch6-wages-and-unemployment',
