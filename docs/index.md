@@ -2,8 +2,8 @@
 layout: home
 
 hero:
-  name: AI Lecture Notes
-  text: LLMs-powered 课程笔记
+  name: LLMs-powered Lecture Notes
+  text: 基于课件的课程笔记
   tagline: 按「课程代码 + 课程名」分组归档，持续更新中
   actions:
     - theme: alt
