@@ -1,6 +1,10 @@
 import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
+import mathKatexModule from '@vscode/markdown-it-katex'
 import { courses, sidebar } from './courses.mts'
+
+// `@vscode/markdown-it-katex` 是 CJS 产物（exports.default = plugin），两种取法都兜一下
+const mathKatex = (mathKatexModule as any).default ?? mathKatexModule
 
 const repoUrl = 'https://github.com/zalexk/lecture-note'
 
@@ -15,8 +19,14 @@ export default withMermaid(
     head: [['meta', { name: 'theme-color', content: '#3451b2' }]],
 
     markdown: {
-      // 数学公式：需要同时安装 markdown-it-mathjax3
-      math: true,
+      // 数学层：用 KaTeX，**不用** VitePress 内置的 `math: true`。
+      // 内置那条路固定走 markdown-it-mathjax3，有两个问题：
+      //   ① 它输出 SVG，把每条公式的字形路径内联进 HTML —— 本站 L6 单页曾因此到 4.3 MB；
+      //   ② 它只吐 <mjx-container> 而不注入配套 CSS，行内公式的基线得自己兜（配错就是整体抬高）。
+      // KaTeX 输出 HTML + 共享字体文件，配套 CSS 一句 import 就能带上（见 theme/index.ts）。
+      config(md) {
+        md.use(mathKatex)
+      },
       // 文中的裸 HTML（如 <br/>）照常渲染
       html: true,
     },

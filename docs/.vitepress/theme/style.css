@@ -78,26 +78,24 @@
   }
 }
 
-/* ---------- 1. 数学公式 ---------- */
+/* ---------- 1. 数学公式（KaTeX） ---------- */
 
-/* MathJax 渲染出的 display 公式可能超宽，给容器一条横向滚动通道，
-   避免整页被一个长公式撑出横向滚动条。 */
-.vp-doc mjx-container {
-  max-width: 100%;
+/* 渲染器是 KaTeX（见 config.mts），基础样式来自 katex/dist/katex.min.css，
+   已在 theme/index.ts 显式引入。这里只补默认样式没解决的一件事：
+   超宽的 display 公式给一条横向滚动通道，避免整页被一个长公式撑出横向滚动条。
+
+   ⚠️ 历史坑（2026-09-26 修）：本站原先用 MathJax（VitePress 的 `math: true`），
+   这里写的是 `.vp-doc mjx-container { overflow-x: auto }` 配上
+   `mjx-container:not([display='true']) { display: inline-block; vertical-align: baseline }`。
+   问题是：**行内元素的 overflow 一旦不是 visible，它的基线就变成底边**
+   （CSS 规范里 inline-block 的 baseline 规则），于是每个行内公式的底边被贴到
+   文字基线上 —— 表现就是公式整体抬高、行距被撑开。
+   换成 KaTeX 后不再有这个问题：`.katex-display` 是块级元素，给它 overflow 不影响基线；
+   行内公式是普通的 inline 内容，基线天然正确。**别再对行内公式设 overflow。** */
+.vp-doc .katex-display {
   overflow-x: auto;
   overflow-y: hidden;
-  padding-bottom: 2px;
-}
-
-.vp-doc mjx-container[display='true'] {
-  margin: 1.25em 0;
   padding: 2px 0;
-}
-
-/* 行内公式不要被压扁 */
-.vp-doc mjx-container:not([display='true']) {
-  display: inline-block;
-  vertical-align: baseline;
 }
 
 /* ---------- 2. Mermaid 图表 ---------- */

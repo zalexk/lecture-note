@@ -12,6 +12,10 @@
 
 import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
+// KaTeX 的样式表 —— 渲染器换成了 KaTeX（见 config.mts），
+// 这张 CSS 必须显式引入，否则公式会退化成挤在一起的裸 HTML（缺字形度量与字体）。
+// 放在 ./style.css 之前，好让后者的微调能覆盖它。
+import 'katex/dist/katex.min.css'
 import './style.css'
 
 export default {

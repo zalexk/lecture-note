@@ -21,8 +21,12 @@ lecture-note/
 │   │   └── theme/                  # 主题自定义（如需）
 │   ├── public/logo.svg             # 原样复制的静态资源
 │   ├── index.md                    # 首页（AI 生成声明 + 课程卡片）
+│   ├── CSC3100-Data-Structures/
+│   │   ├── index.md                # 课程概览页
+│   │   └── lecture6-divide-and-conquer-and-recursion.md
 │   └── ECO2021-Principles-of-Macroeconomics/
 │       ├── index.md                # 课程概览页
+│       ├── ch5-inflation-and-the-price-level.md
 │       └── ch6-wages-and-unemployment.md
 ├── scripts/import-note.py          # 从本地笔记目录导入并注入 frontmatter
 └── package.json
@@ -62,7 +66,7 @@ npm run docs:preview # 预览构建产物
        "Ch6 工资与失业"
    ```
 
-   脚本会复制文件、统一换行为 LF，并在缺少 YAML frontmatter 时补一个 `title`。
+   脚本会自动完成三件事：复制文件、把换行统一成 LF；在 frontmatter 缺少 `title` 时补上（VitePress 的 `<title>` 与本地搜索都依赖它）；**清洗来源表述**——正文里不得出现「录播 / 字幕 / 录音 / 转录 / SRT」，一律改写成「基于课件整理」。清洗后若仍有残留，脚本会逐行打印出来让人处理。
 
 2. 在 `docs/.vitepress/courses.mts` 里，把这一讲加进对应课程的 `notes` 数组：
 
@@ -103,7 +107,7 @@ npm run docs:preview # 预览构建产物
 
 ## 已内置的 Markdown 能力
 
-- **数学公式** —— `$...$` 与 `$$...$$`，由 `markdown-it-mathjax3` 在构建时渲染
+- **数学公式** —— `$...$` 与 `$$...$$`，由 **KaTeX** 在构建时渲染（配 `@vscode/markdown-it-katex`，输出 HTML + MathML，样式表在 `theme/index.ts` 里显式引入）
 - **Mermaid 图表** —— ` ```mermaid ` 代码块，由 `vitepress-plugin-mermaid` 渲染
 - **本地全文搜索** —— 无需外部服务
 - **提示容器** —— `::: tip` / `::: warning` / `::: danger` / `::: info` / `::: details`
