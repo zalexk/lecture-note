@@ -33,6 +33,42 @@ export interface CourseEntry {
 
 export const courses: CourseEntry[] = [
   {
+    code: 'CSC3001',
+    name: 'Discrete Mathematics',
+    dir: 'CSC3001-Discrete-Mathematics',
+    summary: '离散数学 —— 命题逻辑与一阶逻辑、集合、证明方法，以及数学归纳法、良序原理与不变量法。',
+    notes: [
+      {
+        text: 'LN0 绪论（Introduction）',
+        file: 'ln0-introduction',
+      },
+      {
+        text: 'LN1 命题逻辑（Propositional Logic）',
+        file: 'ln1-propositional-logic',
+      },
+      {
+        text: 'LN2.1 集合（Sets）',
+        file: 'ln2-1-sets',
+      },
+      {
+        text: 'LN2.2 一阶逻辑（First-Order Logic）',
+        file: 'ln2-2-first-order-logic',
+      },
+      {
+        text: 'LN3 证明方法（Methods of Proofs）',
+        file: 'ln3-methods-of-proofs',
+      },
+      {
+        text: 'LN4.1 数学归纳法 I（Mathematical Induction I）',
+        file: 'ln4-1-mathematical-induction-i',
+      },
+      {
+        text: 'LN4.2 数学归纳法 II（Mathematical Induction II）',
+        file: 'ln4-2-mathematical-induction-ii',
+      },
+    ],
+  },
+  {
     code: 'CSC3100',
     name: 'Data Structures',
     dir: 'CSC3100-Data-Structures',
@@ -41,6 +77,26 @@ export const courses: CourseEntry[] = [
       {
         text: 'Lecture 6 分治与递归的复杂度（Complexity of Divide-and-Conquer and Recursion）',
         file: 'lecture6-divide-and-conquer-and-recursion',
+      },
+    ],
+  },
+  {
+    code: 'ECE2050',
+    name: 'Digital Logic and Systems',
+    dir: 'ECE2050-Digital-Logic-and-Systems',
+    summary: '数字逻辑与系统 —— 数制与编码、逻辑门与噪声容限，以及组合逻辑与时序逻辑的基本构件。',
+    notes: [
+      {
+        text: 'Ch1 数字逻辑导论（Introduction）',
+        file: 'chap1-introduction',
+      },
+      {
+        text: 'Ch2 数制系统（Number Systems）',
+        file: 'chap2-number-systems',
+      },
+      {
+        text: 'Ch3 逻辑门（Logic Gates）',
+        file: 'chap3-logic-gates',
       },
     ],
   },

@@ -17,10 +17,20 @@ hero:
       link: https://github.com/zalexk/lecture-note
 
 features:
+  - icon: 🔢
+    title: CSC3001 · Discrete Mathematics
+    details: 离散数学。已收录：LN0 绪论、LN1 命题逻辑、LN2.1 集合、LN2.2 一阶逻辑、LN3 证明方法、LN4.1–LN4.2 数学归纳法（共 7 讲）。
+    link: /CSC3001-Discrete-Mathematics/
+    linkText: 进入课程
   - icon: 🌲
     title: CSC3100 · Data Structures
     details: 数据结构。已收录：Lecture 6 分治与递归的复杂度（Complexity of Divide-and-Conquer and Recursion）。
     link: /CSC3100-Data-Structures/
+    linkText: 进入课程
+  - icon: 🔌
+    title: ECE2050 · Digital Logic and Systems
+    details: 数字逻辑与系统。已收录：Ch1 数字逻辑导论、Ch2 数制系统、Ch3 逻辑门（共 3 章）。
+    link: /ECE2050-Digital-Logic-and-Systems/
     linkText: 进入课程
   - icon: 📗
     title: ECO2021 · Principles of Macroeconomics
