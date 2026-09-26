@@ -1,5 +1,5 @@
 ---
-title: Ch6 工资与失业
+title: Ch6 工资与失业（Wages and Unemployment）
 ---
 
 # ECO2021 课堂笔记：第 6 章　工资与失业（Wages and Unemployment）
