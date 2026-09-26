@@ -9,6 +9,34 @@ const mathKatex = (mathKatexModule as any).default ?? mathKatexModule
 const repoUrl = 'https://github.com/zalexk/lecture-note'
 
 /**
+ * Microsoft Clarity 的站点 ID（项目设置 → Setup → 安装代码里的 `clarity.ms/tag/<ID>`）。
+ * 换站点只改这一处，下面的接入片段会跟着变。
+ */
+const CLARITY_PROJECT_ID = 'yog83wchao'
+
+/**
+ * Microsoft Clarity 官方接入片段，原样内联进每个页面的 `<head>`。
+ *
+ * 几点说明：
+ * - 用 VitePress `head` 的 `['script', {}, <code>]` 形式写**内联脚本**——第三个元素是
+ *   `<script>` 的 innerHTML，不会被转义，所以不用改写成外部文件。
+ * - 片段自己 `createElement('script')` 并 `async=1` 去拉 `https://www.clarity.ms/tag/<ID>`，
+ *   所以它对首屏是**非阻塞**的，也不会拖慢 `vitepress build`（构建期只是把这段字符串抄进 HTML）。
+ * - 放 `<head>` 是官方要求：Clarity 需要在页面脚本执行前打好桩（`window.clarity` 队列），
+ *   否则组件挂载阶段的早期事件会丢。
+ * - ⚠️ 内联即**所有环境都生效**，包括 `npm run docs:dev` 与 `vitepress preview` 起的
+ *   localhost 页面。本地预览的访问同样会被记为会话，混进真实数据里。
+ *   若只想让线上（GitHub Pages）上报，把下面的 `head` 条目换成 `transformHead`
+ *   并按 `process.env.NODE_ENV !== 'production'` 跳过即可。
+ */
+const claritySnippet =
+  '(function(c,l,a,r,i,t,y){' +
+  'c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};' +
+  't=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;' +
+  'y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);' +
+  `})(window, document, "clarity", "script", "${CLARITY_PROJECT_ID}");`
+
+/**
  * mermaid 的全局设置。
  *
  * 这份对象与 `withMermaid()` 内部用的默认值一致：
@@ -77,7 +105,11 @@ export default defineConfig({
   base: '/lecture-note/',
   cleanUrls: true,
   lastUpdated: true,
-  head: [['meta', { name: 'theme-color', content: '#3451b2' }]],
+  head: [
+    ['meta', { name: 'theme-color', content: '#3451b2' }],
+    // Microsoft Clarity 行为分析（见文件顶部 claritySnippet 注释）
+    ['script', {}, claritySnippet],
+  ],
 
   markdown: {
     // 数学层：用 KaTeX，**不用** VitePress 内置的 `math: true`。
