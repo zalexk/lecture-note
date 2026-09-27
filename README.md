@@ -101,7 +101,23 @@ npm run docs:preview # 预览构建产物
 
 ### 关于 `base`
 
-`docs/.vitepress/config.mts` 里的 `base: '/lecture-note/'` 对应仓库名。如果将来仓库改名，或改用自定义域名（此时应设为 `'/'`），记得同步修改，否则站点的样式与资源会全部 404。
+`docs/.vitepress/config.mts` 里的 `base` 是**按部署平台自动判定**的，不用手改：
+
+| 部署到哪里 | 站点地址形如 | 需要的 `base` |
+| --- | --- | --- |
+| GitHub Pages 项目站点 | `https://zalexk.github.io/lecture-note/` | `/lecture-note/` |
+| Vercel / Netlify / 自定义域名 | `https://xxx.vercel.app/` | `/` |
+
+判定顺序：显式环境变量 `VITEPRESS_BASE` → Vercel 自动注入的 `VERCEL`（命中即用 `/`）→ 兜底 `/lecture-note/`。
+GitHub Actions 的构建环境里没有 `VERCEL`，所以两个平台可以并存。
+
+```bash
+# 想在 Vercel 上挂子路径，或强制指定：
+VITEPRESS_BASE=/lecture-note/ npm run docs:build
+```
+
+⚠️ 这个值配错**不会报错**，只会让样式表 / 脚本 / logo 全部 404，页面退化成纯文字裸 HTML。
+仓库改名或换域名时，先确认 `base` 与实际访问路径一致。
 
 ---
 

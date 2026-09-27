@@ -9,6 +9,31 @@ const mathKatex = (mathKatexModule as any).default ?? mathKatexModule
 const repoUrl = 'https://github.com/zalexk/lecture-note'
 
 /**
+ * 站点部署根路径（交给 VitePress 的 `base`）。
+ *
+ * 同一份源码要同时喂两个托管平台，而两者要求的 `base` **不一样**：
+ *
+ * - **GitHub Pages 项目站点** —— 地址形如 `https://<user>.github.io/lecture-note/`，
+ *   站点挂在子路径下，`base` 必须是 `'/lecture-note/'`。这是本站的默认值。
+ * - **Vercel / Netlify / 自定义域名** —— 站点挂在**根路径**
+ *   `https://lecture-note-ten.vercel.app/`，`base` 必须是 `'/'`。
+ *
+ * 踩过的坑：在 Vercel 上沿用 `'/lecture-note/'` 时，构建出的 HTML 会把样式表、
+ * 脚本、logo、字体全指向 `/lecture-note/assets/...`，而该路径在那个站点上**全部 404**
+ * （实测 `/lecture-note/assets/style.*.css` → 404、`/assets/style.*.css` → 200），
+ * 于是 CSS 与 JS 都加载不到，页面只剩裸 HTML —— 看起来就是「主题丢了、变成纯文字」。
+ *
+ * 判定顺序：
+ *   1. `VITEPRESS_BASE` —— 显式覆盖，任何平台都能用（例如想在 Vercel 上也挂子路径）；
+ *   2. `VERCEL` —— Vercel 构建时自动注入的环境变量，存在即说明在 Vercel 上 ⇒ `'/'`；
+ *   3. 兜底 `'/lecture-note/'` —— GitHub Pages 项目站点。
+ *
+ * GitHub Actions 的构建环境里没有 `VERCEL`，所以那条路仍拿到子路径，两个平台互不干扰。
+ */
+const SITE_BASE =
+  process.env.VITEPRESS_BASE ?? (process.env.VERCEL ? '/' : '/lecture-note/')
+
+/**
  * Microsoft Clarity 的站点 ID（项目设置 → Setup → 安装代码里的 `clarity.ms/tag/<ID>`）。
  * 换站点只改这一处，下面的接入片段会跟着变。
  */
@@ -102,7 +127,7 @@ export default defineConfig({
   lang: 'zh-CN',
   title: 'Lecture Notes',
   description: 'CUHK-Shenzhen 课程笔记归档',
-  base: '/lecture-note/',
+  base: SITE_BASE,
   cleanUrls: true,
   lastUpdated: true,
   head: [
