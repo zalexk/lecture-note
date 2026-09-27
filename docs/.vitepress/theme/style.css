@@ -10,7 +10,21 @@
 /* 由 theme/index.ts 注入到 `layout-top` 插槽，固定在每一页的最上方。
    VitePress 内置了配套变量，必须一并设置，否则吸顶的导航栏会盖住横幅：
      --vp-layout-top-height 让 VPNav / VPSidebar / VPContent / VPHero 各自下移；
-     --vp-z-index-layout-top 是官方给该插槽预留的层级（40，高于 nav 的 30）。 */
+     --vp-z-index-layout-top 是官方给该插槽预留的层级（40，高于 nav 的 30）。
+
+   ⚠️ 底色必须是**不透明**的（2026-09-27 修）：
+   原来写的是 `background: var(--vp-c-warning-soft)`，而它在 VitePress 里的实际值是
+   `rgba(234, 179, 8, 0.14)` —— 只有 14% 不透明度
+   （见 vitepress/dist/client/theme-default/styles/vars.css 的 --vp-c-yellow-soft）。
+   那个 token 是给**嵌在页面里**的 `[!WARNING]` 提示块用的，底就是页面底色，
+   半透明完全没问题；但横幅是 fixed 吸顶的，正文往上滚时整片从底下透出来，
+   跟横幅文字叠在一起 —— 表现就是滚动时满屏叠字。
+   这里把同一色相压成不透明：#eab308 正是 --vp-c-yellow-soft 的基色，比例沿用 14%，
+   底色跟着 --vp-c-bg 走，浅色 / 深色主题都不用手写第二套值。
+
+   为什么不走 backdrop-filter「磨砂」那条路：底色一旦不透明，磨砂层在它后面
+   根本看不见；而全宽 fixed 元素常驻 backdrop-filter 是滚动时反复重绘，白花性能。
+   底线是「不透出正文」，磨砂只是手段之一，且做不到不透。 */
 :root {
   --vp-layout-top-height: 36px;
 }
@@ -28,7 +42,10 @@
   gap: 8px;
   height: var(--vp-layout-top-height);
   padding: 0 16px;
-  background: var(--vp-c-warning-soft);
+  /* 第一行是兜底：不支持 color-mix 的浏览器给纯底色，而不是回落到透明。
+     两行必须保持这个顺序（后者能解析时覆盖前者）。 */
+  background: var(--vp-c-bg);
+  background: color-mix(in srgb, #eab308 14%, var(--vp-c-bg));
   border-bottom: 1px solid var(--vp-c-warning-1);
   color: var(--vp-c-text-1);
   font-size: 13px;
