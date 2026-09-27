@@ -116,6 +116,38 @@ export const courses: CourseEntry[] = [
       },
     ],
   },
+  {
+    code: 'STA2002',
+    name: 'Probability and Statistics II',
+    dir: 'STA2002-Probability-and-Statistics-II',
+    summary: '概率与统计 II —— 参数估计、置信区间与假设检验：从枢轴量出发的三件套推断链条。',
+    notes: [
+      {
+        text: 'Lecture 1 引言与预备知识（Introduction and Preliminary）',
+        file: 'lecture1-introduction-and-preliminary',
+      },
+      {
+        text: 'Lecture 2 参数估计 I（Parameter Estimation I）',
+        file: 'lecture2-parameter-estimation-i',
+      },
+      {
+        text: 'Lecture 3 参数估计 II（Parameter Estimation II）',
+        file: 'lecture3-parameter-estimation-ii',
+      },
+      {
+        text: 'Lecture 4 置信区间 I（Confidence Interval I）',
+        file: 'lecture4-confidence-interval-i',
+      },
+      {
+        text: 'Lecture 5 置信区间 II（Confidence Interval II）',
+        file: 'lecture5-confidence-interval-ii',
+      },
+      {
+        text: 'Lecture 6 假设检验 I（Hypothesis Testing I）',
+        file: 'lecture6-hypothesis-testing-i',
+      },
+    ],
+  },
 ]
 
 /** 由 dir 拼出站点内的路径前缀（带首尾斜杠） */

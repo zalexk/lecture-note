@@ -31,6 +31,11 @@ features:
     details: 宏观经济学原理。已收录：Ch5 通货膨胀与价格水平（Inflation and the Price Level）、Ch6 工资与失业（Wages and Unemployment）。
     link: /ECO2021-Principles-of-Macroeconomics/
     linkText: 进入课程
+  - icon: 📊
+    title: STA2002 · Probability and Statistics II
+    details: 概率与统计 II。已收录：Lecture 1 引言与预备知识、Lecture 2–3 参数估计、Lecture 4–5 置信区间、Lecture 6 假设检验 I（共 6 讲）。
+    link: /STA2002-Probability-and-Statistics-II/
+    linkText: 进入课程
 ---
 
 ::: danger ⚠️ 重要声明：本站笔记由 AI 辅助生成
