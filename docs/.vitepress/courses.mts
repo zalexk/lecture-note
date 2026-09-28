@@ -114,6 +114,10 @@ export const courses: CourseEntry[] = [
         text: 'Ch6 工资与失业（Wages and Unemployment）',
         file: 'ch6-wages-and-unemployment',
       },
+      {
+        text: 'Ch7 经济增长（Economic Growth）',
+        file: 'ch7-economic-growth',
+      },
     ],
   },
   {
