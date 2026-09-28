@@ -98,6 +98,10 @@ export const courses: CourseEntry[] = [
         text: 'Ch3 逻辑门（Logic Gates）',
         file: 'chap3-logic-gates',
       },
+      {
+        text: 'Ch4 布尔代数与逻辑化简（Boolean Algebra and Logic Simplification）',
+        file: 'chap4-boolean-algebra-and-logic-simplification',
+      },
     ],
   },
   {
