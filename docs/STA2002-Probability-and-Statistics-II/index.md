@@ -19,11 +19,15 @@
 | [Lecture 4 置信区间 I](/STA2002-Probability-and-Statistics-II/lecture4-confidence-interval-i) | Confidence Interval I | Lecture 4（17 页） |
 | [Lecture 5 置信区间 II](/STA2002-Probability-and-Statistics-II/lecture5-confidence-interval-ii) | Confidence Interval II | Lecture 5（31 页） |
 | [Lecture 6 假设检验 I](/STA2002-Probability-and-Statistics-II/lecture6-hypothesis-testing-i) | Hypothesis Testing I | Lecture 6（28 页） |
+| [Lecture 7 假设检验 II](/STA2002-Probability-and-Statistics-II/lecture7-hypothesis-testing-ii) | Hypothesis Testing II | Lecture 7（21 页） |
+| [Lecture 8 假设检验 III](/STA2002-Probability-and-Statistics-II/lecture8-hypothesis-testing-iii) | Hypothesis Testing III | Lecture 8（17 页） |
 
 ::: tip 这门课的主线
-第 1 讲把「随机变量 — 分布 — 矩 — 三大抽样分布 — 极限定理」这条链条补齐，第 2–3 讲做**点估计**，第 4–5 讲做**区间估计**，第 6 讲进入**假设检验**。
+第 1 讲把「随机变量 — 分布 — 矩 — 三大抽样分布 — 极限定理」这条链条补齐，第 2–3 讲做**点估计**，第 4–5 讲做**区间估计**，第 6–8 讲做**假设检验**。
 
 三件套（点估计 / 区间估计 / 假设检验）之间其实共用同一批工具：**枢轴量（pivot）**。第 4 讲把它显式化之后，第 6 讲的检验统计量基本就是「把枢轴量里的未知参数换成假设值」。所以第 4 讲是这门课的分水岭，前面读慢了不亏。
+
+假设检验这三讲的分类维度是逐步展开的：第 6 讲按「$\sigma^2$ 已知 / 未知」分两个 case（单个均值），第 7 讲换成「两个样本的结构关系」（是否配对、方差是否相等），第 8 讲讲**比例**——那一讲整讲没有 $t$ 分布，因为 $H_0:p=p_0$ 把分母也定死成了已知常数。
 :::
 
 ::: warning 阅读提示
