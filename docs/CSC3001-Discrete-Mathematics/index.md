@@ -18,10 +18,12 @@
 | [LN1 命题逻辑](/CSC3001-Discrete-Mathematics/ln1-propositional-logic) | Propositional Logic | LN1（共 60 页） |
 | [LN2.1 集合](/CSC3001-Discrete-Mathematics/ln2-1-sets) | Sets | LN2.1（共 32 页） |
 | [LN2.2 一阶逻辑](/CSC3001-Discrete-Mathematics/ln2-2-first-order-logic) | First-order Logic | LN2.2（共 32 页） |
+| [LN2.2 勘误与补漏](/CSC3001-Discrete-Mathematics/ln2-2-errata-and-addenda) | Errata and Addenda | LN2.2（共 32 页） |
 | [LN3 证明方法](/CSC3001-Discrete-Mathematics/ln3-methods-of-proofs) | Methods of Proofs | LN3（共 24 页） |
 | [LN4.1 数学归纳法 I](/CSC3001-Discrete-Mathematics/ln4-1-mathematical-induction-i) | Mathematical Induction I | LN4.1（共 42 页） |
 | [LN4.2 数学归纳法 II](/CSC3001-Discrete-Mathematics/ln4-2-mathematical-induction-ii) | Mathematical Induction II | LN4.2（共 44 页） |
+| [LN5 递归](/CSC3001-Discrete-Mathematics/ln5-recursion) | Recursion | LN5（共 62 页） |
 
 ::: tip 阅读顺序建议
-LN0 是课程导览；LN1–LN2.2 是「逻辑与集合」一段（命题逻辑 → 一阶逻辑）；LN3 起进入证明方法，LN4.1–LN4.2 讲数学归纳法（含强归纳、良序原理与不变量法）。按这个顺序读最顺。
+LN0 是课程导览；LN1–LN2.2 是「逻辑与集合」一段（命题逻辑 → 一阶逻辑，附一篇 LN2.2 的勘误与补漏）；LN3 起进入证明方法，LN4.1–LN4.2 讲数学归纳法（含强归纳、良序原理与不变量法）；LN5 把归纳的同一套动作搬到「递归」上——先用它建立递推式（Fibonacci、Hanoi、归并排序、Catalan），再用生成函数与特征方程把递推式解成闭式。按这个顺序读最顺。
 :::

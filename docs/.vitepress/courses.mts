@@ -55,6 +55,10 @@ export const courses: CourseEntry[] = [
         file: 'ln2-2-first-order-logic',
       },
       {
+        text: 'LN2.2 勘误与补漏（Errata and Addenda）',
+        file: 'ln2-2-errata-and-addenda',
+      },
+      {
         text: 'LN3 证明方法（Methods of Proofs）',
         file: 'ln3-methods-of-proofs',
       },
@@ -65,6 +69,10 @@ export const courses: CourseEntry[] = [
       {
         text: 'LN4.2 数学归纳法 II（Mathematical Induction II）',
         file: 'ln4-2-mathematical-induction-ii',
+      },
+      {
+        text: 'LN5 递归（Recursion）',
+        file: 'ln5-recursion',
       },
     ],
   },

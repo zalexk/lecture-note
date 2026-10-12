@@ -13,7 +13,7 @@ hero:
 features:
   - icon: 🔢
     title: CSC3001 · Discrete Mathematics
-    details: 离散数学。已收录：LN0 绪论、LN1 命题逻辑、LN2.1 集合、LN2.2 一阶逻辑、LN3 证明方法、LN4.1–LN4.2 数学归纳法（共 7 讲）。
+    details: 离散数学。已收录：LN0 绪论、LN1 命题逻辑、LN2.1 集合、LN2.2 一阶逻辑（附勘误与补漏）、LN3 证明方法、LN4.1–LN4.2 数学归纳法、LN5 递归（共 8 讲 + 1 篇勘误）。
     link: /CSC3001-Discrete-Mathematics/
     linkText: 进入课程
   - icon: 🌲
