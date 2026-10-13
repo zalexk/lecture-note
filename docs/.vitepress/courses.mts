@@ -130,6 +130,10 @@ export const courses: CourseEntry[] = [
         text: 'Ch7 经济增长（Economic Growth）',
         file: 'ch7-economic-growth',
       },
+      {
+        text: 'Ch8 储蓄、资本形成与可贷资金市场（Saving, Capital Formation, and the Loanable Funds Market）',
+        file: 'ch8-saving-capital-formation-and-the-loanable-funds-market',
+      },
     ],
   },
   {
