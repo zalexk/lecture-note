@@ -110,6 +110,10 @@ export const courses: CourseEntry[] = [
         text: 'Ch4 布尔代数与逻辑化简（Boolean Algebra and Logic Simplification）',
         file: 'chap4-boolean-algebra-and-logic-simplification',
       },
+      {
+        text: 'Ch6 组合逻辑标准构件（Combinational Building Blocks）',
+        file: 'chap6-combinational-building-blocks',
+      },
     ],
   },
   {
