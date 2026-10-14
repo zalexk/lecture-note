@@ -174,6 +174,10 @@ export const courses: CourseEntry[] = [
         text: 'Lecture 8 假设检验 III（Hypothesis Testing III）',
         file: 'lecture8-hypothesis-testing-iii',
       },
+      {
+        text: 'Lecture 9 假设检验 IV（Hypothesis Testing IV）',
+        file: 'lecture9-hypothesis-testing-iv',
+      },
     ],
   },
 ]
