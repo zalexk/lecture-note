@@ -36,7 +36,7 @@ export const courses: CourseEntry[] = [
     code: 'CSC3001',
     name: 'Discrete Mathematics',
     dir: 'CSC3001-Discrete-Mathematics',
-    summary: '离散数学 —— 命题逻辑与一阶逻辑、集合、证明方法，以及数学归纳法、良序原理与不变量法。',
+    summary: '离散数学 —— 命题逻辑与一阶逻辑、集合、证明方法，数学归纳法、良序原理与不变量法，递归与生成函数，以及整除、欧几里得算法与算术基本定理。',
     notes: [
       {
         text: 'LN0 绪论（Introduction）',
@@ -74,6 +74,10 @@ export const courses: CourseEntry[] = [
         text: 'LN5 递归（Recursion）',
         file: 'ln5-recursion',
       },
+      {
+        text: 'LN6 最大公约数（Greatest Common Divisors）',
+        file: 'ln6-greatest-common-divisors',
+      },
     ],
   },
   {
@@ -109,6 +113,10 @@ export const courses: CourseEntry[] = [
       {
         text: 'Ch4 布尔代数与逻辑化简（Boolean Algebra and Logic Simplification）',
         file: 'chap4-boolean-algebra-and-logic-simplification',
+      },
+      {
+        text: 'Ch5 组合逻辑设计（Combinational Logic Design）',
+        file: 'chap5-combinational-logic-design',
       },
       {
         text: 'Ch6 组合逻辑标准构件（Combinational Building Blocks）',
