@@ -18,7 +18,7 @@ features:
     linkText: 进入课程
   - icon: 🌲
     title: CSC3100 · Data Structures
-    details: 数据结构。已收录：Lecture 6 分治与递归的复杂度（Complexity of Divide-and-Conquer and Recursion）。
+    details: 数据结构。已收录：Lecture 1 导论、Lecture 2 Java 基础、Lecture 3 内存与数组、Lecture 4 插入排序与归并排序、Lecture 5 渐进记号、Lecture 6 分治与递归的复杂度、Lecture 7 表 ADT 与链表、Lecture 8 表的应用、Lecture 9 栈、Lecture 10 队列（共 10 讲）。
     link: /CSC3100-Data-Structures/
     linkText: 进入课程
   - icon: 🔌

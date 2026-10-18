@@ -84,11 +84,47 @@ export const courses: CourseEntry[] = [
     code: 'CSC3100',
     name: 'Data Structures',
     dir: 'CSC3100-Data-Structures',
-    summary: '数据结构 —— 渐进记号、递归与分治的复杂度分析，以及经典排序与查找算法的设计与证明。',
+    summary: '数据结构 —— 从 Java 基础与内存模型出发，经渐进记号、递归与分治的复杂度分析，到经典排序与查找，再到链表、栈、队列等基础结构的实现与代价。',
     notes: [
+      {
+        text: 'Lecture 1 导论（Introduction）',
+        file: 'lecture1-introduction',
+      },
+      {
+        text: 'Lecture 2 Java 基础（Java Basics）',
+        file: 'lecture2-java-basics',
+      },
+      {
+        text: 'Lecture 3 内存与数组（Memory and Arrays）',
+        file: 'lecture3-memory-and-arrays',
+      },
+      {
+        text: 'Lecture 4 插入排序与归并排序（Insertion Sort and Merge Sort）',
+        file: 'lecture4-insertion-sort-and-merge-sort',
+      },
+      {
+        text: 'Lecture 5 渐进记号（Asymptotic Notations）',
+        file: 'lecture5-asymptotic-notations',
+      },
       {
         text: 'Lecture 6 分治与递归的复杂度（Complexity of Divide-and-Conquer and Recursion）',
         file: 'lecture6-divide-and-conquer-and-recursion',
+      },
+      {
+        text: 'Lecture 7 表 ADT 与链表（List ADT and Linked Lists）',
+        file: 'lecture7-list-and-linked-lists',
+      },
+      {
+        text: 'Lecture 8 表的应用（List Applications）',
+        file: 'lecture8-list-applications',
+      },
+      {
+        text: 'Lecture 9 栈（Stack）',
+        file: 'lecture9-stack',
+      },
+      {
+        text: 'Lecture 10 队列（Queue）',
+        file: 'lecture10-queue',
       },
     ],
   },
