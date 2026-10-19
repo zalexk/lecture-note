@@ -130,6 +130,12 @@
   height: auto;
 }
 
+/* Mermaid 按 1.5 行高量节点，正文的 1.75 会把 label 撑出 foreignObject、裁掉末行 */
+.vp-doc .mermaid .nodeLabel p {
+  margin: 0;
+  line-height: 1.5;
+}
+
 /* ---------- 3. 长表格 ---------- */
 
 /* 笔记里大量多列对照表，列一多就会挤压换行。
