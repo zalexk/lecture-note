@@ -14,7 +14,7 @@
 | 讲次 | 主题 | 对应课件 |
 | --- | --- | --- |
 | [Lecture 1 引言与预备知识](/STA2002-Probability-and-Statistics-II/lecture1-introduction-and-preliminary) | Introduction and Preliminary | Lecture 1（36 页） |
-| [Lecture 2 参数估计 I](/STA2002-Probability-and-Statistics-II/lecture2-parameter-estimation-i) | Parameter Estimation I | Lecture 2 |
+| [Lecture 2 参数估计 I](/STA2002-Probability-and-Statistics-II/lecture2-parameter-estimation-i) | Parameter Estimation I | Lecture 2（19 页） |
 | [Lecture 3 参数估计 II](/STA2002-Probability-and-Statistics-II/lecture3-parameter-estimation-ii) | Parameter Estimation II | Lecture 3（18 页） |
 | [Lecture 4 置信区间 I](/STA2002-Probability-and-Statistics-II/lecture4-confidence-interval-i) | Confidence Interval I | Lecture 4（17 页） |
 | [Lecture 5 置信区间 II](/STA2002-Probability-and-Statistics-II/lecture5-confidence-interval-ii) | Confidence Interval II | Lecture 5（31 页） |
