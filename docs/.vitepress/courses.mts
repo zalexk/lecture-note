@@ -78,6 +78,14 @@ export const courses: CourseEntry[] = [
         text: 'LN6 最大公约数（Greatest Common Divisors）',
         file: 'ln6-greatest-common-divisors',
       },
+      {
+        text: 'LN7 模算术与中国剩余定理（Modular Arithmetic and CRT）',
+        file: 'ln7-modular-arithmetic-and-crt',
+      },
+      {
+        text: 'LN8 图论初步（Introduction to Graphs）',
+        file: 'ln8-introduction-to-graphs',
+      },
     ],
   },
   {
