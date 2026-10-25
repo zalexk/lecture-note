@@ -134,6 +134,14 @@ export const courses: CourseEntry[] = [
         text: 'Lecture 10 队列（Queue）',
         file: 'lecture10-queue',
       },
+      {
+        text: 'Lecture 11 快速排序（QuickSort）',
+        file: 'lecture11-quicksort',
+      },
+      {
+        text: 'Lecture 12 更多排序算法（More Sorting Algorithms）',
+        file: 'lecture12-more-sorting-algorithms',
+      },
     ],
   },
   {
