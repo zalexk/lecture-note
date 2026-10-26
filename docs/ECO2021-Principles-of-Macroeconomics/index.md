@@ -17,7 +17,8 @@
 | [Ch5 通货膨胀与价格水平](/ECO2021-Principles-of-Macroeconomics/ch5-inflation-and-the-price-level) | Inflation and the Price Level | Chapter 5（共 47 页）+ 两份手写讲义 |
 | [Ch6 工资与失业](/ECO2021-Principles-of-Macroeconomics/ch6-wages-and-unemployment) | Wages and Unemployment | Chapter 6（共 64 页） |
 | [Ch7 经济增长](/ECO2021-Principles-of-Macroeconomics/ch7-economic-growth) | Economic Growth | Chapter 7（共 64 页）+ 练习解答（1 页手写扫描件） |
-| [Ch8 储蓄、资本形成与可贷资金市场](/ECO2021-Principles-of-Macroeconomics/ch8-saving-capital-formation-and-the-loanable-funds-market) | Saving, Capital Formation, and the Loanable Funds Market | Chapter 8（共 76 页） |
+| [Ch8 储蓄、资本形成与可贷资金市场](/ECO2021-Principles-of-Macroeconomics/ch8-saving-capital-formation-and-the-loanable-funds-market) | Saving, Capital Formation, and the Loanable Funds Market | Chapter 8（共 77 页）+ 配套读物（3 页） |
+| [Ch9 货币、物价与金融中介](/ECO2021-Principles-of-Macroeconomics/ch9-money-prices-and-financial-intermediaries) | Money, Prices, and Financial Intermediaries | Chapter 9（共 58 页）+ 两份配套读物（8 页、7 页） |
 
 ::: tip 阅读顺序建议
 每篇笔记开头都有一节「本讲地图」，用一张表标出各小节与课件页码的对应关系。迷路时回到那张表最快。

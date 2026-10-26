@@ -198,6 +198,10 @@ export const courses: CourseEntry[] = [
         text: 'Ch8 储蓄、资本形成与可贷资金市场（Saving, Capital Formation, and the Loanable Funds Market）',
         file: 'ch8-saving-capital-formation-and-the-loanable-funds-market',
       },
+      {
+        text: 'Ch9 货币、物价与金融中介（Money, Prices, and Financial Intermediaries）',
+        file: 'ch9-money-prices-and-financial-intermediaries',
+      },
     ],
   },
   {
