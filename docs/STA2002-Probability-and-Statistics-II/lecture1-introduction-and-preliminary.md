@@ -102,7 +102,7 @@ title: Lecture 1 引言与预备知识（Introduction and Preliminary）
 - 统计问题：你掷了 5 次，**全都是正面**，该不该下结论说"这枚硬币不公平"？
 - 统计问题：掷 20 次看到 14 次正面，你对正面概率的估计是多少？—— $\hat\theta = 14/20 = 0.7$。
 - 统计问题：如果掷 **1000** 次看到 700 次正面，估计值还是 0.7。**你对这两个 0.7 的信心一样吗？**
-  - 不一样。样本量越大，同样的估计值越可信。这个"信心"会被后面量化成**置信区间（Confidence Interval）**和标准误。
+  - 不一样。样本量越大，同样的估计值越可信。这个"信心"会被后面量化成<b>置信区间（Confidence Interval）</b>和标准误。
 
 > **核心直觉**：统计做的其实就是三件事——
 > ① 把**统计量的实测值**与**概率模型的预测**做比较；
@@ -540,7 +540,7 @@ $$f(x) = \frac{1}{\Gamma(1)\beta^{1}}x^{1-1}e^{-x/\beta} = \frac{1}{\beta}e^{-x/
 
 正好就是尺度参数为 $\beta$ 的指数分布（$\Gamma(1)=0!=1$）。这与讲义 §5.2 的"$\mathrm{Exp}(\theta)\iff\mathrm{Gamma}(1,\theta)$"是同一个结论，板书用箭头把它画得更直观了。
 
-**（4）板书在 Gamma 那一行右侧还标了 $\chi^2(r)$**（板书 Gamma 公式右侧有 "$\chi^2(r)$" 的标记），指向的是讲义的结论：**卡方就是 Gamma 取 $\alpha=r/2$、$\beta=2$ 的特例**，即 $\chi^2(r)\equiv\mathrm{Gamma}(r/2,2)$。所以板书这张连续表实际上是一条**"套娃"链**：
+<b>（4）板书在 Gamma 那一行右侧还标了 $\chi^2(r)$</b>（板书 Gamma 公式右侧有 "$\chi^2(r)$" 的标记），指向的是讲义的结论：<b>卡方就是 Gamma 取 $\alpha=r/2$、$\beta=2$ 的特例</b>，即 $\chi^2(r)\equiv\mathrm{Gamma}(r/2,2)$。所以板书这张连续表实际上是一条<b>"套娃"链</b>：
 
 $$N(\mu,\sigma^2) \ \longrightarrow\ \mathrm{Exp} \ \xrightarrow{\alpha=1}\ \mathrm{Gamma}(\alpha,\beta) \ \xrightarrow{\alpha=r/2,\ \beta=2}\ \chi^2(r)$$
 
@@ -617,14 +617,14 @@ $$\Pr(X>5) = \frac{1}{4}\Big[0 - \big(-(2\cdot 5 + 4)e^{-5/2}\big)\Big] = \frac{
 
 $$\lim_{n\to\infty}\Pr\big(|\bar X - \mu| > \varepsilon\big) = 0$$
 
-称 $\bar X$ **依概率收敛（converges in probability）**于 $\mu$。
+称 $\bar X$ <b>依概率收敛（converges in probability）</b>于 $\mu$。
 
 > 人话：只要重复得足够多，平均值会越来越贴近真实期望值。
 > **LLN 没说的事**：它只保证"$\bar X$ 落在 $\mu$ 附近"的概率趋于 1，**没有**告诉你偏离量有多大、误差服从什么分布。补上这个空缺的，就是下面的 CLT。
 
 ### 7.2 中心极限定理 CLT（Central Limit Theorem，教材 Thm 5.6-1）
 
-同样条件下，$W = \dfrac{\bar X - \mu}{\sigma/\sqrt{n}} = \dfrac{\sum_{i=1}^n X_i - n\mu}{\sqrt{n}\,\sigma}$ 的分布，在 $n\to\infty$ 时趋于 $N(0,1)$。称 $W$ **依分布收敛（converges in distribution）**到标准正态。
+同样条件下，$W = \dfrac{\bar X - \mu}{\sigma/\sqrt{n}} = \dfrac{\sum_{i=1}^n X_i - n\mu}{\sqrt{n}\,\sigma}$ 的分布，在 $n\to\infty$ 时趋于 $N(0,1)$。称 $W$ <b>依分布收敛（converges in distribution）</b>到标准正态。
 
 > **LLN vs CLT，一句话分清**：
 > - **LLN 管"收敛到哪儿"**：$\bar X \to \mu$（点估计的相合性 consistency）。
