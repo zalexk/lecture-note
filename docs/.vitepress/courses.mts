@@ -92,7 +92,7 @@ export const courses: CourseEntry[] = [
     code: 'CSC3100',
     name: 'Data Structures',
     dir: 'CSC3100-Data-Structures',
-    summary: '数据结构 —— 从 Java 基础与内存模型出发，经渐进记号、递归与分治的复杂度分析，到经典排序与查找，再到链表、栈、队列等基础结构的实现与代价。',
+    summary: '数据结构 —— 从 Java 基础与内存模型出发，经渐进记号、递归与分治的复杂度分析，到链式与顺序结构的实现与代价，再到经典排序算法，以及树、二叉树与二叉搜索树的遍历、重建与动态集合操作。',
     notes: [
       {
         text: 'Lecture 1 导论（Introduction）',
@@ -141,6 +141,14 @@ export const courses: CourseEntry[] = [
       {
         text: 'Lecture 12 更多排序算法（More Sorting Algorithms）',
         file: 'lecture12-more-sorting-algorithms',
+      },
+      {
+        text: 'Lecture 13 树与二叉树（Tree and Binary Tree）',
+        file: 'lecture13-tree-and-binary-tree',
+      },
+      {
+        text: 'Lecture 14 二叉搜索树（Binary Search Tree）',
+        file: 'lecture14-binary-search-tree',
       },
     ],
   },
