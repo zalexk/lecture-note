@@ -147,12 +147,11 @@
   overflow-x: auto;
 }
 
-.vp-doc table thead,
-.vp-doc table tbody {
-  display: table;
-  width: 100%;
-  table-layout: auto;
-}
+/* ⚠️ 不要给 thead / tbody 单独设 `display: table`。
+   一旦它们各自成为独立的 table，浏览器会**分别**计算列宽：
+   表头按内容自适应（KaTeX 公式宽的列更宽），表体按 100% 均分，
+   两张网格叠在一起就是"表格线对不齐"（2026-10-29 修）。
+   保持默认的 table-header-group / table-row-group，列宽由整张表统一算。 */
 
 /* 表格单元格略紧凑一些，让更多列能在同一屏里看完 */
 .vp-doc th,
