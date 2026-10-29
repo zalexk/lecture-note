@@ -1,5 +1,5 @@
 ---
-title: Lecture 7 表 ADT 与链表（List ADT and Linked Lists）
+title: Lecture 7 List（表 ADT 与四种链表）
 course: CSC3100 Data Structures
 lecture: Lecture 7 - List
 date: 2026-09-28
@@ -225,18 +225,55 @@ p.9 的图是一排方框加箭头：`head` → `Node` → `Node` → `Node` →
 
 ### 4.2 课件的 Node 类（p.9 右下角）
 
-```java
+::: code-group
+
+```java [Java]
 class Node {
     int element;
     Node next;
-}
 
-// constructor
-public Node(int x) {
-   element = x;
-   next = null;
+    // 构造器：把数据存进去，next 显式置 null
+    public Node(int x) {
+        element = x;
+        next = null;
+    }
 }
 ```
+
+```python [Python]
+class Node:
+    def __init__(self, x):
+        self.element = x
+        self.next = None      # 新结点一定是链的末端
+```
+
+```cpp [C++]
+struct Node {
+    int element;
+    Node* next;
+
+    // 构造器：nullptr 就是 Java 那边的 null
+    Node(int x) : element(x), next(nullptr) {}
+};
+```
+
+```c [C]
+typedef struct Node {
+    int element;
+    struct Node* next;
+} Node;
+
+// C 没有构造器：造结点 = 申请一块内存 + 两个字段赋值
+Node* makeNode(int x) {
+    Node* p = (Node*)malloc(sizeof(Node));
+    if (p == NULL) return NULL;      // 分配失败要能看出来
+    p->element = x;
+    p->next = NULL;
+    return p;                        // 谁用谁 free，C 没有 GC
+}
+```
+
+:::
 
 四行字段加五行构造器，逐行看：
 
@@ -322,28 +359,116 @@ p.13 用同一个场景画了三幅图：链是 `head → Node1 → Node2 → No
 
 课件 p.14 的完整方法（我按 340 dpi 裁切逐行核过，缩进按原文）：
 
-```java
+::: code-group
+
+```java [Java]
+// 假定外层类里有字段 Node head（§10.2）
 void insert(int x, int p) {
     Node tmpNode = new Node(x);
     Node prevNode = head;
 
-    if (p == 0) {
+    if (p == 0) {                       // 插在表头
         tmpNode.next = head;
         head = tmpNode;
         return;
     }
 
-    for (int i=0; i<p-1; i++) {
-        if (prevNode == null)
-            break;
+    for (int i = 0; i < p - 1; i++) {
+        if (prevNode == null) break;
         prevNode = prevNode.next;
     }
-    if(prevNode == null) return;
+    if (prevNode == null) return;       // p 超出表长：什么也不做
 
-    tmpNode.next = prevNode.next;
-    prevNode.next = tmpNode;
+    tmpNode.next = prevNode.next;       // 先接新的
+    prevNode.next = tmpNode;            // 再断旧的
 }
 ```
+
+```python [Python]
+class SinglyLinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert(self, x, p):
+        tmp_node = Node(x)
+        prev_node = self.head
+
+        if p == 0:                      # 插在表头
+            tmp_node.next = self.head
+            self.head = tmp_node
+            return
+
+        for _ in range(p - 1):
+            if prev_node is None:
+                break
+            prev_node = prev_node.next
+        if prev_node is None:           # p 超出表长：什么也不做
+            return
+
+        tmp_node.next = prev_node.next  # 先接新的
+        prev_node.next = tmp_node       # 再断旧的
+```
+
+```cpp [C++]
+// Node 定义见 §4.2；head 是这个类唯一的字段
+struct SinglyLinkedList {
+    Node* head = nullptr;
+
+    void insert(int x, int p) {
+        Node* tmpNode = new Node(x);
+        Node* prevNode = head;
+
+        if (p == 0) {                       // 插在表头
+            tmpNode->next = head;
+            head = tmpNode;
+            return;
+        }
+
+        for (int i = 0; i < p - 1; i++) {
+            if (prevNode == nullptr) break;
+            prevNode = prevNode->next;
+        }
+        if (prevNode == nullptr) {          // p 超出表长：什么也不做
+            delete tmpNode;                 // 没接上就没人管它了，得自己还回去
+            return;
+        }
+
+        tmpNode->next = prevNode->next;     // 先接新的
+        prevNode->next = tmpNode;           // 再断旧的
+
+        // 这里没有 delete：新结点挂到链上，最后由析构函数统一 delete
+    }
+};
+```
+
+```c [C]
+/* Node 与 makeNode 见 §4.2。
+   C 没有对象：head 是调用方的指针变量，想改它本身就得把它的地址传进来。 */
+void insert(Node** head, int x, int p) {
+    Node* tmpNode = makeNode(x);
+    Node* prevNode = *head;
+
+    if (p == 0) {                         /* 插在表头 */
+        tmpNode->next = *head;
+        *head = tmpNode;
+        return;
+    }
+
+    for (int i = 0; i < p - 1; i++) {
+        if (prevNode == NULL) break;
+        prevNode = prevNode->next;
+    }
+    if (prevNode == NULL) {               /* p 超出表长：什么也不做 */
+        free(tmpNode);                    /* Java 靠 GC 收掉这个没接上的结点，C 得自己 free */
+        return;
+    }
+
+    tmpNode->next = prevNode->next;       /* 先接新的 */
+    prevNode->next = tmpNode;             /* 再断旧的 */
+}
+```
+
+:::
 
 逐行读：
 
@@ -561,7 +686,9 @@ class Node{
 
 ### 10.2 SinglyLinkedList 的六个方法（p.20-21）
 
-```java
+::: code-group
+
+```java [Java]
 public class SinglyLinkedList {
     private Node head;
 
@@ -623,6 +750,213 @@ public class SinglyLinkedList {
 }
 ```
 
+```python [Python]
+class SinglyLinkedList:
+    def __init__(self):
+        self.head = None
+
+    def is_empty(self):
+        return self.head is None
+
+    def insert_first(self, data):
+        new_node = Node(data)
+        new_node.next = self.head
+        self.head = new_node
+
+    def insert_last(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+        else:
+            current = self.head
+            while current.next is not None:
+                current = current.next
+            current.next = new_node
+
+    def delete_first(self):
+        if self.head is not None:
+            self.head = self.head.next   # 摘掉的结点交给 GC
+
+    def delete_after(self, data):
+        if self.head is None:
+            return
+        temp = self.head
+        while temp.next is not None and temp.data != data:
+            temp = temp.next
+        if temp.next is not None:
+            temp.next = temp.next.next
+
+    def print_linked_list(self):
+        print("Printing LinkedList (head --> last) ")
+        current = self.head
+        while current is not None:
+            current.display_node_data()
+            current = current.next
+        print()
+```
+
+```cpp [C++]
+// 与 §10.1 的 Java Node 同形（字段 data + 打印方法）；C 栏在同一块里自带一份等价的 struct
+struct Node {
+    int data;
+    Node* next;
+    Node(int d) : data(d), next(nullptr) {}
+    void displayNodeData() const { std::cout << "{ " << data << " } " << std::endl; }
+};
+
+struct SinglyLinkedList {
+    Node* head = nullptr;
+
+    bool isEmpty() const { return head == nullptr; }
+
+    void insertFirst(int data) {
+        Node* newNode = new Node(data);
+        newNode->next = head;
+        head = newNode;
+    }
+
+    void insertLast(int data) {
+        Node* newNode = new Node(data);
+        if (head == nullptr) {
+            head = newNode;
+        } else {
+            Node* current = head;
+            while (current->next != nullptr) {
+                current = current->next;
+            }
+            current->next = newNode;
+        }
+    }
+
+    void deleteFirst() {
+        if (head != nullptr) {
+            Node* dead = head;          // C++ 没有 GC：先记住，再 delete
+            head = head->next;
+            delete dead;
+        }
+    }
+
+    void deleteAfter(int data) {
+        if (head == nullptr) return;
+        Node* temp = head;
+        while (temp->next != nullptr && temp->data != data) {
+            temp = temp->next;
+        }
+        if (temp->next != nullptr) {
+            Node* dead = temp->next;    // 同上：摘下来就得 delete
+            temp->next = temp->next->next;
+            delete dead;
+        }
+    }
+
+    void printLinkedList() const {
+        std::cout << "Printing LinkedList (head --> last) " << std::endl;
+        for (Node* current = head; current != nullptr; current = current->next) {
+            current->displayNodeData();
+        }
+        std::cout << std::endl;
+    }
+
+    // 析构：整条链一起还回去，一个都不漏
+    ~SinglyLinkedList() {
+        Node* current = head;
+        while (current != nullptr) {
+            Node* next = current->next;
+            delete current;
+            current = next;
+        }
+    }
+};
+```
+
+```c [C]
+/* Node 与 makeNode：字段名用 data，与 §10.1 的 Java 版一致
+   （§4.2 的 C 版把同一个字段叫 element，见诚实备注第 4 条）。
+   C 没有类：head 装在一个结构体里，每个方法显式收这个结构体的指针当"this"。 */
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+Node* makeNode(int data) {
+    Node* p = (Node*)malloc(sizeof(Node));
+    if (p == NULL) return NULL;
+    p->data = data;
+    p->next = NULL;
+    return p;
+}
+
+typedef struct {
+    Node* head;
+} SinglyLinkedList;
+
+int isEmpty(SinglyLinkedList* L) {
+    return L->head == NULL;
+}
+
+void insertFirst(SinglyLinkedList* L, int data) {
+    Node* newNode = makeNode(data);
+    newNode->next = L->head;
+    L->head = newNode;
+}
+
+void insertLast(SinglyLinkedList* L, int data) {
+    Node* newNode = makeNode(data);
+    if (L->head == NULL) {
+        L->head = newNode;
+    } else {
+        Node* current = L->head;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = newNode;
+    }
+}
+
+void deleteFirst(SinglyLinkedList* L) {
+    if (L->head != NULL) {
+        Node* dead = L->head;      /* Java 只改 head，C 还要 free */
+        L->head = L->head->next;
+        free(dead);
+    }
+}
+
+void deleteAfter(SinglyLinkedList* L, int data) {
+    if (L->head == NULL) return;
+    Node* temp = L->head;
+    while (temp->next != NULL && temp->data != data) {
+        temp = temp->next;
+    }
+    if (temp->next != NULL) {
+        Node* dead = temp->next;   /* 摘下来的结点必须还回去，否则泄漏 */
+        temp->next = temp->next->next;
+        free(dead);
+    }
+}
+
+void printLinkedList(SinglyLinkedList* L) {
+    printf("Printing LinkedList (head --> last) \n");
+    for (Node* current = L->head; current != NULL; current = current->next) {
+        printf("{ %d } \n", current->data);
+    }
+    printf("\n");
+}
+
+/* 每个 makeNode() 的 malloc 都在这里对应一个 free；
+   这是 C 版必须自己写、Java 版由 GC 代劳的那一步。 */
+void freeList(SinglyLinkedList* L) {
+    Node* current = L->head;
+    while (current != NULL) {
+        Node* next = current->next;
+        free(current);
+        current = next;
+    }
+    L->head = NULL;
+}
+```
+
+:::
+
 逐个看，重点是每一处的**边界**：
 
 **`private Node head;`**：整张表只有一个字段。`private` 是关键——外部只能通过方法改链。这不是洁癖：链表的不变式（"从 head 沿 next 走完所有元素、最后停在 null"）必须由类自己保证，外部能随便改 `head` 就守不住了。
@@ -669,7 +1003,9 @@ public class SinglyLinkedList {
 
 ### 10.4 `main` 与输出（p.22）：手推一遍
 
-```java
+::: code-group
+
+```java [Java]
 public static void main(String[] args) {
     SinglyLinkedList myLinkedList = new SinglyLinkedList();
 
@@ -687,6 +1023,65 @@ public static void main(String[] args) {
 }
 ```
 
+```python [Python]
+if __name__ == "__main__":
+    my_linked_list = SinglyLinkedList()
+
+    my_linked_list.insert_first(5)
+    my_linked_list.insert_first(6)
+    my_linked_list.insert_first(7)
+    my_linked_list.insert_first(1)
+    my_linked_list.insert_last(2)
+    # 1->7->6->5->2
+
+    my_linked_list.delete_after(1)
+    # 1->6->5->2
+
+    my_linked_list.print_linked_list()
+```
+
+```cpp [C++]
+int main() {
+    SinglyLinkedList myLinkedList;      // 栈上对象：出作用域自动析构、整条链 delete 掉
+
+    myLinkedList.insertFirst(5);
+    myLinkedList.insertFirst(6);
+    myLinkedList.insertFirst(7);
+    myLinkedList.insertFirst(1);
+    myLinkedList.insertLast(2);
+    // 1->7->6->5->2
+
+    myLinkedList.deleteAfter(1);
+    // 1->6->5->2
+
+    myLinkedList.printLinkedList();
+    return 0;
+}
+```
+
+```c [C]
+int main(void) {
+    SinglyLinkedList myLinkedList;
+    myLinkedList.head = NULL;           /* 空表 = head 为 NULL，与 Java 的 head == null 同义 */
+
+    insertFirst(&myLinkedList, 5);
+    insertFirst(&myLinkedList, 6);
+    insertFirst(&myLinkedList, 7);
+    insertFirst(&myLinkedList, 1);
+    insertLast(&myLinkedList, 2);
+    /* 1->7->6->5->2 */
+
+    deleteAfter(&myLinkedList, 1);
+    /* 1->6->5->2 */
+
+    printLinkedList(&myLinkedList);
+    freeList(&myLinkedList);            /* C 版必须自己收尾；Java/C++ 分别靠 GC 与析构 */
+    return 0;
+}
+```
+
+:::
+
 这五行调用的效果值得手推一遍，因为它同时演示了"头插会倒序"这个常被忽略的性质：
 
 | 调用之后 | 链的状态 |
@@ -701,7 +1096,7 @@ public static void main(String[] args) {
 
 p.22 下半部分给的输出是：
 
-```
+```text
 Printing LinkedList (head --> last)
 { 1 }
 { 6 }
@@ -725,8 +1120,10 @@ Printing LinkedList (head --> last)
 
 课件的答案（快慢指针，也叫"龟兔赛跑"）：
 
-```java
-// find middle element in linked list
+::: code-group
+
+```java [Java]
+// find middle element in linked list（假定外层类有字段 Node head）
 public Node findMiddleNode() {
     Node slowPointer, fastPointer;
     slowPointer = fastPointer = head;
@@ -739,6 +1136,56 @@ public Node findMiddleNode() {
 }
 ```
 
+```python [Python]
+class SinglyLinkedList:
+    # 其余方法见 §10.2
+    def find_middle_node(self):
+        slow_pointer = fast_pointer = self.head
+        while (fast_pointer is not None
+               and fast_pointer.next is not None
+               and fast_pointer.next.next is not None):
+            fast_pointer = fast_pointer.next.next
+            slow_pointer = slow_pointer.next
+        return slow_pointer
+```
+
+```cpp [C++]
+// 与 §10.2 的 SinglyLinkedList 同一个类，这里只列出新方法
+struct SinglyLinkedList {
+    Node* head = nullptr;
+
+    Node* findMiddleNode() {
+        Node* slowPointer = head;
+        Node* fastPointer = head;
+
+        while (fastPointer != nullptr && fastPointer->next != nullptr
+               && fastPointer->next->next != nullptr) {
+            fastPointer = fastPointer->next->next;
+            slowPointer = slowPointer->next;
+        }
+        return slowPointer;
+    }
+};
+```
+
+```c [C]
+/* C 没有 this：把 head 直接当参数传进来。
+   注意返回值可能是 NULL（空表），调用方必须自己判。 */
+Node* findMiddleNode(Node* head) {
+    Node* slowPointer = head;
+    Node* fastPointer = head;
+
+    while (fastPointer != NULL && fastPointer->next != NULL
+           && fastPointer->next->next != NULL) {
+        fastPointer = fastPointer->next->next;
+        slowPointer = slowPointer->next;
+    }
+    return slowPointer;
+}
+```
+
+:::
+
 思路：两个指针同时从 `head` 出发，`slow` 走 1 步、`fast` 走 2 步；`fast` 到头时 `slow` 恰在一半处——设循环执行 $k$ 次，则 `slow` 走 $k$ 步、`fast` 走 $2k$ 步，$2k$ 接近 $n$ 故 $k \approx n/2$。
 
 **三个循环条件各有分工**（课件没解释，但这是最容易写错的地方）：前两条 `fastPointer != null` 与 `fastPointer.next != null` 只是防止下一步取 `.next` 时抛异常；**第三条 `fastPointer.next.next != null` 决定了偶数长度返回哪一个**——没有它 `fast` 会多走一步、返回上中位数（第 $n/2+1$ 个），有它返回下中位数（第 $n/2$ 个）。验一下：$n=4$ 时第一轮后 `fast` 到 3、`slow` 到 2，第二轮 `fast.next.next = null` 立即停，返回 2；$n=5$ 时第二轮还能走（`fast` 到 5、`slow` 到 3），第三轮才停，返回 3。所以这版对奇数返回正中、对偶数返回下中位。
@@ -749,7 +1196,9 @@ public Node findMiddleNode() {
 
 题目：给定 `head`，把整条链反转。课件的答案（迭代版）：
 
-```java
+::: code-group
+
+```java [Java]
 // an iterative solution to reverse a linked list
 public void reversedLinkedList() {
     Node currentNode = head;
@@ -767,6 +1216,59 @@ public void reversedLinkedList() {
     head = previousNode;
 }
 ```
+
+```python [Python]
+class SinglyLinkedList:
+    # 其余方法见 §10.2
+    def reversed_linked_list(self):
+        current_node = self.head
+        previous_node = None          # 原第一个结点反转后成为新尾巴
+        while current_node is not None:
+            next_node = current_node.next      # 先存住下一个，否则改完就丢了
+            current_node.next = previous_node  # 箭头掉头
+            previous_node = current_node
+            current_node = next_node
+        self.head = previous_node
+```
+
+```cpp [C++]
+// 与 §10.2 的 SinglyLinkedList 同一个类，这里只列出新方法
+struct SinglyLinkedList {
+    Node* head = nullptr;
+
+    void reversedLinkedList() {
+        Node* currentNode = head;
+        Node* previousNode = nullptr;
+        Node* nextNode;
+        while (currentNode != nullptr) {
+            nextNode = currentNode->next;      // 先存住下一个
+            currentNode->next = previousNode;  // 箭头掉头
+            previousNode = currentNode;
+            currentNode = nextNode;
+        }
+        head = previousNode;
+    }
+};
+```
+
+```c [C]
+/* C 里 head 只能当参数传、当返回值传回来：
+   返回的是新表头，调用方必须写 head = reversedLinkedList(head); */
+Node* reversedLinkedList(Node* head) {
+    Node* currentNode = head;
+    Node* previousNode = NULL;
+    Node* nextNode;
+    while (currentNode != NULL) {
+        nextNode = currentNode->next;      /* 先存住下一个 */
+        currentNode->next = previousNode;  /* 箭头掉头 */
+        previousNode = currentNode;
+        currentNode = nextNode;
+    }
+    return previousNode;                   /* 反转只改箭头，不 malloc 也不 free */
+}
+```
+
+:::
 
 四行循环体，顺序是全部的关键：
 
@@ -786,13 +1288,60 @@ public void reversedLinkedList() {
 
 ### 12.1 结构：三个域（p.25）
 
-```java
+::: code-group
+
+```java [Java]
 class Node {
     int element;
     Node next;
     Node prev;
+
+    // 构造时两个指针都置 null：表头没有前驱、表尾没有后继
+    public Node(int x) {
+        element = x;
+        next = null;
+        prev = null;
+    }
 }
 ```
+
+```python [Python]
+class Node:
+    def __init__(self, x):
+        self.element = x
+        self.next = None
+        self.prev = None
+```
+
+```cpp [C++]
+struct Node {
+    int element;
+    Node* next;
+    Node* prev;
+
+    Node(int x) : element(x), next(nullptr), prev(nullptr) {}
+};
+```
+
+```c [C]
+/* 双链表结点。单链表那个 Node 见 §4.2，同一份代码里会撞名，所以这里叫 DNode */
+typedef struct DNode {
+    int element;
+    struct DNode* next;
+    struct DNode* prev;
+} DNode;
+
+DNode* makeDNode(int x) {
+    DNode* p = (DNode*)malloc(sizeof(DNode));
+    if (p == NULL) return NULL;
+    p->element = x;
+    p->next = NULL;
+    p->prev = NULL;
+    return p;                       /* 用完 free：C 没有 GC 替你回收 */
+}
+```
+
+:::
 
 比单链表多一个 `prev`。p.25 左边画了一条三结点的双链表，下方标着地址 100 / 200 / 300：
 
@@ -832,21 +1381,90 @@ p.26 给了八种操作，比单链表那张表多了"删末尾"与"删指定结
 
 这一小节回应一个几乎每本教材都会提、但常被说糊涂的问题。删除双链表中一个**已知引用** `p`（假设它既不是表头也不是表尾），标准写法是两行：
 
-```java
-p.prev.next = p.next;
-p.next.prev = p.prev;
+::: code-group
+
+```java [Java]
+// 删掉已经拿到引用的结点 p（前提：p 既不是表头也不是表尾）
+void deleteNode(Node p) {
+    p.prev.next = p.next;      // 前驱直接跳过 p
+    p.next.prev = p.prev;      // 后继指回前驱
+    // 两行读写的对象不重叠，所以交换顺序结果一样（§12.3）
+}
 ```
+
+```python [Python]
+def delete_node(p):
+    p.prev.next = p.next       # 前驱直接跳过 p
+    p.next.prev = p.prev       # 后继指回前驱
+    # 两行读写的对象不重叠，所以交换顺序结果一样（§12.3）
+```
+
+```cpp [C++]
+void deleteNode(Node* p) {
+    p->prev->next = p->next;
+    p->next->prev = p->prev;
+    delete p;                  // 摘下来之后还要还回去：C++ 没有 GC
+}
+```
+
+```c [C]
+/* DNode 见 §12.1。两行赋值与 Java 版逐字对应，只多了最后的 free */
+void deleteNode(DNode* p) {
+    p->prev->next = p->next;
+    p->next->prev = p->prev;
+    free(p);                   /* 漏了这一行就是内存泄漏：C 没有 GC */
+}
+```
+
+:::
 
 **这两行的先后顺序其实无所谓。** 理由是：第一行左边是 `p.prev` 这个**对象**的 `next` 域，右边读的是 `p.next`（`p` 自己的域）；第二行左边是 `p.next` 这个对象的 `prev` 域，右边读的是 `p.prev`。**两行读写的对象完全不重叠**，所以交换顺序结果一模一样。我在这里特意说清楚，是因为"顺序写反会出错"是一个流传很广但**不成立**的说法——如果你在别处看到它，那是把插入时的顺序要求错安到删除上了。
 
 **真正有顺序要求的是"插入"，而且只有一处。** 在 `p` 之后插入 `x`：
 
-```java
-newNode.next = p.next;        // ① 先让新结点认识后继
-newNode.prev = p;             // ② 再让新结点认识前驱
-p.next.prev = newNode;        // ③ 让后继认识新结点（此时 p.next 还没被改，必须先用它）
-p.next = newNode;             // ④ 最后才改 p.next
+::: code-group
+
+```java [Java]
+// 在 p 之后插入 x（前提：p 不是表尾，否则第 ③ 行会碰到 null）
+void insertAfter(Node p, int x) {
+    Node newNode = new Node(x);
+    newNode.next = p.next;        // ① 先让新结点认识后继
+    newNode.prev = p;             // ② 再让新结点认识前驱
+    p.next.prev = newNode;        // ③ 让后继认识新结点（此时 p.next 还没被改，必须先用它）
+    p.next = newNode;             // ④ 最后才改 p.next
+}
 ```
+
+```python [Python]
+def insert_after(p, x):
+    new_node = Node(x)
+    new_node.next = p.next        # ① 先让新结点认识后继
+    new_node.prev = p             # ② 再让新结点认识前驱
+    p.next.prev = new_node        # ③ 让后继认识新结点（此时 p.next 还没被改）
+    p.next = new_node             # ④ 最后才改 p.next
+```
+
+```cpp [C++]
+void insertAfter(Node* p, int x) {
+    Node* newNode = new Node(x);
+    newNode->next = p->next;      // ① 先让新结点认识后继
+    newNode->prev = p;            // ② 再让新结点认识前驱
+    p->next->prev = newNode;      // ③ 让后继认识新结点（此时 p->next 还没被改）
+    p->next = newNode;            // ④ 最后才改 p->next
+}
+```
+
+```c [C]
+void insertAfter(DNode* p, int x) {
+    DNode* newNode = makeDNode(x);   /* malloc 出来的结点，删的时候要 free */
+    newNode->next = p->next;         /* ① 先让新结点认识后继 */
+    newNode->prev = p;               /* ② 再让新结点认识前驱 */
+    p->next->prev = newNode;         /* ③ 让后继认识新结点（此时 p->next 还没被改） */
+    p->next = newNode;               /* ④ 最后才改 p->next */
+}
+```
+
+:::
 
 ③ 必须在 ④ 之前，因为 ③ 要用"原来的 `p.next`"（也就是后继结点）来改它的 `prev`。如果先执行 ④，`p.next` 已经变成 `newNode`，③ 就变成 `newNode.prev = newNode`——新结点自己指向自己，原来的后继永远不知道自己的前驱变了，链从那里断开。这就是"先接新的、再断旧的"（§5.3）在双链表上的第二次出现，只不过这次"断旧的"是 ④。
 
@@ -888,13 +1506,73 @@ p.28 左下角的图是三个结点（地址 100、200、300，数据 7、8、10
 三种写法，各有适用场合：
 
 1. **do-while + 回到起点停**：
-   ```java
-   Node p = head;
-   do {
-       // 处理 p
-       p = p.next;
-   } while (p != head);
+
+   ::: code-group
+
+   ```java [Java]
+   // 从 head 出发走一圈，回到 head 就停；返回走过了几个结点
+   int traverseCircular(Node head) {
+       if (head == null) return 0;      // 空表要单独判：do-while 会先做一次
+       int count = 0;
+       Node p = head;
+       do {
+           System.out.print(p.element + " ");   // 这里代表"处理 p"
+           count++;
+           p = p.next;
+       } while (p != head);
+       System.out.println();
+       return count;
+   }
    ```
+
+   ```python [Python]
+   def traverse_circular(head):
+       if head is None:                 # 空表要单独判
+           return 0
+       count = 0
+       p = head
+       while True:                      # Python 没有 do-while，用 while True + 出圈判断等价改写
+           print(p.element, end=" ")
+           count += 1
+           p = p.next
+           if p is head:
+               break
+       print()
+       return count
+   ```
+
+   ```cpp [C++]
+   int traverseCircular(Node* head) {
+       if (head == nullptr) return 0;   // 空表要单独判：do-while 会先做一次
+       int count = 0;
+       Node* p = head;
+       do {
+           std::cout << p->element << " ";   // 这里代表"处理 p"
+           count++;
+           p = p->next;
+       } while (p != head);
+       std::cout << std::endl;
+       return count;
+   }
+   ```
+
+   ```c [C]
+   int traverseCircular(Node* head) {
+       if (head == NULL) return 0;      /* 空表要单独判：do-while 会先做一次 */
+       int count = 0;
+       Node* p = head;
+       do {
+           printf("%d ", p->element);   /* 这里代表"处理 p" */
+           count++;
+           p = p->next;
+       } while (p != head);
+       printf("\n");
+       return count;                    /* 遍历只读，不动 malloc / free */
+   }
+   ```
+
+   :::
+
    注意必须是 `do-while`（先做一次再判断），写成 `while` 的话空表会漏处理、非空表会漏掉 `head` 本身。
 2. **计数 $n$ 次**：维护一个 `size` 字段，走 `size` 步就停。最稳，但要维护 `size`。
 3. **用哨兵**：让"环"上有一个不存数据的哨兵，遍历从 `head.next` 开始、回到 `head` 停。这样"空表"与"非空表"又能统一。

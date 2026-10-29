@@ -1,5 +1,5 @@
 ---
-title: Lecture 8 表的应用（List Applications）
+title: Lecture 8 List（表的应用与练习）
 course: CSC3100 Data Structures
 lecture: Lecture 8 - List (Applications)
 date: 2026-10-07
@@ -86,13 +86,40 @@ class Polynomial {
 
 ### 2.3 清零：`zeroPolynomial`（p.5）
 
-```java
+::: code-group
+
+```java [Java]
 void zeroPolynomial(Polynomial poly){
     for (int j = 0;  j <= MaxDegree; j++)
         poly.coeffArray[j] = 0;
     poly.highPower = 0;
 }
 ```
+
+```python [Python]
+def zero_polynomial(poly):
+    for j in range(MAX_DEGREE + 1):
+        poly.coeff_array[j] = 0
+    poly.high_power = 0
+```
+
+```cpp [C++]
+void zeroPolynomial(Polynomial& poly){
+    for (int j = 0;  j <= MaxDegree; j++)
+        poly.coeffArray[j] = 0;
+    poly.highPower = 0;
+}
+```
+
+```c [C]
+void zeroPolynomial(Polynomial* poly){
+    /* 逐格清 0 的 C 写法就是一次 memset：同样跑 MaxDegree+1 个字节组 */
+    memset(poly->coeffArray, 0, sizeof(poly->coeffArray));
+    poly->highPower = 0;
+}
+```
+
+:::
 
 逐行没有难点，但有一个**代价上的事实**：这个循环跑 `MaxDegree + 1` 次，与 `poly.highPower` 无关。也就是说，哪怕你要处理的是一个 $1+X$ 这样的两项式子，清零也要抹掉整个数组。
 
@@ -102,16 +129,53 @@ void zeroPolynomial(Polynomial poly){
 
 ### 2.4 相加：`addPolynomial`（p.6）
 
-```java
+::: code-group
+
+```java [Java]
 void addPolynomial(Polynomial poly1, Polynomial poly2, Polynomial polySum) {
     zeroPolynomial(polySum);
     polySum.highPower = Math.max(poly1.highPower, poly2.highPower);
 
     for (int i = polySum.highPower; i >= 0; i--)
-        polySum.coeffArray[i] = poly1.coeffArray [i] +
+        polySum.coeffArray[i] = poly1.coeffArray[i] +
             poly2.coeffArray[i];
 }
 ```
+
+```python [Python]
+def add_polynomial(poly1, poly2, poly_sum):
+    zero_polynomial(poly_sum)
+    poly_sum.high_power = max(poly1.high_power, poly2.high_power)
+
+    for i in range(poly_sum.high_power, -1, -1):
+        poly_sum.coeff_array[i] = poly1.coeff_array[i] + poly2.coeff_array[i]
+```
+
+```cpp [C++]
+void addPolynomial(Polynomial& poly1, Polynomial& poly2, Polynomial& polySum) {
+    zeroPolynomial(polySum);
+    polySum.highPower = std::max(poly1.highPower, poly2.highPower);
+
+    for (int i = polySum.highPower; i >= 0; i--)
+        polySum.coeffArray[i] = poly1.coeffArray[i] +
+            poly2.coeffArray[i];
+}
+```
+
+```c [C]
+void addPolynomial(Polynomial* poly1, Polynomial* poly2, Polynomial* polySum) {
+    zeroPolynomial(polySum);
+    /* C 的 <stdlib.h> 里没有 max：要么写三元，要么写宏 */
+    polySum->highPower = (poly1->highPower > poly2->highPower)
+                         ? poly1->highPower : poly2->highPower;
+
+    for (int i = polySum->highPower; i >= 0; i--)
+        polySum->coeffArray[i] = poly1->coeffArray[i] +
+            poly2->coeffArray[i];
+}
+```
+
+:::
 
 三步：清零结果、把次数取两者较大、从高到低逐格相加。
 
@@ -200,13 +264,60 @@ $$30X^{2990}-20X^{2492}+15X^{2004}+3X^{1990}-10X^{1506}-2X^{1492}+110X^{1001}+50
 
 ### 4.1 一个结点存一项（p.9）
 
-```java
+::: code-group
+
+```java [Java]
 class Node {
     int coefficient;
     int exponent;
     Node next;
+
+    // 一个结点就是"一项"：系数 + 指数 + 指向下一项的指针
+    public Node(int c, int e) {
+        coefficient = c;
+        exponent = e;
+        next = null;
+    }
 }
 ```
+
+```python [Python]
+class Node:
+    def __init__(self, c, e):
+        self.coefficient = c
+        self.exponent = e
+        self.next = None
+```
+
+```cpp [C++]
+/* 本讲后面还有存 data 的 Node（求交、去重、判圈），所以多项式结点叫 PNode */
+struct PNode {
+    int coefficient;
+    int exponent;
+    PNode* next;
+
+    PNode(int c, int e) : coefficient(c), exponent(e), next(nullptr) {}
+};
+```
+
+```c [C]
+typedef struct PNode {
+    int coefficient;
+    int exponent;
+    struct PNode* next;
+} PNode;
+
+PNode* makePNode(int c, int e) {
+    PNode* p = (PNode*)malloc(sizeof(PNode));
+    if (p == NULL) return NULL;
+    p->coefficient = c;
+    p->exponent = e;
+    p->next = NULL;
+    return p;                    /* 每个 makePNode 都要有一次对应的 free */
+}
+```
+
+:::
 
 三个域，语义直接对应"一项"：`coefficient` 是系数、`exponent` 是指数、`next` 指向下一项。对比 p.4 的 `Polynomial`，最大的变化是**数组没了**：不再有"第 $i$ 格对应 $X^i$"这个约定，指数变成**存在结点里的数据**。
 
@@ -245,29 +356,139 @@ p.11 的题目是：给定两条按次数排好序的链（分别有 $m$、$n$ �
 
 > recall the merge function in MergeSort; create a new linked list and merge two linked lists where nodes with the same degrees are added together
 
-这个 hint 把框架说全了，但没给答案。**【补】下面这份伪代码是我写的，不是课件内容**；写法上刻意保留了"哑头结点 + 尾指针"这套 L7 §10.3 的技巧，因为它能把"结果为空"这个特例消掉。
+这个 hint 把框架说全了，但没给答案。**【补】下面这份实现是我写的，不是课件内容**；写法上刻意保留了"哑头结点 + 尾指针"这套 L7 §10.3 的技巧，因为它能把"结果为空"这个特例消掉。
 
-```text
-AddPoly(p1, p2):
-    R = new empty list with a dummy head; tail = R.head
-    a = p1.head;  b = p2.head
+::: code-group
 
-    while a != null and b != null:
-        if a.exp > b.exp:                 # a 的次更高，直接搬
-            tail.next = new Node(a.coef, a.exp);  tail = tail.next
-            a = a.next
-        else if a.exp < b.exp:
-            tail.next = new Node(b.coef, b.exp);  tail = tail.next
-            b = b.next
-        else:                             # 同次：合并同类项
-            s = a.coef + b.coef
-            if s != 0:                    # 系数为 0 的项不建结点
-                tail.next = new Node(s, a.exp);  tail = tail.next
-            a = a.next;  b = b.next
-    # 把剩下的那条链整段接上（不用逐项复制）
-    tail.next = (a != null) ? a : b
-    return R
+```java [Java]
+// 字段名沿用 §4.1 的 coefficient / exponent（上面的伪代码里简写成 coef / exp）
+// 两条按指数降序的链相加；返回带哑头结点的新链，不改输入链的结点
+Node addPoly(Node p1, Node p2) {
+    Node dummy = new Node(0, 0);        // 哑头结点：省掉"结果为空"的特判
+    Node tail = dummy;
+    Node a = p1, b = p2;
+
+    while (a != null && b != null) {
+        if (a.exponent > b.exponent) {                 // a 的次更高，直接搬
+            tail.next = new Node(a.coefficient, a.exponent);
+            tail = tail.next;
+            a = a.next;
+        } else if (a.exponent < b.exponent) {
+            tail.next = new Node(b.coefficient, b.exponent);
+            tail = tail.next;
+            b = b.next;
+        } else {                                       // 同次：合并同类项
+            int s = a.coefficient + b.coefficient;
+            if (s != 0) {                              // 系数为 0 的项不建结点
+                tail.next = new Node(s, a.exponent);
+                tail = tail.next;
+            }
+            a = a.next;
+            b = b.next;
+        }
+    }
+    // 把剩下的那条链整段接上（不逐项复制，但与输入共享尾部结点）
+    tail.next = (a != null) ? a : b;
+    return dummy.next;
+}
 ```
+
+```python [Python]
+def add_poly(p1, p2):
+    dummy = Node(0, 0)           # 哑头结点：省掉"结果为空"的特判
+    tail = dummy
+    a, b = p1, p2
+
+    while a is not None and b is not None:
+        if a.exponent > b.exponent:                # a 的次更高，直接搬
+            tail.next = Node(a.coefficient, a.exponent)
+            tail = tail.next
+            a = a.next
+        elif a.exponent < b.exponent:
+            tail.next = Node(b.coefficient, b.exponent)
+            tail = tail.next
+            b = b.next
+        else:                                      # 同次：合并同类项
+            s = a.coefficient + b.coefficient
+            if s != 0:                             # 系数为 0 的项不建结点
+                tail.next = Node(s, a.exponent)
+                tail = tail.next
+            a = a.next
+            b = b.next
+    # 剩下的整段接上（O(1)，但与输入共享尾部结点）
+    tail.next = a if a is not None else b
+    return dummy.next
+```
+
+```cpp [C++]
+PNode* addPoly(PNode* p1, PNode* p2) {
+    PNode* dummy = new PNode(0, 0);
+    PNode* tail = dummy;
+    PNode* a = p1;
+    PNode* b = p2;
+
+    while (a != nullptr && b != nullptr) {
+        if (a->exponent > b->exponent) {
+            tail->next = new PNode(a->coefficient, a->exponent);
+            tail = tail->next;
+            a = a->next;
+        } else if (a->exponent < b->exponent) {
+            tail->next = new PNode(b->coefficient, b->exponent);
+            tail = tail->next;
+            b = b->next;
+        } else {
+            int s = a->coefficient + b->coefficient;
+            if (s != 0) {
+                tail->next = new PNode(s, a->exponent);
+                tail = tail->next;
+            }
+            a = a->next;
+            b = b->next;
+        }
+    }
+    tail->next = (a != nullptr) ? a : b;   // 与输入共享尾段：这段结点不归结果所有
+    PNode* head = dummy->next;
+    delete dummy;                          // 哑头结点只是借来用，不能漏
+    return head;
+}
+```
+
+```c [C]
+PNode* addPoly(PNode* p1, PNode* p2) {
+    PNode* dummy = makePNode(0, 0);
+    PNode* tail = dummy;
+    PNode* a = p1;
+    PNode* b = p2;
+
+    while (a != NULL && b != NULL) {
+        if (a->exponent > b->exponent) {
+            tail->next = makePNode(a->coefficient, a->exponent);
+            tail = tail->next;
+            a = a->next;
+        } else if (a->exponent < b->exponent) {
+            tail->next = makePNode(b->coefficient, b->exponent);
+            tail = tail->next;
+            b = b->next;
+        } else {
+            int s = a->coefficient + b->coefficient;
+            if (s != 0) {
+                tail->next = makePNode(s, a->exponent);
+                tail = tail->next;
+            }
+            a = a->next;
+            b = b->next;
+        }
+    }
+    /* 整段接上（§5.1 第三点）：这一段结点仍然归输入链所有，
+       free 结果时只能 free 自己 makePNode 出来的前缀，否则会把输入链提前释放 */
+    tail->next = (a != NULL) ? a : b;
+    PNode* head = dummy->next;
+    free(dummy);                       /* 哑头结点也要还回去 */
+    return head;
+}
+```
+
+:::
 
 四个细节决定了它是否正确：
 
@@ -287,19 +508,91 @@ p.11 的第二个 hint 是：
 
 > create m linked lists, each representing the multiplication of one term from the first polynomial with the entire second polynomial; create a new linked list and merge m linked lists
 
-这句话描述的是一个"两段式"算法：第一段把 $P_1$ 的每一项分别乘 $P_2$ 的整条链，得到 $m$ 条长度为 $n$ 的链；第二段把这 $m$ 条链合并成一条。**【补】下面是我按这个 hint 写的伪代码。**
+这句话描述的是一个"两段式"算法：第一段把 $P_1$ 的每一项分别乘 $P_2$ 的整条链，得到 $m$ 条长度为 $n$ 的链；第二段把这 $m$ 条链合并成一条。**【补】下面是我按这个 hint 写的实现。**
 
-```text
-MultPoly(p1, p2):
-    R = empty list with a dummy head
-    for each node a in p1:                       # 共 m 轮
-        T = empty list with a dummy head; t = T.head
-        for each node b in p2:                   # 每轮 n 个结点
-            t.next = new Node(a.coef * b.coef, a.exp + b.exp)
-            t = t.next
-        R = AddPoly(R, T)                        # 归并 + 合并同类项
-    return R
+::: code-group
+
+```java [Java]
+Node multPoly(Node p1, Node p2) {
+    Node result = null;                                // addPoly 能处理空表，不必先造哑头
+    for (Node a = p1; a != null; a = a.next) {          // 共 m 轮
+        Node dummy = new Node(0, 0);
+        Node tail = dummy;
+        for (Node b = p2; b != null; b = b.next) {      // 每轮 n 个结点
+            tail.next = new Node(a.coefficient * b.coefficient,
+                                 a.exponent + b.exponent);
+            tail = tail.next;
+        }
+        Node t = dummy.next;
+        result = (result == null) ? t : addPoly(result, t);   // 归并 + 合并同类项
+    }
+    return result;
+}
 ```
+
+```python [Python]
+def mult_poly(p1, p2):
+    result = None                       # add_poly 能处理空表，不必先造哑头
+    a = p1
+    while a is not None:                # 共 m 轮
+        dummy = Node(0, 0)
+        tail = dummy
+        b = p2
+        while b is not None:            # 每轮 n 个结点
+            tail.next = Node(a.coefficient * b.coefficient,
+                             a.exponent + b.exponent)
+            tail = tail.next
+            b = b.next
+        t = dummy.next
+        result = t if result is None else add_poly(result, t)   # 归并 + 合并同类项
+        a = a.next
+    return result
+```
+
+```cpp [C++]
+PNode* multPoly(PNode* p1, PNode* p2) {
+    PNode* result = nullptr;
+    for (PNode* a = p1; a != nullptr; a = a->next) {
+        PNode* dummy = new PNode(0, 0);
+        PNode* tail = dummy;
+        for (PNode* b = p2; b != nullptr; b = b->next) {
+            tail->next = new PNode(a->coefficient * b->coefficient,
+                                   a->exponent + b->exponent);
+            tail = tail->next;
+        }
+        PNode* t = dummy->next;
+        delete dummy;                                  // 哑头结点只借来用一轮
+        result = (result == nullptr) ? t : addPoly(result, t);
+        // 注意：addPoly 会把输入链的尾段接进结果，旧 result 与 t 的结点
+        // 一部分已被复制、一部分已并入新链，不能在这里 delete —— 这就是 §5.2
+        // 说的"新建结点数也是 O(m²n)"，Java 靠 GC，C++ 只能最后统一释放
+    }
+    return result;
+}
+```
+
+```c [C]
+PNode* multPoly(PNode* p1, PNode* p2) {
+    PNode* result = NULL;
+    for (PNode* a = p1; a != NULL; a = a->next) {
+        PNode* dummy = makePNode(0, 0);
+        PNode* tail = dummy;
+        for (PNode* b = p2; b != NULL; b = b->next) {
+            tail->next = makePNode(a->coefficient * b->coefficient,
+                                   a->exponent + b->exponent);
+            tail = tail->next;
+        }
+        PNode* t = dummy->next;
+        free(dummy);                     /* 哑头结点每轮都要还 */
+        result = (result == NULL) ? t : addPoly(result, t);
+        /* 每轮新建 n 个结点；旧 result 的一部分被复制进新链后就成了垃圾。
+           C 里这些结点要由调用方记账回收（这就是 §5.2 说的 O(m²n) 个结点） */
+    }
+    return result;
+}
+```
+
+:::
 
 第一段为什么天然有序？因为 $P_2$ 的指数是降序的，而"乘一个单项式 $a.coef\cdot X^{a.exp}$"只是给每个指数**加上** $a.exp$——同一个常数加到一串递减数上，顺序不变。所以每条 $T$ 都是现成的有序链，可以直接丢给 §5.1 的 `AddPoly`。
 
@@ -478,16 +771,57 @@ $$\text{引用相等}\;\Longrightarrow\;\text{值相等},\qquad \text{值相等}
 
 最朴素的做法：拿 $L_1$ 的每个结点，去和 $L_2$ 的每个结点比地址。
 
-```text
-A = L1.head
-while A != NULL
-    B = L2.head
-    while B != NULL
-        if A == B
-            return A
-        B = B.next
-    A = A.next
+::: code-group
+
+```java [Java]
+// 两两比较：外层 M 次、内层 N 次，O(MN)；只用了两个游标，空间 O(1)
+Node getIntersection(Node l1, Node l2) {
+    for (Node a = l1; a != null; a = a.next) {
+        for (Node b = l2; b != null; b = b.next) {
+            if (a == b) return a;     // 比地址：同一个结点，不是值相等
+        }
+    }
+    return null;                      // 没有交点
+}
 ```
+
+```python [Python]
+def get_intersection(l1, l2):
+    a = l1
+    while a is not None:
+        b = l2
+        while b is not None:
+            if a is b:                # 比地址用 is，不是 ==（== 可能被重载成比值）
+                return a
+            b = b.next
+        a = a.next
+    return None                       # 没有交点
+```
+
+```cpp [C++]
+Node* getIntersection(Node* l1, Node* l2) {
+    for (Node* a = l1; a != nullptr; a = a->next) {
+        for (Node* b = l2; b != nullptr; b = b->next) {
+            if (a == b) return a;     // 指针相等 = 同一个结点
+        }
+    }
+    return nullptr;
+}
+```
+
+```c [C]
+/* 不 malloc、不 free：只读两条链，返回值可能是 NULL */
+Node* getIntersection(Node* l1, Node* l2) {
+    for (Node* a = l1; a != NULL; a = a->next) {
+        for (Node* b = l2; b != NULL; b = b->next) {
+            if (a == b) return a;     /* 指针相等 = 同一个结点 */
+        }
+    }
+    return NULL;
+}
+```
+
+:::
 
 复杂度 $O(MN)$：外层 $M$ 次、内层 $N$ 次，每次一次比较。空间 $O(1)$。
 
@@ -516,7 +850,7 @@ p.20-22 三张图是同一个想法的三个画法：p.20 把两条链"虚拟地
 
 **注意"虚拟"两个字。** p.20 那条 $L_1'$ 看起来像把 $c_2$ 的 `next` 接到了 $b_1$，但代码里**一个指针都没改**——它只是"走法"上的拼接。如果真去改 `c2.next = b1`，后果是灾难性的：$L_1$ 被永久改长，而且如果两条链都这么接，$c_2\to b_1\to b_2\to c_1\to c_2$ 就成一个环，原来的两条链全毁了。这是"读图要读成意图、不要读成指针赋值"的一个典型例子。
 
-p.23 的代码是这条路的实现：
+p.23 的代码是这条路的实现（下面保留课件原样的伪代码：它的死循环缺陷本身就是 §8.5 的考点，把它翻译成四份能跑的实现反而会掩盖这一点）：
 
 ```text
 A = L1.head
@@ -562,15 +896,59 @@ p.23 的代码在"两条链相交"时是对的（我拿 p.16 的例子跑过：�
 
 正确的写法是把"换链"的时机改成"**掉下去之后**"，而不是"掉下去之前"：
 
-```text
-A = L1.head;  B = L2.head
-while A != null or B != null
-    if A == B                    # 两者同时为 null 时也相等 → 返回 null，表示不相交
-        return A
-    A = (A == null) ? L2.head : A.next
-    B = (B == null) ? L1.head : B.next
-return null
+::: code-group
+
+```java [Java]
+// 修正版：A / B 会真的走到 null，两边同时变 null 就是不相交
+Node getIntersection(Node l1, Node l2) {
+    Node a = l1, b = l2;
+    while (a != null || b != null) {
+        if (a == b) return a;                       // 两者同时为 null 时也相等 → 返回 null
+        a = (a == null) ? l2 : a.next;
+        b = (b == null) ? l1 : b.next;
+    }
+    return null;
+}
 ```
+
+```python [Python]
+def get_intersection(l1, l2):
+    a, b = l1, l2
+    while a is not None or b is not None:
+        if a is b:                                  # 两者同时为 None 时也相等 → 返回 None
+            return a
+        a = l2 if a is None else a.next
+        b = l1 if b is None else b.next
+    return None
+```
+
+```cpp [C++]
+Node* getIntersection(Node* l1, Node* l2) {
+    Node* a = l1;
+    Node* b = l2;
+    while (a != nullptr || b != nullptr) {
+        if (a == b) return a;                       // 同时为 nullptr 时也相等
+        a = (a == nullptr) ? l2 : a->next;
+        b = (b == nullptr) ? l1 : b->next;
+    }
+    return nullptr;
+}
+```
+
+```c [C]
+Node* getIntersection(Node* l1, Node* l2) {
+    Node* a = l1;
+    Node* b = l2;
+    while (a != NULL || b != NULL) {
+        if (a == b) return a;                       /* 同时为 NULL 时也相等 */
+        a = (a == NULL) ? l2 : a->next;
+        b = (b == NULL) ? l1 : b->next;
+    }
+    return NULL;
+}
+```
+
+:::
 
 这一版里 $A$ 会真的走到 `null`：走完 $L_1$ 的 $M$ 步后 $A$ 是 `null`，此时才换到 $L_2$ 的头，再走 $N$ 步又变 `null`。两个指针都在第 $M+N$ 步变成 `null`，于是循环条件不成立、返回 `null`（不相交）。相交的情形与原来一样，仍然在 $a+b+c$ 步相遇。
 
@@ -600,20 +978,95 @@ $$a\to b\to b\to a\to c\quad\Longrightarrow\quad a\to b\to c$$
 
 ### 9.2 方法一：双游标，$O(M^2)$（p.25）
 
-```text
-if L.head == null return
-A = L.head
-while A != null
-    dataA = A.data
-    B = A.next, pre = A
-    while B != null
-        dataB = B.data
-        if dataB == dataA
-            pre.next = B.next
-        else pre = B
-        B = B.next
-    A = A.next
+::: code-group
+
+```java [Java]
+// 双游标：A 是保留者、B 是扫描者、pre 是 B 的前驱；O(M²)
+void removeDuplicates(Node head) {
+    if (head == null) return;
+    Node a = head;
+    while (a != null) {
+        int dataA = a.data;
+        Node pre = a, b = a.next;         // pre 的初值是 A：B 的前一个就是 A
+        while (b != null) {
+            if (b.data == dataA) {
+                pre.next = b.next;        // 删 b：pre 不动
+            } else {
+                pre = b;                  // 保留 b：pre 前进
+            }
+            b = b.next;
+        }
+        a = a.next;
+    }
+}
 ```
+
+```python [Python]
+def remove_duplicates(head):
+    if head is None:
+        return
+    a = head
+    while a is not None:
+        data_a = a.data
+        pre, b = a, a.next            # pre 的初值是 a：b 的前一个就是 a
+        while b is not None:
+            if b.data == data_a:
+                pre.next = b.next     # 删 b：pre 不动
+            else:
+                pre = b               # 保留 b：pre 前进
+            b = b.next
+        a = a.next
+```
+
+```cpp [C++]
+void removeDuplicates(Node* head) {
+    if (head == nullptr) return;
+    Node* a = head;
+    while (a != nullptr) {
+        int dataA = a->data;
+        Node* pre = a;
+        Node* b = a->next;
+        while (b != nullptr) {
+            if (b->data == dataA) {
+                Node* dead = b;               // 先记住，再改链、再 delete
+                pre->next = b->next;
+                b = pre->next;
+                delete dead;
+            } else {
+                pre = b;
+                b = b->next;
+            }
+        }
+        a = a->next;
+    }
+}
+```
+
+```c [C]
+void removeDuplicates(Node* head) {
+    if (head == NULL) return;
+    Node* a = head;
+    while (a != NULL) {
+        int dataA = a->data;
+        Node* pre = a;
+        Node* b = a->next;
+        while (b != NULL) {
+            if (b->data == dataA) {
+                Node* dead = b;
+                pre->next = b->next;
+                b = pre->next;            /* b 前进到下一个待扫结点 */
+                free(dead);               /* 摘下来就得 free：C 没有 GC */
+            } else {
+                pre = b;
+                b = b->next;
+            }
+        }
+        a = a->next;
+    }
+}
+```
+
+:::
 
 思路是"对每个 $A$，把它后面所有与它同字母的结点都删掉"。这里有两个游标：`A` 是"当前的保留者"，`B` 是"扫描者"，`pre` 是 `B` 的**前一个**结点。
 
@@ -634,19 +1087,83 @@ $$\sum_{i=1}^{M}(M-i)=\frac{M(M-1)}{2}=\Theta(M^2)$$
 
 ### 9.3 方法二：26 个格子，$O(M)$（p.26）
 
-```text
-boolean[] b = new boolean[26]
-A = L.head, pre = L.head
-while A != null
-    dataA = A.data
-    index = dataA - 'a'
-    if b[index] == false
-        b[index] = true
-        pre = A
-    else
-        pre.next = A.next
-    A = A.next
+::: code-group
+
+```java [Java]
+// 26 个格子的布尔数组：O(M) 时间、O(26) 空间
+void removeDuplicates(Node head) {
+    boolean[] b = new boolean[26];
+    Node pre = head, a = head;
+    while (a != null) {
+        int index = a.data - 'a';        // 'a'..'z' → 0..25
+        Node next = a.next;              // 先存住下一个，删不删都要用
+        if (!b[index]) {
+            b[index] = true;             // 第一次见到这个字母：保留
+            pre = a;
+        } else {
+            pre.next = next;             // 见过了：绕过 a，pre 不动
+        }
+        a = next;
+    }
+}
 ```
+
+```python [Python]
+def remove_duplicates(head):
+    b = [False] * 26
+    pre, a = head, head
+    while a is not None:
+        index = ord(a.data) - ord('a')   # 'a'..'z' → 0..25
+        next_node = a.next               # 先存住下一个，删不删都要用
+        if not b[index]:
+            b[index] = True              # 第一次见到这个字母：保留
+            pre = a
+        else:
+            pre.next = next_node         # 见过了：绕过 a，pre 不动
+        a = next_node
+```
+
+```cpp [C++]
+void removeDuplicates(Node* head) {
+    bool b[26] = {false};
+    Node* pre = head;
+    Node* a = head;
+    while (a != nullptr) {
+        int index = a->data - 'a';
+        Node* next = a->next;            // 先存住下一个
+        if (!b[index]) {
+            b[index] = true;
+            pre = a;
+        } else {
+            pre->next = next;            // 绕过 a
+            delete a;                    // 被绕过的结点要自己 delete
+        }
+        a = next;
+    }
+}
+```
+
+```c [C]
+void removeDuplicates(Node* head) {
+    int b[26] = {0};                     /* C 没有 boolean[]，用 0/1 的 int 数组 */
+    Node* pre = head;
+    Node* a = head;
+    while (a != NULL) {
+        int index = a->data - 'a';
+        Node* next = a->next;            /* 先存住下一个 */
+        if (!b[index]) {
+            b[index] = 1;
+            pre = a;
+        } else {
+            pre->next = next;            /* 绕过 a */
+            free(a);                     /* 绕过的结点必须还回去，否则泄漏 */
+        }
+        a = next;
+    }
+}
+```
+
+:::
 
 思路换了：不再"两两比较"，而是**记住每个字母有没有出现过**。`b` 是一个长度 26 的布尔数组，`b[k]` 表示"第 $k$ 个字母已经出现过"。
 
@@ -708,14 +1225,54 @@ p.27 的题面：给定单链表 $L$ 的头，判断它**有没有环**。图里
 
 最朴素的想法：如果无环，一直走总会撞到 `NULL`；如果有环，就永远撞不到。那就"走足够多步"。
 
-```text
-p = L.head
-for i = 1 upto M
-    if p == NULL
-        return "acyclic"
-    else p = p.next
-return "cyclic"
+::: code-group
+
+```java [Java]
+// M 只是"某个大数"：只有 M > μ+λ 才保证判对（§10.2 说它其实不是算法）
+String detectCycle(Node head, int M) {
+    Node p = head;
+    for (int i = 1; i <= M; i++) {
+        if (p == null) return "acyclic";
+        p = p.next;
+    }
+    return "cyclic";                  // 走满 M 步都没撞到 null，就猜它有环
+}
 ```
+
+```python [Python]
+def detect_cycle(head, m):
+    p = head
+    for _ in range(m):
+        if p is None:
+            return "acyclic"
+        p = p.next
+    return "cyclic"                   # 走满 M 步都没撞到 None，就猜它有环
+```
+
+```cpp [C++]
+const char* detectCycle(Node* head, int M) {
+    Node* p = head;
+    for (int i = 1; i <= M; i++) {
+        if (p == nullptr) return "acyclic";
+        p = p->next;
+    }
+    return "cyclic";
+}
+```
+
+```c [C]
+/* 返回静态字符串，不需要调用方 free */
+const char* detectCycle(Node* head, int M) {
+    Node* p = head;
+    for (int i = 1; i <= M; i++) {
+        if (p == NULL) return "acyclic";
+        p = p->next;
+    }
+    return "cyclic";
+}
+```
+
+:::
 
 课件自己在下面写了两句：`M` 必须是"某个大数"（M is some big number），而"M 要多大才能保证正确，很难定"。
 
@@ -727,15 +1284,68 @@ return "cyclic"
 
 第二个想法：如果无环，每个结点只会被访问一次；如果有环，一定会**重复访问**某个结点。所以边走边记，一旦发现当前结点已经在记录里，就说明有环。
 
-```text
-p = L.head
-while p != NULL
-    if search(L', p) == NULL
-        insert(L', p)
-        p = p.next
-    else return "cyclic"
-return "acyclic"
+::: code-group
+
+```java [Java]
+// 走过的结点记进 L'；在 L' 上查找是 O(|L'|)，整段 O(M²)。换成哈希表才是 O(M)
+String detectCycle(Node head) {
+    List<Node> visited = new ArrayList<>();    // L'：存的是"结点"，不是值
+    Node p = head;
+    while (p != null) {
+        if (visited.contains(p)) return "cyclic";   // contains 比的是引用（Node 没重写 equals）
+        visited.add(p);
+        p = p.next;
+    }
+    return "acyclic";
+}
 ```
+
+```python [Python]
+def detect_cycle(head):
+    visited = []                  # L'：存的是"结点"，不是值
+    p = head
+    while p is not None:
+        if p in visited:          # 默认的 == 比的就是地址（Node 没重写 __eq__）
+            return "cyclic"
+        visited.append(p)
+        p = p.next
+    return "acyclic"
+```
+
+```cpp [C++]
+const char* detectCycle(Node* head) {
+    std::vector<Node*> visited;                       // L'：存结点地址
+    Node* p = head;
+    while (p != nullptr) {
+        if (std::find(visited.begin(), visited.end(), p) != visited.end())
+            return "cyclic";                          // 找到同一个地址 → 有环
+        visited.push_back(p);
+        p = p->next;
+    }
+    return "acyclic";
+}
+```
+
+```c [C]
+/* C 里 L' 只能自己开一块：这一讲的小例子 128 个够用，真实代码要按需扩容 */
+const char* detectCycle(Node* head) {
+    Node* visited[128];
+    int n = 0;
+    Node* p = head;
+    while (p != NULL) {
+        int found = 0;
+        for (int i = 0; i < n; i++) {
+            if (visited[i] == p) { found = 1; break; }   /* 比地址 */
+        }
+        if (found) return "cyclic";
+        visited[n++] = p;
+        p = p->next;
+    }
+    return "acyclic";
+}
+```
+
+:::
 
 $L'$ 是一个辅助链表，存"走过的结点"。课件在下面补了一句 "Search on L' is expensive; use a Hash table"——在链表上查找是 $O(|L'|)$，整个算法退化成 $O(M^2)$；换成哈希表（hash table）后，查找与插入都是 $O(1)$（期望），总代价 $O(M)$。
 
@@ -792,7 +1402,7 @@ $$t^{*}=\lambda\left\lceil \frac{\mu}{\lambda}\right\rceil,\qquad k=t^{*}-\mu\in
 
 ### 10.6 p.40 的代码有个致命问题：一进循环就返回 "cyclic"
 
-p.40 是最终版：
+p.40 是最终版（下面保留课件原样：它"一进循环就返回 cyclic"的缺陷正是本节要讲的东西，翻译成四份一样错的实现没有意义）：
 
 ```text
 A = L.head; B = L.head
@@ -810,15 +1420,59 @@ return "acyclic"
 
 我拿 JDK 26 把这个函数原样跑过：三个结点的无环链返回 `cyclic`；把比较移到两步移动**之后**，同一条链返回 `acyclic`；有环的链两种写法都返回 `cyclic`（但原版是"蒙对"的，它根本没走）。所以要把它改对，只要把比较挪到循环体末尾：
 
-```text
-A = L.head; B = L.head
-while B != NULL and B.next != NULL
-    A = A.next
-    B = B.next.next
-    if A == B
-        return "cyclic"
-return "acyclic"
+::: code-group
+
+```java [Java]
+// 修正版：比较发生在"两个指针都动过"之后
+String hasCycle(Node head) {
+    Node a = head, b = head;
+    while (b != null && b.next != null) {
+        a = a.next;                   // 慢的 1 步
+        b = b.next.next;              // 快的 2 步
+        if (a == b) return "cyclic";
+    }
+    return "acyclic";
+}
 ```
+
+```python [Python]
+def has_cycle(head):
+    a, b = head, head
+    while b is not None and b.next is not None:
+        a = a.next                    # 慢的 1 步
+        b = b.next.next               # 快的 2 步
+        if a is b:
+            return "cyclic"
+    return "acyclic"
+```
+
+```cpp [C++]
+const char* hasCycle(Node* head) {
+    Node* a = head;
+    Node* b = head;
+    while (b != nullptr && b->next != nullptr) {
+        a = a->next;
+        b = b->next->next;
+        if (a == b) return "cyclic";
+    }
+    return "acyclic";
+}
+```
+
+```c [C]
+const char* hasCycle(Node* head) {
+    Node* a = head;
+    Node* b = head;
+    while (b != NULL && b->next != NULL) {
+        a = a->next;
+        b = b->next->next;
+        if (a == b) return "cyclic";
+    }
+    return "acyclic";
+}
+```
+
+:::
 
 这一版的行为：空表与单结点链直接返回 "acyclic"（`B.next == null`）；无环链在 $B$ 撞到 `NULL` 时退出；有环链在第 $t^*$ 步返回 "cyclic"。三种情况都对。
 
@@ -832,15 +1486,85 @@ return "acyclic"
 
 再回答第二个问题。做法只有三行：**把其中一个指针放回 `head`，两个指针改成同速（都走 1 步），再走；它们再次相遇的地方就是入口。**
 
-```text
-meet = FloydMeet(head)          # §10.6 的修正版，返回相遇结点或 null
-if meet == null return null     # 无环
-p = head
-while p != meet
-    p = p.next
-    meet = meet.next
-return p                        # 入口
+::: code-group
+
+```java [Java]
+// 第一阶段找相遇点（与 §10.6 的修正版同一段），第二阶段一个指针回 head、同速再走
+Node findEntrance(Node head) {
+    Node slow = head, fast = head;
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+        if (slow == fast) {                // 相遇 → 第二阶段
+            Node p = head;
+            while (p != slow) {            // 各走 1 步
+                p = p.next;
+                slow = slow.next;
+            }
+            return p;                      // 第二次相遇处就是入口
+        }
+    }
+    return null;                           // 无环
+}
 ```
+
+```python [Python]
+def find_entrance(head):
+    slow = fast = head
+    while fast is not None and fast.next is not None:
+        slow = slow.next
+        fast = fast.next.next
+        if slow is fast:                   # 相遇 → 第二阶段
+            p = head
+            while p is not slow:           # 各走 1 步
+                p = p.next
+                slow = slow.next
+            return p                       # 第二次相遇处就是入口
+    return None                            # 无环
+```
+
+```cpp [C++]
+Node* findEntrance(Node* head) {
+    Node* slow = head;
+    Node* fast = head;
+    while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast) {
+            Node* p = head;
+            while (p != slow) {
+                p = p->next;
+                slow = slow->next;
+            }
+            return p;
+        }
+    }
+    return nullptr;
+}
+```
+
+```c [C]
+/* 只读链表，不 malloc 也不 free；返回值可能为 NULL（无环） */
+Node* findEntrance(Node* head) {
+    Node* slow = head;
+    Node* fast = head;
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast) {
+            Node* p = head;
+            while (p != slow) {
+                p = p->next;
+                slow = slow->next;
+            }
+            return p;
+        }
+    }
+    return NULL;
+}
+```
+
+:::
 
 **为什么这一定对？** 证明只有两步，全靠 §10.5 那个 $t^*$ 的性质：
 

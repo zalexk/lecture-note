@@ -1,5 +1,5 @@
 ---
-title: Lecture 9 栈（Stack）
+title: Lecture 9 Stack（栈）
 course: CSC3100 Data Structures
 lecture: Lecture 9 - Stack
 date: 2026-10-12
@@ -174,7 +174,9 @@ Java 标准库两种都有先例：`java.util.Stack.pop()` 空栈时抛 `EmptySt
 
 p.6 左上角（按 380 dpi 核过，缩进按原文）：
 
-```java
+::: code-group
+
+```java [Java]
 class Node {
     Node next;
     Object element;
@@ -185,17 +187,80 @@ class Stack {
 }
 ```
 
+```python [Python]
+class Node:
+    def __init__(self):          # Python 没有"只有字段的类"：字段只能在 __init__ 里出现
+        self.next = None         # 对应 Java 的 Node next;
+        self.element = None      # 对应 Java 的 Object element;
+
+class Stack:
+    head = None                  # 只有一个字段；构造器见 §4.2
+```
+
+```cpp [C++]
+struct Node {
+    Node* next;
+    int element;                 // Java 侧是 Object；C++ 这里退化为具体类型 int
+};
+
+struct Stack {
+    Node* head;                  // 哨兵，恒不为 nullptr
+    Stack();                     // 构造器，定义在 §4.2 那一栏
+};
+```
+
+```c [C]
+typedef struct Node {
+    struct Node* next;
+    int element;                 // 泛型 <E> / Object 在 C 里退化为 int
+} Node;
+
+typedef struct Stack {
+    Node* head;                  // 哨兵，恒不为 NULL
+} Stack;
+```
+
+:::
+
 `Node` 只有两个字段：`element` 存数据（类型 `Object`，能装任何对象——这是 Java 5 之前的写法，见 §4.7 末尾），`next` 指向下一个结点。它**没有写构造器**，所以用编译器自动生成的无参构造器、字段全为 `null`——这解释了 p.6 的 `new Node()` 为什么可以不带参数。
 
 `Stack` 只有一个字段 `head`。**这个 `head` 不是第一个元素，而是哨兵（sentinel）**，理由看构造器就知道。
 
 ### 4.2 构造器：空栈不是 `null`
 
-```java
+::: code-group
+
+```java [Java]
 public Stack() {      //constructor
     this.head = new Node();
 }
 ```
+
+```python [Python]
+class Stack:                     # Python 的构造器只能写在类体内，这就是本节那个构造器
+    def __init__(self):
+        self.head = Node()       # 空栈是 head.next 为 None，head 本身永不为 None
+```
+
+```cpp [C++]
+Stack::Stack() {                 // 构造器：head 指向一个空结点，而不是 nullptr
+    head = new Node();
+}
+```
+
+```c [C]
+#include <stdlib.h>
+
+Stack* stackCreate(void) {       // C 没有构造器，用工厂函数代替
+    Stack* s = malloc(sizeof(Stack));
+    s->head = malloc(sizeof(Node));       // 哨兵：head 永不为 NULL
+    s->head->next = NULL;
+    s->head->element = 0;
+    return s;
+}
+```
+
+:::
 
 新建一座栈时 `head` 被赋成一个**新建的空结点**，而不是 `null`。这个结点不存数据、不指向任何东西，唯一作用是**当"第一个元素的前一个"**。这就是 L7 §10.3 讲过的哨兵技巧，本讲直接采用了。
 
@@ -215,7 +280,9 @@ boolean isEmpty() { return head == null; }   // 错：在这份实现里永远�
 
 ### 4.3 `push`：三行，全在 `head` 之后
 
-```java
+::: code-group
+
+```java [Java]
 public void push(Object x) {
     Node tmpNode = new Node();
     tmpNode.element = x;
@@ -223,6 +290,36 @@ public void push(Object x) {
     head.next = tmpNode;
 }
 ```
+
+```python [Python]
+def push(self, x):
+    tmpNode = Node()
+    tmpNode.element = x
+    tmpNode.next = self.head.next
+    self.head.next = tmpNode     # 顺序不能反：先接新的，再断旧的
+```
+
+```cpp [C++]
+void push(int x) {
+    Node* tmpNode = new Node();
+    tmpNode->element = x;
+    tmpNode->next = head->next;
+    head->next = tmpNode;        // 顺序不能反：先接新的，再断旧的
+}
+```
+
+```c [C]
+#include <stdlib.h>
+
+void push(Stack* s, int x) {
+    Node* tmpNode = malloc(sizeof(Node));
+    tmpNode->element = x;
+    tmpNode->next = s->head->next;
+    s->head->next = tmpNode;     // 顺序不能反：先接新的，再断旧的
+}
+```
+
+:::
 
 **`Node tmpNode = new Node();`**：在堆上造一个新结点，`element` 与 `next` 都是 `null`，游离在链外。
 
@@ -238,7 +335,9 @@ public void push(Object x) {
 
 ### 4.4 `pop`：先判空，再摘 `head.next`
 
-```java
+::: code-group
+
+```java [Java]
 public Object pop() {
     Node firstNode = null;
     if (isEmpty()) {
@@ -250,6 +349,41 @@ public Object pop() {
     }
 }
 ```
+
+```python [Python]
+def pop(self):
+    firstNode = None
+    if self.is_empty():
+        return None
+    else:
+        firstNode = self.head.next
+        self.head.next = firstNode.next
+        return firstNode.element
+```
+
+```cpp [C++]
+bool pop(int& out) {             // 空栈返回 false，与 Java 版返回 null 语义相同
+    if (isEmpty()) return false;
+    Node* firstNode = head->next;
+    head->next = firstNode->next;
+    out = firstNode->element;
+    return true;
+}
+```
+
+```c [C]
+#include <stdbool.h>
+
+bool pop(Stack* s, int* out) {   // 空栈返回 false，与 Java 版返回 null 语义相同
+    if (s->head->next == NULL) return false;
+    Node* firstNode = s->head->next;
+    s->head->next = firstNode->next;
+    *out = firstNode->element;
+    return true;
+}
+```
+
+:::
 
 **`Node firstNode = null;`**：先声明游标。这个初始化是**冗余**的——`else` 分支必然赋值，`if` 分支直接 return，永远读不到那个 `null`。不算错，只是多余（文末第 4 条）。
 
@@ -265,7 +399,9 @@ public Object pop() {
 
 ### 4.5 `top`：只看不摘
 
-```java
+::: code-group
+
+```java [Java]
 public Object top( ) {
     if (!isEmpty())
         return head.next.element;
@@ -275,11 +411,47 @@ public Object top( ) {
 }
 ```
 
+```python [Python]
+def top(self):
+    if not self.is_empty():
+        return self.head.next.element
+    else:
+        return None
+```
+
+```cpp [C++]
+bool top(int& out) {
+    if (!isEmpty()) {
+        out = head->next->element;
+        return true;
+    } else {
+        return false;
+    }
+}
+```
+
+```c [C]
+#include <stdbool.h>
+
+bool top(Stack* s, int* out) {
+    if (s->head->next != NULL) {
+        *out = s->head->next->element;
+        return true;
+    } else {
+        return false;
+    }
+}
+```
+
+:::
+
 与 `pop` 只差一件事：**没有 `head.next = ...`**，只读就返回，链的形状不变。`if` 侧无花括号、`else` 侧有，不对称但语义正确（文末第 4 条）。
 
 ### 4.6 `isEmpty` 与 `makeEmpty`：课件没写，我补上
 
-```java
+::: code-group
+
+```java [Java]
 // 哨兵版：判的是 head 的下一个，不是 head 本身
 public boolean isEmpty() {
     return head.next == null;
@@ -290,6 +462,52 @@ public void makeEmpty() {
     head.next = null;
 }
 ```
+
+```python [Python]
+# 哨兵版：判的是 head 的下一个，不是 head 本身
+def is_empty(self):
+    return self.head.next is None
+
+# 清空：让哨兵重新变成"谁都不指"
+def make_empty(self):
+    self.head.next = None        # 一句就够：整条链不可达，交给 GC
+```
+
+```cpp [C++]
+// 哨兵版：判的是 head 的下一个，不是 head 本身
+bool isEmpty() {
+    return head->next == nullptr;
+}
+
+// 清空：Java 一句 head->next = null 就够；C++ 必须先沿链 delete 再断
+void makeEmpty() {
+    while (head->next != nullptr) {
+        Node* p = head->next;
+        head->next = p->next;
+        delete p;
+    }
+}
+```
+
+```c [C]
+// 哨兵版：判的是 head 的下一个，不是 head 本身
+bool isEmpty(Stack* s) {
+    return s->head->next == NULL;
+}
+
+// 清空：Java 一句赋值就够；C 必须先沿链 free 再断
+void makeEmpty(Stack* s) {
+    Node* p = s->head->next;
+    while (p != NULL) {
+        Node* next = p->next;
+        free(p);
+        p = next;
+    }
+    s->head->next = NULL;
+}
+```
+
+:::
 
 **第一，`isEmpty` 一定要判 `head.next`**（理由见 §4.2，`head` 永远非空）。
 
@@ -319,13 +537,46 @@ public void makeEmpty() {
 
 ### 5.1 三个字段
 
-```java
+::: code-group
+
+```java [Java]
 class Stack {
     final static int MIN_STACK_SIZE = 5;
     int topOfStack = -1;
     Object[ ] array;
 }
 ```
+
+```python [Python]
+class Stack:
+    MIN_STACK_SIZE = 5               # 容量下限，作用在构造器里（§5.2）
+
+    def __init__(self):
+        self.topOfStack = -1         # -1：空栈，且下一次写到下标 0
+        self.array = []              # 对应 Object[] array;
+```
+
+```cpp [C++]
+class Stack {
+public:
+    static const int MIN_STACK_SIZE = 5;
+    int topOfStack = -1;             // -1：空栈，且下一次写到下标 0
+    int* array = nullptr;            // Java 侧是 Object[]，这里退化为 int*
+    int capacity = 0;                // C++ 没有 array.length，长度必须自己存
+};
+```
+
+```c [C]
+#define MIN_STACK_SIZE 5
+
+typedef struct {
+    int topOfStack;                  // -1：空栈，且下一次写到下标 0
+    int capacity;                    // C 没有 array.length，长度必须自己存
+    int* array;                      // Object[] 在 C 里退化为 int*
+} Stack;
+```
+
+:::
 
 **`MIN_STACK_SIZE = 5`**：容量下限，作用在构造器里（§5.2）。`final static` 与惯用的 `static final` 顺序相反，但 Java 不要求修饰符顺序，编译正常（文末第 4 条）。
 
@@ -337,7 +588,9 @@ class Stack {
 
 ### 5.2 构造器：容量被"夹紧"到下限
 
-```java
+::: code-group
+
+```java [Java]
 public Stack (int maxElements) {
     int capacity = maxElements;
     if (maxElements < MIN_STACK_SIZE)
@@ -345,6 +598,40 @@ public Stack (int maxElements) {
     array = new Object[capacity];
 }
 ```
+
+```python [Python]
+def __init__(self, maxElements):
+    capacity = maxElements
+    if maxElements < self.MIN_STACK_SIZE:
+        capacity = self.MIN_STACK_SIZE
+    self.array = [None] * capacity
+    self.topOfStack = -1
+```
+
+```cpp [C++]
+Stack(int maxElements) {
+    int capacity = maxElements;
+    if (maxElements < MIN_STACK_SIZE)
+        capacity = MIN_STACK_SIZE;
+    array = new int[capacity];
+    this->capacity = capacity;       // 成员也叫 capacity，用 this-> 区分
+}
+```
+
+```c [C]
+#include <stdlib.h>
+
+void stackInit(Stack* s, int maxElements) {
+    int capacity = maxElements;
+    if (maxElements < MIN_STACK_SIZE)
+        capacity = MIN_STACK_SIZE;
+    s->array = malloc(sizeof(int) * capacity);
+    s->capacity = capacity;
+    s->topOfStack = -1;
+}
+```
+
+:::
 
 先把调用方要求的容量记下；小于 5 就抬到 5；再按这个容量开数组。
 
@@ -354,11 +641,34 @@ public Stack (int maxElements) {
 
 ### 5.3 `isFull`：判满条件
 
-```java
+::: code-group
+
+```java [Java]
 public boolean isFull() {
     return (topOfStack == array.length - 1);
 }
 ```
+
+```python [Python]
+def is_full(self):
+    return (self.topOfStack == len(self.array) - 1)
+```
+
+```cpp [C++]
+bool isFull() {
+    return (topOfStack == capacity - 1);
+}
+```
+
+```c [C]
+#include <stdbool.h>
+
+bool isFull(Stack* s) {
+    return (s->topOfStack == s->capacity - 1);
+}
+```
+
+:::
 
 `array.length - 1` 是**最后一个合法下标**（长度 5 的数组，合法下标 0..4）。这句读作"栈顶指针已经指到最后一格，再压就没地方了"。
 
@@ -366,7 +676,9 @@ public boolean isFull() {
 
 ### 5.4 `push`：先自增，再写入
 
-```java
+::: code-group
+
+```java [Java]
 public boolean push(Object x) {
     if (isFull())
         return false;
@@ -375,6 +687,40 @@ public boolean push(Object x) {
     return true;
 }
 ```
+
+```python [Python]
+def push(self, x):
+    if self.is_full():
+        return False
+    else:
+        self.topOfStack += 1             # 等价于 Java 的前置 ++：先加，再写
+        self.array[self.topOfStack] = x
+    return True
+```
+
+```cpp [C++]
+bool push(int x) {
+    if (isFull())
+        return false;
+    else
+        array[++topOfStack] = x;
+    return true;
+}
+```
+
+```c [C]
+#include <stdbool.h>
+
+bool push(Stack* s, int x) {
+    if (isFull(s))
+        return false;
+    else
+        s->array[++s->topOfStack] = x;
+    return true;
+}
+```
+
+:::
 
 **`if (isFull()) return false;`**：满了报告失败。返回类型是 `boolean`，调用方能知道"这次没压进去"——比链表版（`void`）好，但两者接口不一致（文末第 3 条）。
 
@@ -391,7 +737,9 @@ array[topOfStack] = x;
 
 ### 5.5 `pop`：先读出，再自减
 
-```java
+::: code-group
+
+```java [Java]
 public Object pop() {
     if (!isEmpty())
         return array[topOfStack--];
@@ -399,6 +747,40 @@ public Object pop() {
         return null;
 }
 ```
+
+```python [Python]
+def pop(self):
+    if not self.is_empty():
+        v = self.array[self.topOfStack]   # 先读出栈顶
+        self.topOfStack -= 1              # 再下移（等价于 Java 的后置 --）
+        return v
+    else:
+        return None
+```
+
+```cpp [C++]
+bool pop(int& out) {
+    if (!isEmpty())
+        out = array[topOfStack--];
+    else
+        return false;
+    return true;
+}
+```
+
+```c [C]
+#include <stdbool.h>
+
+bool pop(Stack* s, int* out) {
+    if (!isEmpty(s))
+        *out = s->array[s->topOfStack--];
+    else
+        return false;
+    return true;
+}
+```
+
+:::
 
 **`array[topOfStack--]`**：`topOfStack--` 是**后置自减**：先拿**当前值**当下标读出元素，**再**把 `topOfStack` 减 1。读出的是栈顶，减完指针下移一格，正好指向新的栈顶。等价于
 
@@ -412,7 +794,9 @@ return v;
 
 ### 5.6 `top` 与缺失的 `isEmpty`
 
-```java
+::: code-group
+
+```java [Java]
 public Object top() {
     if (!isEmpty())
         return array[topOfStack];
@@ -421,15 +805,70 @@ public Object top() {
 }
 ```
 
+```python [Python]
+def top(self):
+    if not self.is_empty():
+        return self.array[self.topOfStack]
+    else:
+        return None
+```
+
+```cpp [C++]
+bool top(int& out) {
+    if (!isEmpty())
+        out = array[topOfStack];
+    else
+        return false;
+    return true;
+}
+```
+
+```c [C]
+#include <stdbool.h>
+
+bool top(Stack* s, int* out) {
+    if (!isEmpty(s))
+        *out = s->array[s->topOfStack];
+    else
+        return false;
+    return true;
+}
+```
+
+:::
+
 与 `pop` 只差一处：`array[topOfStack]` 里**没有自减**。值得与 §4.5 对照记：**链表版差一行赋值，数组版差一个 `--`。**
 
 `isEmpty()` 的正确写法很简单：
 
-```java
+::: code-group
+
+```java [Java]
 public boolean isEmpty() {
     return topOfStack == -1;
 }
 ```
+
+```python [Python]
+def is_empty(self):
+    return self.topOfStack == -1
+```
+
+```cpp [C++]
+bool isEmpty() {
+    return topOfStack == -1;
+}
+```
+
+```c [C]
+#include <stdbool.h>
+
+bool isEmpty(Stack* s) {
+    return s->topOfStack == -1;
+}
+```
+
+:::
 
 **必须是 `== -1`。** 若写成 `topOfStack == 0`（"指向第一格就算空"），压了 1 个元素之后就会被判成空，`pop` 直接返回 `null`——栈里明明有东西却拿不到。这个错误与 §4.2 那个 `head == null` 是同一类：**判空的依据必须与初始值一致**。
 
@@ -496,7 +935,9 @@ public boolean isEmpty() {
 
 正确写法是读完就置空：
 
-```java
+::: code-group
+
+```java [Java]
 public Object pop() {
     if (isEmpty()) return null;
     Object v = array[topOfStack];
@@ -505,6 +946,40 @@ public Object pop() {
     return v;
 }
 ```
+
+```python [Python]
+def pop(self):
+    if self.is_empty():
+        return None
+    v = self.array[self.topOfStack]
+    self.array[self.topOfStack] = None    # 断开引用，让 GC 能回收
+    self.topOfStack -= 1
+    return v
+```
+
+```cpp [C++]
+bool pop(int& out) {
+    if (isEmpty()) return false;
+    out = array[topOfStack];
+    array[topOfStack] = 0;      // 断开引用（int 版置 0；对象版置 nullptr）
+    topOfStack--;
+    return true;
+}
+```
+
+```c [C]
+#include <stdbool.h>
+
+bool pop(Stack* s, int* out) {
+    if (s->topOfStack == -1) return false;
+    *out = s->array[s->topOfStack];
+    s->array[s->topOfStack] = 0;   // 断开引用（int 版置 0；指针版置 NULL）
+    s->topOfStack--;
+    return true;
+}
+```
+
+:::
 
 **代价是多一次赋值**（$O(1)$，不影响渐进复杂度），**收益是内存不再滞留**。JDK 的 `ArrayList`、`ArrayDeque` 都这么做（源码里那句 `elementData[--size] = null;` 就是它）。
 
@@ -690,7 +1165,7 @@ p.20 右下角那句 "Finally, the stack is not empty, so return false" 就是�
 
 课件没给这个反例，我补一个最小的：
 
-```
+```text
 ( [ ) ]
 ```
 
@@ -882,17 +1357,40 @@ p.27 的算法（原文分五条，我拆成八条以便逐 token 对照）：
 
 栈是 LIFO，**最后压进去的最先弹出来**。在合法后缀里，运算符前面紧挨着的两个操作数，**先出现的是左操作数、后出现的是右操作数**：
 
-```
+```text
 … 左操作数 右操作数 运算符 …
 ```
 
 压栈顺序先左后右，所以弹栈顺序**先右后左**。因此：
 
-```java
+::: code-group
+
+```java [Java]
 double right = stack.pop();   // 先弹出来的是右操作数
 double left  = stack.pop();   // 后弹出来的是左操作数
 double value = apply(op, left, right);   // 注意 apply 的参数顺序
 ```
+
+```python [Python]
+right = stack.pop()           # 先弹出来的是右操作数
+left = stack.pop()            # 后弹出来的是左操作数
+value = apply(op, left, right)   # 注意 apply 的参数顺序
+```
+
+```cpp [C++]
+double right = stack.top(); stack.pop();   // std::stack 的 pop 不返回值，先 top 再 pop
+double left = stack.top(); stack.pop();
+double value = apply(op, left, right);
+```
+
+```c [C]
+// stack 是 double 版数组栈：字段 array 与 topOfStack，下标约定同 §5
+double right = stack.array[stack.topOfStack--];   // 先弹出来的是右操作数
+double left = stack.array[stack.topOfStack--];    // 后弹出来的是左操作数
+double value = apply(op, left, right);            // 注意 apply 的参数顺序
+```
+
+:::
 
 写反成"先弹的叫 left"，`6 2 /` 会算成 $2/6$ 而不是 $6/2$；`5 3 -` 会算成 $3-5=-2$ 而不是 $2$。**对 `+` `*` 完全没影响（可交换），只对 `-` `/` 有影响**——所以它在测试里极易漏网。
 

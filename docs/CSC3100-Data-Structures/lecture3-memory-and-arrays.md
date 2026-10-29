@@ -1,5 +1,5 @@
 ---
-title: Lecture 3 内存与数组（Memory and Arrays）
+title: Lecture 3 Memory 与 Array
 course: CSC3100 Data Structures
 lecture: Lecture 3 - Memory, Arrays, and Sorting
 date: 2026-09-14
@@ -864,7 +864,7 @@ System.out.println("Sorted array: " + Arrays.toString(colors));
 
 输出：
 
-```
+```text
 Original array: [red, green, blue, white, orange]
 Sorted array: [blue, green, orange, red, white]
 ```
@@ -963,7 +963,9 @@ p.64 给了完整执行示例。原数组（10 个元素）：
 
 **代码**（p.66）。课件先给了前置条件注释，这是一份很规范的文档：
 
-```java
+::: code-group
+
+```java [Java]
 /**************************************************
  *Precondition:
  *Every indexed variable of the array a has a value.
@@ -984,6 +986,50 @@ public static void sort(int[] a) {
 }
 ```
 
+```python [Python]
+# 前置条件：a 的每个下标都有值
+# 结果：a[0] <= a[1] <= ... <= a[len(a) - 1]
+def sort(a):
+    for index in range(len(a) - 1):
+        # 把正确的值放到 a[index]
+        index_of_next_smallest = index_of_smallest(index, a)
+        interchange(index, index_of_next_smallest, a)
+        # 此时 a[0..index] 有序，且是原数组中最小的那些；
+        # 其余位置装原数组剩下的元素
+```
+
+```cpp [C++]
+// 前置条件：a 的每个下标都有值
+// 结果：a[0] <= a[1] <= ... <= a[a.size() - 1]
+void sort(std::vector<int>& a) {
+    int index, indexOfNextSmallest;
+    for (index = 0; index < (int)a.size() - 1; index++) {
+        // 把正确的值放到 a[index]
+        indexOfNextSmallest = indexOfSmallest(index, a);
+        interchange(index, indexOfNextSmallest, a);
+        // 此时 a[0..index] 有序，且是原数组中最小的那些；
+        // 其余位置装原数组剩下的元素
+    }
+}
+```
+
+```c [C]
+// 前置条件：a 的 n 个下标都有值
+// 结果：a[0] <= a[1] <= ... <= a[n - 1]
+void sort(int* a, int n) {
+    int index, indexOfNextSmallest;
+    for (index = 0; index < n - 1; index++) {
+        // 把正确的值放到 a[index]
+        indexOfNextSmallest = indexOfSmallest(index, a, n);
+        interchange(index, indexOfNextSmallest, a);
+        // 此时 a[0..index] 有序，且是原数组中最小的那些；
+        // 其余位置装原数组剩下的元素
+    }
+}
+```
+
+:::
+
 注释比代码本身更值得学：
 
 - **前置条件**明确写出"数组每个有下标的变量都有值"（也就是**没有空位**）。
@@ -996,7 +1042,9 @@ p.67 把实现留作练习："为 `indexOfSmallest` 和 `interchange` 写 Java �
 
 【补】课件未给这两段实现，以下是补充：
 
-```java
+::: code-group
+
+```java [Java]
 private static int indexOfSmallest(int startIndex, int[] a) {
     int minIndex = startIndex;
     for (int i = startIndex + 1; i < a.length; i++) {
@@ -1013,6 +1061,59 @@ private static void interchange(int i, int j, int[] a) {
     a[j] = temp;
 }
 ```
+
+```python [Python]
+def index_of_smallest(start_index, a):
+    min_index = start_index
+    for i in range(start_index + 1, len(a)):
+        if a[i] < a[min_index]:
+            min_index = i
+    return min_index
+
+
+def interchange(i, j, a):
+    temp = a[i]
+    a[i] = a[j]
+    a[j] = temp
+```
+
+```cpp [C++]
+int indexOfSmallest(int startIndex, const std::vector<int>& a) {
+    int minIndex = startIndex;
+    for (int i = startIndex + 1; i < (int)a.size(); i++) {
+        if (a[i] < a[minIndex]) {
+            minIndex = i;
+        }
+    }
+    return minIndex;
+}
+
+void interchange(int i, int j, std::vector<int>& a) {
+    int temp = a[i];
+    a[i] = a[j];
+    a[j] = temp;
+}
+```
+
+```c [C]
+int indexOfSmallest(int startIndex, const int* a, int n) {
+    int minIndex = startIndex;
+    for (int i = startIndex + 1; i < n; i++) {
+        if (a[i] < a[minIndex]) {
+            minIndex = i;
+        }
+    }
+    return minIndex;
+}
+
+void interchange(int i, int j, int* a) {
+    int temp = a[i];
+    a[i] = a[j];
+    a[j] = temp;
+}
+```
+
+:::
 
 注意 `indexOfSmallest` 的搜索范围是 `startIndex + 1` 到末尾——`a[startIndex]` 已经是最小值的初始候选，不必和自己比；这个细节能省掉约 $N$ 次比较。
 
@@ -1095,7 +1196,9 @@ public static int[] insertX(int n, int arr[], int x, int pos) {
 
 "不创建新实例"怎么实现？这正是插入排序的实现要点：既然仍要在**同一个数组**里插入，就必须从**末位开始**搬（从右往左），否则会覆盖还没处理的数据。核心片段【补】：
 
-```java
+::: code-group
+
+```java [Java]
 private static void insertSort(int[] a) {
     for (int i = 1; i < a.length; i++) {
         int key = a[i];          // 暂存当前要插入的元素
@@ -1108,6 +1211,47 @@ private static void insertSort(int[] a) {
     }
 }
 ```
+
+```python [Python]
+def insert_sort(a):
+    for i in range(1, len(a)):
+        key = a[i]                # 暂存当前要插入的元素
+        j = i - 1
+        while j >= 0 and a[j] > key:
+            a[j + 1] = a[j]       # 比 key 大的元素整体右移一格
+            j -= 1
+        a[j + 1] = key            # key 落到它该在的位置
+```
+
+```cpp [C++]
+void insertSort(std::vector<int>& a) {
+    for (int i = 1; i < (int)a.size(); i++) {
+        int key = a[i];          // 暂存当前要插入的元素
+        int j = i - 1;
+        while (j >= 0 && a[j] > key) {
+            a[j + 1] = a[j];     // 比 key 大的元素整体右移一格
+            j--;
+        }
+        a[j + 1] = key;          // key 落到它该在的位置
+    }
+}
+```
+
+```c [C]
+void insertSort(int* a, int n) {
+    for (int i = 1; i < n; i++) {
+        int key = a[i];          // 暂存当前要插入的元素
+        int j = i - 1;
+        while (j >= 0 && a[j] > key) {
+            a[j + 1] = a[j];     // 比 key 大的元素整体右移一格
+            j--;
+        }
+        a[j + 1] = key;          // key 落到它该在的位置
+    }
+}
+```
+
+:::
 
 关键是两点：
 
@@ -1225,21 +1369,101 @@ p.78 列出的难点：
 
 p.79 给出了一个"容易理解的原地划分版本"（课件注明"不是原始形式"，并让读者"看 Wikipedia"）：
 
-```
-int partition(arr, left, right, pivotIndex) {
-    pivotValue = arr[pivotIndex];
-    swap(arr[pivotIndex], arr[right]);      // 把 pivot 移到末尾
+::: code-group
+
+```java [Java]
+// 课件只写了 swap(...)，补三行；C/C++ 要求先声明，所以放在前面
+static void swap(int[] arr, int i, int j) {
+    int t = arr[i];
+    arr[i] = arr[j];
+    arr[j] = t;
+}
+
+static int partition(int[] arr, int left, int right, int pivotIndex) {
+    int pivotValue = arr[pivotIndex];
+    swap(arr, pivotIndex, right);           // 把 pivot 移到末尾
     // 把所有比 pivotValue 小的移到开头
-    storeIndex = left;
-    for (i from left to right) {
-        if a[i] < pivotValue
-            swap(a[storeIndex], arr[i]);
-            storeIndex = storeIndex + 1 ;
+    int storeIndex = left;
+    for (int i = left; i < right; i++) {    // 扫 left..right-1，arr[right] 被 pivot 占着
+        if (arr[i] < pivotValue) {
+            swap(arr, storeIndex, i);
+            storeIndex = storeIndex + 1;
+        }
     }
-    swap(arr[right], arr[storeIndex]);      // 把 pivot 移到它最终的位置
+    swap(arr, right, storeIndex);           // 把 pivot 移到它最终的位置
     return storeIndex;
 }
 ```
+
+```python [Python]
+def swap(arr, i, j):                       # 课件只写了 swap(...)，补三行
+    t = arr[i]
+    arr[i] = arr[j]
+    arr[j] = t
+
+
+def partition(arr, left, right, pivot_index):
+    pivot_value = arr[pivot_index]
+    swap(arr, pivot_index, right)          # 把 pivot 移到末尾
+    # 把所有比 pivot_value 小的移到开头
+    store_index = left
+    for i in range(left, right):           # 扫 left..right-1，arr[right] 被 pivot 占着
+        if arr[i] < pivot_value:
+            swap(arr, store_index, i)
+            store_index = store_index + 1
+    swap(arr, right, store_index)          # 把 pivot 移到它最终的位置
+    return store_index
+```
+
+```cpp [C++]
+// 课件只写了 swap(...)，补三行；C/C++ 要求先声明，所以放在前面
+void swap(std::vector<int>& arr, int i, int j) {
+    int t = arr[i];
+    arr[i] = arr[j];
+    arr[j] = t;
+}
+
+int partition(std::vector<int>& arr, int left, int right, int pivotIndex) {
+    int pivotValue = arr[pivotIndex];
+    swap(arr, pivotIndex, right);           // 把 pivot 移到末尾
+    // 把所有比 pivotValue 小的移到开头
+    int storeIndex = left;
+    for (int i = left; i < right; i++) {    // 扫 left..right-1，arr[right] 被 pivot 占着
+        if (arr[i] < pivotValue) {
+            swap(arr, storeIndex, i);
+            storeIndex = storeIndex + 1;
+        }
+    }
+    swap(arr, right, storeIndex);           // 把 pivot 移到它最终的位置
+    return storeIndex;
+}
+```
+
+```c [C]
+// 课件只写了 swap(...)，补三行；C/C++ 要求先声明，所以放在前面
+void swap(int* arr, int i, int j) {
+    int t = arr[i];
+    arr[i] = arr[j];
+    arr[j] = t;
+}
+
+int partition(int* arr, int left, int right, int pivotIndex) {
+    int pivotValue = arr[pivotIndex];
+    swap(arr, pivotIndex, right);           // 把 pivot 移到末尾
+    // 把所有比 pivotValue 小的移到开头
+    int storeIndex = left;
+    for (int i = left; i < right; i++) {    // 扫 left..right-1，arr[right] 被 pivot 占着
+        if (arr[i] < pivotValue) {
+            swap(arr, storeIndex, i);
+            storeIndex = storeIndex + 1;
+        }
+    }
+    swap(arr, right, storeIndex);           // 把 pivot 移到它最终的位置
+    return storeIndex;
+}
+```
+
+:::
 
 【补】逐步过一遍：
 
@@ -1253,23 +1477,61 @@ int partition(arr, left, right, pivotIndex) {
 
 p.80 的主过程：
 
-```
-quicksort(a, left, right) {
+::: code-group
+
+```java [Java]
+static void quicksort(int[] a, int left, int right) {
     if (right > left) {
-        pivotIndex = left;                            // 选 pivot（这里取最左）
-        select a pivot value a[pivotIndex];
-        pivotNewIndex = partition(a, left, right, pivotIndex);
-        quicksort(a, left, pivotNewIndex - 1);        // 递归排左半
-        quicksort(a, pivotNewIndex + 1, right);       // 递归排右半
+        int pivotIndex = left;                     // 选 pivot（这里取最左）
+        // pivot 的值就是 a[pivotIndex]，由 partition 自己取出
+        int pivotNewIndex = partition(a, left, right, pivotIndex);
+        quicksort(a, left, pivotNewIndex - 1);     // 递归排左半
+        quicksort(a, pivotNewIndex + 1, right);    // 递归排右半
     }
 }
 ```
 
+```python [Python]
+def quicksort(a, left, right):
+    if right > left:
+        pivot_index = left                       # 选 pivot（这里取最左）
+        # pivot 的值就是 a[pivot_index]，由 partition 自己取出
+        pivot_new_index = partition(a, left, right, pivot_index)
+        quicksort(a, left, pivot_new_index - 1)  # 递归排左半
+        quicksort(a, pivot_new_index + 1, right)  # 递归排右半
+```
+
+```cpp [C++]
+void quicksort(std::vector<int>& a, int left, int right) {
+    if (right > left) {
+        int pivotIndex = left;                     // 选 pivot（这里取最左）
+        // pivot 的值就是 a[pivotIndex]，由 partition 自己取出
+        int pivotNewIndex = partition(a, left, right, pivotIndex);
+        quicksort(a, left, pivotNewIndex - 1);     // 递归排左半
+        quicksort(a, pivotNewIndex + 1, right);    // 递归排右半
+    }
+}
+```
+
+```c [C]
+void quicksort(int* a, int left, int right) {
+    if (right > left) {
+        int pivotIndex = left;                     // 选 pivot（这里取最左）
+        // pivot 的值就是 a[pivotIndex]，由 partition 自己取出
+        int pivotNewIndex = partition(a, left, right, pivotIndex);
+        quicksort(a, left, pivotNewIndex - 1);     // 递归排左半
+        quicksort(a, pivotNewIndex + 1, right);    // 递归排右半
+    }
+}
+```
+
+:::
+
 `if (right > left)` 是**递归基准情形**（base case）：区间里不足两个元素时不必排序。`partition` 返回 pivot 的最终位置 `pivotNewIndex`，左半和右半分别递归——注意 pivot 自己**不包括在任何一半里**（左半是 `left..pivotNewIndex-1`，右半是 `pivotNewIndex+1..right`），因为它已经在正确位置上了。这又一次体现了"合"不需要做事。
 
-p.75 是维基百科的伪代码，与上面的框架等价但写法更规范：
+p.75 是维基百科的伪代码，与上面的框架等价但写法更规范。这段按原样保留成伪代码，因为 `:=` 赋值与 `algorithm … is` 的骨架本身就是课件要对照的材料——§14.4 末尾那张三份实现的对比表，比的正是这种写法的差别：
 
-```
+```text
 algorithm quicksort(A, lo, hi) is
     if lo < hi then
         p := partition(A, lo, hi)
@@ -1291,7 +1553,16 @@ p.81 是一张来自维基百科的快排**可视化**：一堆竖直的柱子�
 
 p.82 给出另一种原地实现，这次**把 pivot 放在最左边**（与 p.79、p.75 的"放右边"不同），用的是**双指针相向扫描**：
 
-```java
+::: code-group
+
+```java [Java]
+// 课件只写了 swap(array, i, k)，补三行；C/C++ 要求先声明，所以放在前面
+void swap(int[] array, int i, int k) {
+    int t = array[i];
+    array[i] = array[k];
+    array[k] = t;
+}
+
 void quickSort(int array[], int start, int end) {
     int i = start;          // 从左往右扫的指针
     int k = end;            // 从右往左扫的指针
@@ -1313,6 +1584,94 @@ void quickSort(int array[], int start, int end) {
     }
 }
 ```
+
+```python [Python]
+def swap(array, i, k):       # 课件只写了 swap(array, i, k)，补三行
+    t = array[i]
+    array[i] = array[k]
+    array[k] = t
+
+
+def quick_sort(array, start, end):
+    i = start                # 从左往右扫的指针
+    k = end                  # 从右往左扫的指针
+    if end - start >= 1:     # 至少有两个元素才需要排序
+        pivot = array[start]  # 取区间的第一个元素当 pivot
+        while k > i:
+            while array[i] <= pivot and i <= end and k > i:
+                i += 1       # 从左找**第一个大于** pivot 的元素
+            while array[k] > pivot and k >= start and k >= i:
+                k -= 1       # 从右找**第一个不大于** pivot 的元素
+            if k > i:
+                swap(array, i, k)   # 左指针还小于右指针才交换
+        swap(array, start, k)       # 指针交错后，把 pivot 换到分界处
+        quick_sort(array, start, k - 1)
+        quick_sort(array, k + 1, end)
+    else:
+        return               # 只有一个元素，已有序，直接返回
+```
+
+```cpp [C++]
+// 课件只写了 swap(array, i, k)，补三行；C/C++ 要求先声明，所以放在前面
+void swap(std::vector<int>& array, int i, int k) {
+    int t = array[i];
+    array[i] = array[k];
+    array[k] = t;
+}
+
+void quickSort(std::vector<int>& array, int start, int end) {
+    int i = start;          // 从左往右扫的指针
+    int k = end;            // 从右往左扫的指针
+    if (end - start >= 1) { // 至少有两个元素才需要排序
+        int pivot = array[start];   // 取区间的第一个元素当 pivot
+        while (k > i) {
+            while (array[i] <= pivot && i <= end && k > i)
+                i++;        // 从左找**第一个大于** pivot 的元素
+            while (array[k] > pivot && k >= start && k >= i)
+                k--;        // 从右找**第一个不大于** pivot 的元素
+            if (k > i)
+                swap(array, i, k);  // 左指针还小于右指针才交换
+        }
+        swap(array, start, k);      // 指针交错后，把 pivot 换到分界处
+        quickSort(array, start, k - 1);
+        quickSort(array, k + 1, end);
+    } else {
+        return;         // 只有一个元素，已有序，直接返回
+    }
+}
+```
+
+```c [C]
+// 课件只写了 swap(array, i, k)，补三行；C/C++ 要求先声明，所以放在前面
+void swap(int* array, int i, int k) {
+    int t = array[i];
+    array[i] = array[k];
+    array[k] = t;
+}
+
+void quickSort(int* array, int start, int end) {
+    int i = start;          // 从左往右扫的指针
+    int k = end;            // 从右往左扫的指针
+    if (end - start >= 1) { // 至少有两个元素才需要排序
+        int pivot = array[start];   // 取区间的第一个元素当 pivot
+        while (k > i) {
+            while (array[i] <= pivot && i <= end && k > i)
+                i++;        // 从左找**第一个大于** pivot 的元素
+            while (array[k] > pivot && k >= start && k >= i)
+                k--;        // 从右找**第一个不大于** pivot 的元素
+            if (k > i)
+                swap(array, i, k);  // 左指针还小于右指针才交换
+        }
+        swap(array, start, k);      // 指针交错后，把 pivot 换到分界处
+        quickSort(array, start, k - 1);
+        quickSort(array, k + 1, end);
+    } else {
+        return;         // 只有一个元素，已有序，直接返回
+    }
+}
+```
+
+:::
 
 （课件注明这段改编自 `http://www.mycsresource.net/articles/programming/sorting_algos/quicksort/`。）
 

@@ -1,5 +1,5 @@
 ---
-title: Lecture 12 更多排序算法（More Sorting Algorithms）
+title: Lecture 12 More Sorting Algorithms（更多排序算法）
 course: CSC3100 Data Structures
 lecture: Lecture 12 - More Sorting Algorithms
 date: 2026-10-25
@@ -185,11 +185,40 @@ $h = 5$ 时要分 5 条子序列（起点分别是 0、1、2、3、4），$h = 3
 
 课件给的实现短得意外，只有三层循环：
 
-```java
-public static void shellSort(int[] a) {
+::: code-group
+
+```java [Java]
+class Sort {
+    public static void shellSort(int[] a) {
+        int j;
+        for (int gap = a.length / 2; gap > 0; gap /= 2)
+            for (int i = gap; i < a.length; i++) {
+                int tmp = a[i];
+                for (j = i; j >= gap && tmp < a[j - gap]; j -= gap)
+                    a[j] = a[j - gap];
+                a[j] = tmp;
+            }
+    }
+}
+```
+
+```python [Python]
+def shell_sort(a):
+    gap = len(a) // 2                       # 折半序列：n/2, n/4, …, 1
+    while gap > 0:
+        for i in range(gap, len(a)):
+            tmp, j = a[i], i
+            while j >= gap and tmp < a[j - gap]:
+                a[j] = a[j - gap]; j -= gap
+            a[j] = tmp
+        gap //= 2
+```
+
+```cpp [C++]
+void shellSort(int *a, int n) {
     int j;
-    for (int gap = a.length / 2; gap > 0; gap /= 2)
-        for (int i = gap; i < a.length; i++) {
+    for (int gap = n / 2; gap > 0; gap /= 2)
+        for (int i = gap; i < n; i++) {
             int tmp = a[i];
             for (j = i; j >= gap && tmp < a[j - gap]; j -= gap)
                 a[j] = a[j - gap];
@@ -197,6 +226,21 @@ public static void shellSort(int[] a) {
         }
 }
 ```
+
+```c [C]
+void shellSort(int *a, int n) {
+    int j;
+    for (int gap = n / 2; gap > 0; gap /= 2)
+        for (int i = gap; i < n; i++) {
+            int tmp = a[i];
+            for (j = i; j >= gap && tmp < a[j - gap]; j -= gap)
+                a[j] = a[j - gap];
+            a[j] = tmp;
+        }
+}
+```
+
+:::
 
 ### 5.1 逐行读
 
@@ -397,20 +441,54 @@ $3 + 2 + 4 + 2 + 2 = 13 = n$，一个不多一个不少。按桶号从小到大�
 
 ### 10.2 p.9：三段式伪代码
 
-```
-Algorithm CountingSort( s[ ] )
-(values in s[ ] are between 0 and m-1)
+::: code-group
 
-for j ← 0 to m-1 do        // initialize m buckets
-    b[j] ← 0
-for i ← 0 to n-1 do        // place elements in their appropriate buckets
-    b[s[i]] ← b[s[i]] + 1
-i ← 0
-for j ← 0 to m-1 do        // place elements in buckets
-    for r ← 1 to b[j] do   // back in s
-        S[i] ← j
-        i ← i + 1
+```java [Java]
+class Sort {
+    static void countingSort(int[] s, int n, int m) {
+        int[] b = new int[m];                            // m 个桶（计数器）
+        for (int j = 0; j < m; j++) b[j] = 0;            // 第一段：初始化
+        for (int i = 0; i < n; i++) b[s[i]] += 1;        // 第二段：落桶，只记个数
+        int i = 0;
+        for (int j = 0; j < m; j++)                      // 第三段：桶号升序倒出来
+            for (int r = 1; r <= b[j]; r++) s[i++] = j;  // 原写作 S[i] ← j
+    }
+}
 ```
+
+```python [Python]
+def counting_sort(s, n, m):
+    b = [0] * m                              # m 个桶（计数器）
+    for i in range(n): b[s[i]] += 1          # 落桶，只记个数
+    i = 0
+    for j in range(m):                       # 桶号升序倒出来
+        for r in range(b[j]):                # 原写作 S[i] ← j
+            s[i] = j; i += 1
+```
+
+```cpp [C++]
+void countingSort(int *s, int n, int m) {
+    int *b = (int *)calloc(m, sizeof(int));              // m 个桶（计数器）
+    for (int i = 0; i < n; i++) b[s[i]] += 1;            // 落桶，只记个数
+    int i = 0;
+    for (int j = 0; j < m; j++)                          // 桶号升序倒出来
+        for (int r = 0; r < b[j]; r++) s[i++] = j;        // 原写作 S[i] ← j
+    free(b);
+}
+```
+
+```c [C]
+void countingSort(int *s, int n, int m) {
+    int *b = (int *)calloc(m, sizeof(int));              /* m 个桶（计数器） */
+    for (int i = 0; i < n; i++) b[s[i]] += 1;            /* 落桶，只记个数 */
+    int i = 0;
+    for (int j = 0; j < m; j++)                          /* 桶号升序倒出来 */
+        for (int r = 0; r < b[j]; r++) s[i++] = j;        /* 原写作 S[i] ← j */
+    free(b);
+}
+```
+
+:::
 
 **第一段（初始化）**：把 $m$ 个计数器清零，代价 $O(m)$。注意这里已经埋下了空间问题——$m$ 个计数器就是 $m$ 个整数。
 
@@ -451,13 +529,53 @@ for j ← 0 to m-1 do        // place elements in buckets
 
 把 p.9 的第二段从"只数个数"升级为"记下位置"，就是标准写法：
 
+::: code-group
+
+```java [Java]
+class Sort {
+    static int[] stableCountingSort(int[] key, int n, int m) {
+        int[] count = new int[m], pos = new int[m], out = new int[n];
+        for (int i = 0; i < n; i++) count[key[i]]++;                   // 与 p.9 第二段一样
+        for (int k = 1; k < m; k++) pos[k] = pos[k-1] + count[k-1];     // 前缀和：每个键的起点
+        for (int i = 0; i < n; i++) out[pos[key[i]]++] = i;             // 按输入顺序扫，写出记录编号
+        return out;
+    }
+}
 ```
-count[k] ← 键 k 出现的次数            // 与 p.9 第二段一样
-pos[k] ← count[0] + count[1] + … + count[k-1]    // 每个键的"起始位置"
-for i ← 0 to n-1 do                  // 按输入顺序从头扫
-    out[pos[key(i)]] ← record(i)
-    pos[key(i)] ← pos[key(i)] + 1
+
+```python [Python]
+def stable_counting_sort(key, n, m):
+    count, pos, out = [0] * m, [0] * m, [0] * n
+    for i in range(n): count[key[i]] += 1              # 与 p.9 第二段一样
+    for k in range(1, m): pos[k] = pos[k-1] + count[k-1]   # 前缀和：每个键的起点
+    for i in range(n):                                 # 按输入顺序扫，写出记录编号
+        out[pos[key[i]]] = i; pos[key[i]] += 1
+    return out
 ```
+
+```cpp [C++]
+void stableCountingSort(const int *key, int n, int m, int *out) {
+    int *count = (int *)calloc(m, sizeof(int));
+    int *pos = (int *)calloc(m, sizeof(int));
+    for (int i = 0; i < n; i++) count[key[i]]++;                   // 与 p.9 第二段一样
+    for (int k = 1; k < m; k++) pos[k] = pos[k-1] + count[k-1];     // 前缀和：每个键的起点
+    for (int i = 0; i < n; i++) out[pos[key[i]]++] = i;             // 按输入顺序扫，写出记录编号
+    free(count); free(pos);
+}
+```
+
+```c [C]
+void stableCountingSort(const int *key, int n, int m, int *out) {
+    int *count = (int *)calloc(m, sizeof(int));
+    int *pos = (int *)calloc(m, sizeof(int));
+    for (int i = 0; i < n; i++) count[key[i]]++;                   /* 与 p.9 第二段一样 */
+    for (int k = 1; k < m; k++) pos[k] = pos[k-1] + count[k-1];     /* 前缀和：每个键的起点 */
+    for (int i = 0; i < n; i++) out[pos[key[i]]++] = i;             /* 按输入顺序扫，写出记录编号 */
+    free(count); free(pos);
+}
+```
+
+:::
 
 与 p.9 的区别只有两处：**多了一个前缀和数组 `pos`**（它是"每个桶的起点"，而不是"桶号"），以及**回填时按输入顺序从头扫、每条记录写到自己的位置上**。
 
@@ -694,7 +812,7 @@ p.12 的图就是这一步：左边是数组 $A$，右边是 10 条链表 $B[0] 
 
 ### 17.1 伪代码
 
-```
+```text
 BUCKET-SORT(A, n)
   for i ← 1 to n
       do insert A[i] into list B[⌊nA[i]⌋]          } O(n)
@@ -707,6 +825,97 @@ BUCKET-SORT(A, n)
 ```
 
 三行对应三个动作：**分发、桶内排序、拼接**。右侧三个大括号各标一个 $O(n)$，底下一条线总结成 $O(n)$。
+
+用四种语言落地时，"桶"不必真的开链表链结点——**"每个桶的起点 + 计数"就是同一个结构**，桶内用插入排序；分发、桶内排序、拼接三步与上面三行一一对应：
+
+::: code-group
+
+```java [Java]
+class Sort {
+    static void bucketSort(double[] a, int n) {
+        int[] id = new int[n], cnt = new int[n], start = new int[n];
+        for (int i = 0; i < n; i++) { id[i] = (int)(n * a[i]); cnt[id[i]]++; }  // 分发：⌊nA[i]⌋
+        for (int i = 1; i < n; i++) start[i] = start[i-1] + cnt[i-1];           // 每个桶的起点
+        double[] tmp = new double[n]; int[] put = start.clone();
+        for (int i = 0; i < n; i++) tmp[put[id[i]]++] = a[i];                   // 按桶号收集
+        for (int i = 0, lo = 0; i < n; i++) {                                   // 桶内插入排序
+            for (int j = lo + 1; j < lo + cnt[i]; j++) {
+                double t = tmp[j]; int k = j;
+                while (k > lo && tmp[k-1] > t) { tmp[k] = tmp[k-1]; k--; }
+                tmp[k] = t;
+            }
+            lo += cnt[i];
+        }
+        System.arraycopy(tmp, 0, a, 0, n);                                      // 拼接
+    }
+}
+```
+
+```python [Python]
+def bucket_sort(a, n):
+    br = [int(n * x) for x in a]                        # 分发：桶号 = ⌊nA[i]⌋
+    cnt = [0] * n
+    for k in br: cnt[k] += 1
+    start, s = [0] * n, 0
+    for i in range(n):
+        start[i] = s; s += cnt[i]                       # 每个桶的起点
+    tmp, put = [0.0] * n, start[:]
+    for i in range(n):
+        tmp[put[br[i]]] = a[i]; put[br[i]] += 1          # 按桶号收集
+    lo = 0
+    for i in range(n):                                  # 桶内插入排序
+        for j in range(lo + 1, lo + cnt[i]):
+            t, k = tmp[j], j
+            while k > lo and tmp[k-1] > t:
+                tmp[k] = tmp[k-1]; k -= 1
+            tmp[k] = t
+        lo += cnt[i]
+    a[:] = tmp                                          # 拼接
+```
+
+```cpp [C++]
+void bucketSort(double *a, int n) {
+    int *id = new int[n], *cnt = new int[n](), *start = new int[n](), *put = new int[n];
+    for (int i = 0; i < n; i++) { id[i] = (int)(n * a[i]); cnt[id[i]]++; }  // 分发：⌊nA[i]⌋
+    for (int i = 1; i < n; i++) start[i] = start[i-1] + cnt[i-1];           // 每个桶的起点
+    double *tmp = new double[n];
+    for (int i = 0; i < n; i++) put[i] = start[i];
+    for (int i = 0; i < n; i++) tmp[put[id[i]]++] = a[i];                   // 按桶号收集
+    for (int i = 0, lo = 0; i < n; i++) {                                   // 桶内插入排序
+        for (int j = lo + 1; j < lo + cnt[i]; j++) {
+            double t = tmp[j]; int k = j;
+            while (k > lo && tmp[k-1] > t) { tmp[k] = tmp[k-1]; k--; }
+            tmp[k] = t;
+        }
+        lo += cnt[i];
+    }
+    for (int i = 0; i < n; i++) a[i] = tmp[i];                              // 拼接
+}
+```
+
+```c [C]
+void bucketSort(double *a, int n) {
+    int *id = (int *)calloc(n, sizeof(int)), *cnt = (int *)calloc(n, sizeof(int));
+    int *start = (int *)calloc(n, sizeof(int)), *put = (int *)calloc(n, sizeof(int));
+    double *tmp = (double *)calloc(n, sizeof(double));
+    for (int i = 0; i < n; i++) { id[i] = (int)(n * a[i]); cnt[id[i]]++; }  /* 分发：⌊nA[i]⌋ */
+    for (int i = 1; i < n; i++) start[i] = start[i-1] + cnt[i-1];           /* 每个桶的起点 */
+    for (int i = 0; i < n; i++) put[i] = start[i];
+    for (int i = 0; i < n; i++) tmp[put[id[i]]++] = a[i];                   /* 按桶号收集 */
+    for (int i = 0, lo = 0; i < n; i++) {                                   /* 桶内插入排序 */
+        for (int j = lo + 1; j < lo + cnt[i]; j++) {
+            double t = tmp[j]; int k = j;
+            while (k > lo && tmp[k-1] > t) { tmp[k] = tmp[k-1]; k--; }
+            tmp[k] = t;
+        }
+        lo += cnt[i];
+    }
+    for (int i = 0; i < n; i++) a[i] = tmp[i];                              /* 拼接 */
+    free(id); free(cnt); free(start); free(put); free(tmp);
+}
+```
+
+:::
 
 ### 17.2 下标公式的边界
 
@@ -894,7 +1103,7 @@ $32\to3$，$22\to2$，$93\to9$，$34\to3$，$25\to2$：
 
 ### 23.1 主循环与取位（p.22）
 
-```java
+```cpp
 // items to be sorted are in {0,…,10^d-1},
 // i.e., the type of d-digit integers
 void radixsort(int A[], int n, int d)
@@ -926,7 +1135,7 @@ int digit(int x, int d)
 
 ### 23.2 第二段：bucketsort（p.23）
 
-```java
+```cpp
 void bucketsort(int A[], int n, int d)
 // stable-sort according to d-th digit
 {

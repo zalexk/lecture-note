@@ -1,5 +1,5 @@
 ---
-title: Lecture 10 队列（Queue）
+title: Lecture 10 Queue（队列）
 course: CSC3100 Data Structures
 lecture: Lecture 10 - Queue
 date: 2026-10-14
@@ -160,6 +160,8 @@ p.7 只有两行：
 
 p.8 用的是一条**带哨兵结点的单链表**（L7 §10.3）：`Q.L` 是那条链，`Q.L.head` 是哨兵，真正的第一个元素在 `Q.L.head.next`。三个操作分别是：
 
+三个操作都保留课件伪代码原文，不改成四语言：这段伪代码本身就是诚实备注第 2 条的考点（`insert(Q.L, e)` 少了位置参数），而且依赖课件没有给出的 List ADT。
+
 ```text
 Algorithm: createQueue(capacity)
 1  Q <- allocate new memory for queue
@@ -205,11 +207,36 @@ $$\text{enqueue} = O(n)$$
 
 **解法**：多存一个指向表尾的引用，课件里叫 `rear`（p.10 的 Java 就是这么写的）。于是入队变成三行：
 
-```java
+::: code-group
+
+```java [Java]
 Node node = new Node(item);   // 新结点的 next 已经是 null（构造器保证）
 rear.next = node;             // 旧尾巴指向新结点
 rear = node;                  // rear 自己前移
 ```
+
+```python [Python]
+node = Node(item)             # 新结点的 next 已经是 None（构造器保证）
+rear.next = node              # 旧尾巴指向新结点
+rear = node                   # rear 自己前移
+```
+
+```cpp [C++]
+Node* node = new Node(item);  // 新结点的 next 已经是 nullptr（构造器保证）
+rear->next = node;            // 旧尾巴指向新结点
+rear = node;                  // rear 自己前移
+```
+
+```c [C]
+#include <stdlib.h>
+
+Node* node = malloc(sizeof(Node));   // C 没有构造器：手工开结点、填两个字段
+node->data = item; node->next = NULL;
+rear->next = node;            // 旧尾巴指向新结点
+rear = node;                  // rear 自己前移
+```
+
+:::
 
 三步，与队列长度无关，所以是 $O(1)$。
 
@@ -221,7 +248,9 @@ rear = node;                  // rear 自己前移
 
 想象队列里只剩一个元素，执行 dequeue：
 
-```java
+::: code-group
+
+```java [Java]
 Node temp = front;
 front = front.next;        // front 变成 null —— 队列空了
 if (front == null) {
@@ -229,11 +258,52 @@ if (front == null) {
 }
 ```
 
+```python [Python]
+temp = front
+front = front.next            # front 变成 None —— 队列空了
+if front is None:
+    rear = None               # 关键：把 rear 也清掉
+```
+
+```cpp [C++]
+Node* temp = front;
+front = front->next;          // front 变成 nullptr —— 队列空了
+if (front == nullptr) {
+    rear = nullptr;           // 关键：把 rear 也清掉
+}
+```
+
+```c [C]
+Node* temp = front;
+front = front->next;          // front 变成 NULL —— 队列空了
+if (front == NULL) {
+    rear = NULL;              // 关键：把 rear 也清掉
+}
+```
+
+:::
+
 如果不写 `rear = null`，`rear` 仍然指着那个刚被摘下来的结点。这不只是"野引用"的洁癖问题，在这份代码里它会**直接造成故障**：p.10 的 `isEmpty()` 写的是
 
-```java
+::: code-group
+
+```java [Java]
 return rear == null && front == null;
 ```
+
+```python [Python]
+return rear is None and front is None
+```
+
+```cpp [C++]
+return rear == nullptr && front == nullptr;
+```
+
+```c [C]
+return rear == NULL && front == NULL;
+```
+
+:::
 
 `front` 已经是 `null` 了，但 `rear` 还非空，于是 `isEmpty()` 返回 **false**——队列明明是空的，它却说不空。下一次 dequeue 就会执行 `Node temp = front;` 拿到 `null`，再 `temp.data` 就抛 `NullPointerException`。
 
@@ -245,6 +315,8 @@ p.9 两行：
 
 > **isEmpty**: return true if the linked list is empty, otherwise return false
 > **isFull**: always return NO
+
+这两行同样保留伪代码：`isEmpty` 只是转发给链表的 `isEmpty`，而那个链表 ADT 的方法体课件没给，改写成真码就得替课件补一整套链表。
 
 ```text
 Algorithm: isEmpty(Q)
@@ -264,7 +336,9 @@ Algorithm: isFull(Q)
 
 p.10 是一整页的 Java 代码，左边 47 行，右边是 `peek` / `isEmpty` / `main` 与运行输出。我按 420 dpi 分区裁切核过每一行（缩进按原文，行号是原图的行号）：
 
-```java
+::: code-group
+
+```java [Java]
 // A Linked List Node
 class Node {
     int data;            // integer data
@@ -354,6 +428,237 @@ class Main {
 }
 ```
 
+```python [Python]
+import sys
+
+
+# A Linked List Node
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+
+class Queue:
+    rear = None                  # 对应 Java 的 static 字段：这里只有一份队列
+    front = None
+
+    @staticmethod
+    def dequeue():
+        if Queue.front is None:
+            print("\nQueue Underflow", end="")
+            sys.exit(1)
+        temp = Queue.front
+        print("Removing %d" % temp.data)
+        Queue.front = Queue.front.next
+        if Queue.front is None:
+            Queue.rear = None
+        item = temp.data
+        return item
+
+    @staticmethod
+    def enqueue(item):
+        node = Node(item)
+        print("Inserting %d" % item)
+        if Queue.front is None:
+            Queue.front = node
+            Queue.rear = node
+        else:
+            Queue.rear.next = node
+            Queue.rear = node
+
+    @staticmethod
+    def peek():
+        if Queue.front is not None:
+            return Queue.front.data
+        sys.exit(1)
+        return -1                # 与 Java 版一样：这一行永远执行不到
+
+    @staticmethod
+    def is_empty():
+        return Queue.rear is None and Queue.front is None
+
+
+def main():
+    Queue.enqueue(1)
+    Queue.enqueue(2)
+    Queue.enqueue(3)
+    Queue.enqueue(4)
+    print("The front element is %d" % Queue.peek())
+    Queue.dequeue()
+    Queue.dequeue()
+    Queue.dequeue()
+    Queue.dequeue()
+    print("The queue is empty" if Queue.is_empty() else "The queue is not empty", end="")
+
+
+if __name__ == "__main__":
+    main()
+```
+
+```cpp [C++]
+#include <cstdio>
+#include <cstdlib>
+
+// A Linked List Node
+struct Node {
+    int data;
+    Node* next;
+    Node(int data) : data(data), next(nullptr) {}   // 新结点的 next 恒为 nullptr
+};
+
+class Queue {
+    static Node* rear;
+    static Node* front;
+public:
+    static int dequeue() {
+        if (front == nullptr) {
+            printf("\nQueue Underflow");
+            exit(1);                                 // 对应 Java 的 System.exit(1)
+        }
+        Node* temp = front;
+        printf("Removing %d\n", temp->data);
+        front = front->next;
+        if (front == nullptr) {
+            rear = nullptr;
+        }
+        int item = temp->data;
+        delete temp;                                 // C++ 没有 GC，摘下的结点要自己回收
+        return item;
+    }
+
+    static void enqueue(int item) {
+        Node* node = new Node(item);
+        printf("Inserting %d\n", item);
+        if (front == nullptr) {
+            front = node;
+            rear = node;
+        } else {
+            rear->next = node;
+            rear = node;
+        }
+    }
+
+    static int peek() {
+        if (front != nullptr) {
+            return front->data;
+        } else {
+            exit(1);
+        }
+        return -1;
+    }
+
+    static bool isEmpty() {
+        return rear == nullptr && front == nullptr;
+    }
+};
+
+Node* Queue::rear = nullptr;
+Node* Queue::front = nullptr;
+
+int main() {
+    Queue q;
+    q.enqueue(1);
+    q.enqueue(2);
+    q.enqueue(3);
+    q.enqueue(4);
+    printf("The front element is %d\n", q.peek());
+    q.dequeue();
+    q.dequeue();
+    q.dequeue();
+    q.dequeue();
+    if (q.isEmpty()) {
+        printf("The queue is empty");
+    } else {
+        printf("The queue is not empty");
+    }
+    return 0;
+}
+```
+
+```c [C]
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+// A Linked List Node
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+static Node* rear = NULL;
+static Node* front = NULL;
+
+static Node* nodeNew(int data) {
+    Node* n = malloc(sizeof(Node));
+    n->data = data;
+    n->next = NULL;              // 新结点的 next 恒为 NULL
+    return n;
+}
+
+int dequeue(void) {
+    if (front == NULL) {
+        printf("\nQueue Underflow");
+        exit(1);                 // 对应 Java 的 System.exit(1)
+    }
+    Node* temp = front;
+    printf("Removing %d\n", temp->data);
+    front = front->next;
+    if (front == NULL) {
+        rear = NULL;
+    }
+    int item = temp->data;
+    free(temp);                  // C 没有 GC，摘下的结点要自己 free
+    return item;
+}
+
+void enqueue(int item) {
+    Node* node = nodeNew(item);
+    printf("Inserting %d\n", item);
+    if (front == NULL) {
+        front = node;
+        rear = node;
+    } else {
+        rear->next = node;
+        rear = node;
+    }
+}
+
+int peek(void) {
+    if (front != NULL) {
+        return front->data;
+    } else {
+        exit(1);
+    }
+    return -1;
+}
+
+bool isEmpty(void) {
+    return rear == NULL && front == NULL;
+}
+
+int main(void) {
+    enqueue(1);
+    enqueue(2);
+    enqueue(3);
+    enqueue(4);
+    printf("The front element is %d\n", peek());
+    dequeue();
+    dequeue();
+    dequeue();
+    dequeue();
+    if (isEmpty()) {
+        printf("The queue is empty");
+    } else {
+        printf("The queue is not empty");
+    }
+    return 0;
+}
+```
+
+:::
+
 p.10 右下角给的输出是：
 
 ```text
@@ -430,13 +735,43 @@ The queue is empty
 
 p.11 左边是类的骨架：
 
-```java
+::: code-group
+
+```java [Java]
 public class QueueArray {
     int capacity;
     int front, rear;
     ElementType[] array;
 }
 ```
+
+```python [Python]
+class QueueArray:
+    def __init__(self):
+        self.capacity = 0
+        self.front = 0
+        self.rear = 0
+        self.array = []          # Java 侧是 ElementType[]；Python 无类型，什么都能放
+```
+
+```cpp [C++]
+class QueueArray {
+public:
+    int capacity;
+    int front, rear;
+    int* array;                  // 泛型 ElementType[] 退化为 int*
+};
+```
+
+```c [C]
+typedef struct {
+    int capacity;
+    int front, rear;
+    int* array;                  // 泛型 ElementType[] 退化为 int*
+} QueueArray;
+```
+
+:::
 
 右边是一张示意图：一条 9 格的数组，第 3、4、5、6 格里依次是 `5 2 7 1`，`front` 的箭头指向第 3 格的 `5`，`rear` 的箭头指向第 6 格的 `1`。**左边三格与右边两格都是空的**——这张图就是下一节"假溢出"的伏笔。
 
@@ -531,6 +866,8 @@ p.14 用一个 5 格的例子把 p.12 的抽象说法落到具体数字上：
 
 p.16 左边是伪代码，右边四条要点，下面两张环形图。
 
+这一段保留伪代码原样：§7.1 逐行拆的就是它的 Step 1–4，改写成真码会把正文引用的步骤编号拆散。
+
 ```text
 Step 1: IF (REAR+1)%MAX = FRONT
         Write "OVERFLOW"
@@ -572,6 +909,8 @@ p.16 下面那两张环形图演示的正是"绕回去"的那一步：左图是 
 ### 7.2 出队：四步伪代码（p.17）
 
 p.17 的伪代码是入队的镜像：
+
+同样保留伪代码：§7.2 逐条引用的是它的 Step 1–3 与 Step 3 里那三个分支。
 
 ```text
 Step 1: IF FRONT = -1
@@ -718,7 +1057,9 @@ p.18 是一整页的八格连环画，用 `10 20 30 40 50 60 70` 这一串数字
 
 p.19 是一份完整可交互的程序：三栏代码 + 一栏运行输出。代码按 430 dpi 分区核过，缩进按原文：
 
-```java
+::: code-group
+
+```java [Java]
 import java.io.*;
 public class CircularQ {
     int Q[] = new int[100];
@@ -803,6 +1144,250 @@ class Main {
     }
 }
 ```
+
+```python [Python]
+import sys
+
+
+class CircularQ:
+    def __init__(self, nn):
+        self.Q = [0] * 100           # 与课件一样：数组写死 100 格，与 n 无关
+        self.n = nn
+        self.front = 0               # 约定：front 指向队头的"前一格"
+        self.rear = 0
+
+    def enqueue(self, v):
+        if (self.rear + 1) % self.n != self.front:
+            self.rear = (self.rear + 1) % self.n
+            self.Q[self.rear] = v
+        else:
+            print("Queue is full !")
+
+    def dequeue(self):
+        if self.front != self.rear:
+            self.front = (self.front + 1) % self.n
+            v = self.Q[self.front]
+            return v
+        return -9999
+
+    def disp(self):
+        if self.front != self.rear:
+            i = (self.front + 1) % self.n
+            while i != self.rear:
+                print(self.Q[i])
+                i = (i + 1) % self.n
+            print(self.Q[i])
+        else:
+            print("Queue is empty !")
+
+
+def main():
+    print("Enter the size of the queue : ", end="")
+    size = int(input())
+    call = CircularQ(size + 1)
+    exit_flag = False
+    while not exit_flag:
+        print("\n1 : Add\n2 : Delete\n3 : Display\n4 : Exit\n\nYour Choice : ", end="")
+        choice = int(input())
+        if choice == 1:
+            print("\nEnter number to be added : ", end="")
+            num = int(input())
+            call.enqueue(num)
+        elif choice == 2:
+            popped = call.dequeue()
+            if popped != -9999:
+                print("\nDeleted : %d" % popped)
+            else:
+                print("\nQueue is empty !")
+        elif choice == 3:
+            call.disp()
+        elif choice == 4:
+            exit_flag = True
+        else:
+            print("\nWrong Choice !")
+
+
+if __name__ == "__main__":
+    main()
+```
+
+```cpp [C++]
+#include <iostream>
+using namespace std;
+
+class CircularQ {
+    int Q[100];                  // 与课件一样：数组写死 100 格，与 n 无关
+    int n, front, rear;
+public:
+    CircularQ(int nn) {
+        n = nn;
+        front = rear = 0;        // 约定：front 指向队头的"前一格"
+    }
+
+    void enqueue(int v) {
+        if ((rear + 1) % n != front) {
+            rear = (rear + 1) % n;
+            Q[rear] = v;
+        }
+        else
+            cout << "Queue is full !" << endl;
+    }
+
+    int dequeue() {
+        int v;
+        if (front != rear) {
+            front = (front + 1) % n;
+            v = Q[front];
+            return v;
+        }
+        else
+            return -9999;
+    }
+
+    void disp() {
+        int i;
+        if (front != rear) {
+            i = (front + 1) % n;
+            while (i != rear) {
+                cout << Q[i] << endl;
+                i = (i + 1) % n;
+            }
+            cout << Q[i] << endl;
+        }
+        else
+            cout << "Queue is empty !" << endl;
+    }
+};
+
+int main() {
+    cout << "Enter the size of the queue : ";
+    int size;
+    cin >> size;
+    CircularQ call(size + 1);
+    int choice;
+    bool quit = false;
+    while (!quit) {
+        cout << "\n1 : Add\n2 : Delete\n3 : Display\n4 : Exit\n\nYour Choice : ";
+        cin >> choice;
+        switch (choice) {
+            case 1: {
+                cout << "\nEnter number to be added : ";
+                int num;
+                cin >> num;
+                call.enqueue(num);
+                break;
+            }
+            case 2: {
+                int popped = call.dequeue();
+                if (popped != -9999)
+                    cout << "\nDeleted : " << popped << endl;
+                else
+                    cout << "\nQueue is empty !" << endl;
+                break;
+            }
+            case 3:
+                call.disp();
+                break;
+            case 4:
+                quit = true;
+                break;
+            default:
+                cout << "\nWrong Choice !" << endl;
+                break;
+        }
+    }
+    return 0;
+}
+```
+
+```c [C]
+#include <stdio.h>
+
+typedef struct {
+    int Q[100];                  /* 与课件一样：数组写死 100 格，与 n 无关 */
+    int n, front, rear;
+} CircularQ;
+
+void qInit(CircularQ* c, int nn) {
+    c->n = nn;
+    c->front = c->rear = 0;      /* 约定：front 指向队头的"前一格" */
+}
+
+void enqueue(CircularQ* c, int v) {
+    if ((c->rear + 1) % c->n != c->front) {
+        c->rear = (c->rear + 1) % c->n;
+        c->Q[c->rear] = v;
+    }
+    else
+        printf("Queue is full !\n");
+}
+
+int dequeue(CircularQ* c) {
+    int v;
+    if (c->front != c->rear) {
+        c->front = (c->front + 1) % c->n;
+        v = c->Q[c->front];
+        return v;
+    }
+    else
+        return -9999;
+}
+
+void disp(CircularQ* c) {
+    int i;
+    if (c->front != c->rear) {
+        i = (c->front + 1) % c->n;
+        while (i != c->rear) {
+            printf("%d\n", c->Q[i]);
+            i = (i + 1) % c->n;
+        }
+        printf("%d\n", c->Q[i]);
+    }
+    else
+        printf("Queue is empty !\n");
+}
+
+int main(void) {
+    CircularQ call;
+    int size, choice, quit = 0;
+    printf("Enter the size of the queue : ");
+    if (scanf("%d", &size) != 1) return 1;
+    qInit(&call, size + 1);
+    while (!quit) {
+        printf("\n1 : Add\n2 : Delete\n3 : Display\n4 : Exit\n\nYour Choice : ");
+        if (scanf("%d", &choice) != 1) break;
+        switch (choice) {
+            case 1: {
+                int num;
+                printf("\nEnter number to be added : ");
+                if (scanf("%d", &num) != 1) return 1;
+                enqueue(&call, num);
+                break;
+            }
+            case 2: {
+                int popped = dequeue(&call);
+                if (popped != -9999)
+                    printf("\nDeleted : %d\n", popped);
+                else
+                    printf("\nQueue is empty !\n");
+                break;
+            }
+            case 3:
+                disp(&call);
+                break;
+            case 4:
+                quit = 1;
+                break;
+            default:
+                printf("\nWrong Choice !\n");
+                break;
+        }
+    }
+    return 0;
+}
+```
+
+:::
 
 运行输出（用户输入 `5`，然后连续加 `31`、`28`、`9`、`56`，最后显示）：
 
@@ -1003,9 +1588,25 @@ p.25 列了 deque 的完整接口，六个方法：
 
 **【补】为什么这里不能直接写 `front = (front - 1) % n`。** 在 Java、C、Python 里，负数取模的行为不一样：Java 与 C 的 `-1 % 5` 是 $-1$（不是 4），Python 的 `-1 % 5` 才是 4。所以"前端插入"这条语句必须写成
 
-```java
+::: code-group
+
+```java [Java]
 front = (front - 1 + n) % n;   // 先加 n 保证非负
 ```
+
+```python [Python]
+front = (front - 1 + n) % n   # Python 的 % 取地板，本来非负；+n 只为与 Java 同形
+```
+
+```cpp [C++]
+front = (front - 1 + n) % n;   // 先加 n 保证非负（C++ 的 % 向零截断，-1 会得 -1）
+```
+
+```c [C]
+front = (front - 1 + n) % n;   /* 先加 n 保证非负（C 的 % 向零截断，-1 会得 -1） */
+```
+
+:::
 
 或者像课件那样用 `if` 判断。**这是循环队列里唯一一处"取模不能直接用"的地方**——`rear` 加一取模永远安全，`front` 减一取模在 Java/C 里会得到负数。作业里因为这一点而数组越界的，几乎每一届都有。
 
@@ -1035,7 +1636,9 @@ p.28 到 p.31 是两道对称的练习题，各配一段完整代码与一张过
 
 ### 13.1 用两个队列实现栈（p.28-29）
 
-```java
+::: code-group
+
+```java [Java]
 import java.util.ArrayDeque;
 import java.util.Queue;
 // Implement stack using two queues
@@ -1090,6 +1693,154 @@ class Main {
 }
 ```
 
+```python [Python]
+import sys
+from collections import deque          # Python 的 ArrayDeque 等价物
+
+
+# Implement stack using two queues
+class Stack:
+    def __init__(self):
+        self.q1 = deque()
+        self.q2 = deque()
+
+    def add(self, data):
+        while self.q1:                       # 把 q1 全部搬到 q2
+            self.q2.append(self.q1.popleft())
+        self.q1.append(data)                 # 新元素进空的 q1，它是队头
+        while self.q2:                       # 再全部搬回 q1
+            self.q1.append(self.q2.popleft())
+
+    def poll(self):
+        if not self.q1:
+            print("Underflow!")
+            sys.exit(0)
+        front = self.q1.popleft()            # 队头就是栈顶
+        return front
+
+
+def main():
+    keys = [1, 2, 3, 4, 5]
+    s = Stack()
+    for key in keys:
+        s.add(key)
+    for _ in range(len(keys) + 1):           # 与课件一致：多走一次，第 6 次打印 Underflow!
+        print(s.poll())
+
+
+if __name__ == "__main__":
+    main()
+```
+
+```cpp [C++]
+#include <iostream>
+#include <queue>
+#include <cstdlib>
+using namespace std;
+
+// Implement stack using two queues
+class Stack {
+    queue<int> q1, q2;               // Java 侧是 Queue<T>，这里退化为 int
+public:
+    void add(int data) {
+        while (!q1.empty()) {        // 把 q1 全部搬到 q2
+            q2.push(q1.front());
+            q1.pop();
+        }
+        q1.push(data);               // 新元素进空的 q1，它是队头
+        while (!q2.empty()) {        // 再全部搬回 q1
+            q1.push(q2.front());
+            q2.pop();
+        }
+    }
+
+    int poll() {
+        if (q1.empty()) {
+            cout << "Underflow!" << endl;
+            exit(0);
+        }
+        int front = q1.front();
+        q1.pop();
+        return front;
+    }
+};
+
+int main() {
+    int keys[] = { 1, 2, 3, 4, 5 };
+    Stack s;
+    for (int key : keys) {
+        s.add(key);
+    }
+    for (int i = 0; i <= 5; i++) {   // 与课件一致：多走一次，第 6 次打印 Underflow!
+        cout << s.poll() << endl;
+    }
+    return 0;
+}
+```
+
+```c [C]
+#include <stdio.h>
+#include <stdlib.h>
+
+/* C 的标准库没有队列，这里先给一个定容循环队列（用法与 Java 的 ArrayDeque 一致） */
+#define QCAP 64
+typedef struct {
+    int a[QCAP];
+    int head, tail, size;
+} Queue;
+
+void qInit(Queue* q) { q->head = q->tail = q->size = 0; }
+int  qEmpty(Queue* q) { return q->size == 0; }
+void qPush(Queue* q, int v) { q->a[q->tail] = v; q->tail = (q->tail + 1) % QCAP; q->size++; }
+int  qFront(Queue* q) { return q->a[q->head]; }
+void qPop(Queue* q) { q->head = (q->head + 1) % QCAP; q->size--; }
+
+/* Implement stack using two queues */
+typedef struct {
+    Queue q1, q2;
+} Stack;
+
+void stackInit(Stack* s) { qInit(&s->q1); qInit(&s->q2); }
+
+void add(Stack* s, int data) {
+    while (!qEmpty(&s->q1)) {        /* 把 q1 全部搬到 q2 */
+        qPush(&s->q2, qFront(&s->q1));
+        qPop(&s->q1);
+    }
+    qPush(&s->q1, data);             /* 新元素进空的 q1，它是队头 */
+    while (!qEmpty(&s->q2)) {        /* 再全部搬回 q1 */
+        qPush(&s->q1, qFront(&s->q2));
+        qPop(&s->q2);
+    }
+}
+
+int poll(Stack* s) {
+    if (qEmpty(&s->q1)) {
+        printf("Underflow!\n");
+        exit(0);
+    }
+    int front = qFront(&s->q1);
+    qPop(&s->q1);
+    return front;
+}
+
+int main(void) {
+    int keys[] = { 1, 2, 3, 4, 5 };
+    Stack s;
+    int i;
+    stackInit(&s);
+    for (i = 0; i < 5; i++) {
+        add(&s, keys[i]);
+    }
+    for (i = 0; i <= 5; i++) {       /* 与课件一致：多走一次，第 6 次打印 Underflow! */
+        printf("%d\n", poll(&s));
+    }
+    return 0;
+}
+```
+
+:::
+
 **思路（课件 p.29 的图把它画得很清楚）**：栈要求"新元素在最前面"，而队列只能"从尾巴加"。所以 `add(data)` 分三步：
 
 1. 把 `q1` 里的元素**全部**搬到 `q2`（`q1` 清空）；
@@ -1121,7 +1872,9 @@ Underflow!
 
 ### 13.2 用两个栈实现队列（p.30-31）
 
-```java
+::: code-group
+
+```java [Java]
 import java.util.Stack;
 // Implement a queue using two stacks
 class Queue<T> {
@@ -1169,6 +1922,145 @@ class Main {
     }
 }
 ```
+
+```python [Python]
+import sys
+
+
+# Implement a queue using two stacks
+class Queue:
+    def __init__(self):
+        self.s1 = []                 # 用 list 当栈，append/pop 在尾部，都是 O(1)
+        self.s2 = []
+
+    def enqueue(self, data):
+        while self.s1:               # 把 s1 全部搬到 s2（顺序反转一次）
+            self.s2.append(self.s1.pop())
+        self.s1.append(data)         # data 落在 s1 的栈底
+        while self.s2:               # 再全部搬回 s1（又反转一次，回到原顺序）
+            self.s1.append(self.s2.pop())
+
+    def dequeue(self):
+        if not self.s1:
+            print("Underflow!")
+            sys.exit(0)
+        return self.s1.pop()         # 栈顶就是最早的元素
+
+
+def main():
+    keys = [1, 2, 3, 4, 5]
+    q = Queue()
+    for key in keys:
+        q.enqueue(key)
+    print(q.dequeue())               # 打印 1
+    print(q.dequeue())               # 打印 2
+
+
+if __name__ == "__main__":
+    main()
+```
+
+```cpp [C++]
+#include <iostream>
+#include <stack>
+#include <cstdlib>
+using namespace std;
+
+// Implement a queue using two stacks
+class Queue {
+    stack<int> s1, s2;               // Java 侧是 Stack<T>，这里退化为 int
+public:
+    void enqueue(int data) {
+        while (!s1.empty()) {        // 把 s1 全部搬到 s2（顺序反转一次）
+            s2.push(s1.top());
+            s1.pop();
+        }
+        s1.push(data);               // data 落在 s1 的栈底
+        while (!s2.empty()) {        // 再全部搬回 s1（又反转一次，回到原顺序）
+            s1.push(s2.top());
+            s2.pop();
+        }
+    }
+
+    int dequeue() {
+        if (s1.empty()) {
+            cout << "Underflow!" << endl;
+            exit(0);
+        }
+        int top = s1.top();          // 栈顶就是最早的元素
+        s1.pop();
+        return top;
+    }
+};
+
+int main() {
+    int keys[] = { 1, 2, 3, 4, 5 };
+    Queue q;
+    for (int key : keys) {
+        q.enqueue(key);
+    }
+    cout << q.dequeue() << endl;     // 打印 1
+    cout << q.dequeue() << endl;     // 打印 2
+    return 0;
+}
+```
+
+```c [C]
+#include <stdio.h>
+#include <stdlib.h>
+
+/* C 的标准库没有栈，这里先给一个定容栈（用法与 Java 的 Stack 一致） */
+#define SCAP 64
+typedef struct {
+    int a[SCAP];
+    int size;
+} Stack;
+
+void stackInit(Stack* s) { s->size = 0; }
+int  stackEmpty(Stack* s) { return s->size == 0; }
+void stackPush(Stack* s, int v) { s->a[s->size++] = v; }
+int  stackPop(Stack* s) { return s->a[--s->size]; }
+
+/* Implement a queue using two stacks */
+typedef struct {
+    Stack s1, s2;
+} Queue;
+
+void queueInit(Queue* q) { stackInit(&q->s1); stackInit(&q->s2); }
+
+void enqueue(Queue* q, int data) {
+    while (!stackEmpty(&q->s1)) {    /* 把 s1 全部搬到 s2（顺序反转一次） */
+        stackPush(&q->s2, stackPop(&q->s1));
+    }
+    stackPush(&q->s1, data);         /* data 落在 s1 的栈底 */
+    while (!stackEmpty(&q->s2)) {    /* 再全部搬回 s1（又反转一次，回到原顺序） */
+        stackPush(&q->s1, stackPop(&q->s2));
+    }
+}
+
+int dequeue(Queue* q) {
+    if (stackEmpty(&q->s1)) {
+        printf("Underflow!\n");
+        exit(0);
+    }
+    return stackPop(&q->s1);         /* 栈顶就是最早的元素 */
+}
+
+int main(void) {
+    int keys[] = { 1, 2, 3, 4, 5 };
+    Queue q;
+    int i;
+    queueInit(&q);
+    for (i = 0; i < 5; i++) {
+        enqueue(&q, keys[i]);
+    }
+    printf("%d\n", dequeue(&q));     /* 打印 1 */
+    printf("%d\n", dequeue(&q));     /* 打印 2 */
+    return 0;
+}
+```
+
+:::
 
 **思路**：队列要求"最老的先出"，而栈只能"从顶上加、从顶上取"。所以 `enqueue(data)` 要让 `data` 沉到**栈底**：
 

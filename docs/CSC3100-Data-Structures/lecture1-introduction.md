@@ -1,5 +1,5 @@
 ---
-title: Lecture 1 导论（Introduction）
+title: Lecture 1 Introduction（课程导论）
 course: CSC3100 Data Structures
 lecture: Lecture 1 - Introduction
 date: 2026-09-08
@@ -124,17 +124,57 @@ p.31 把这个分离落实成一个有名字的机制：ADT 是为了**封装**�
 
 p.32 把上面的话说成可操作的形式：一个 ADT 只提供**操作的声明**（definition of operations），内容只有三样——每个操作（函数）的名字、参数（arguments）的类型、返回结果的类型。它**不揭示**任何内部实现：集合内部是数组、链表还是树？交集是怎么算出来的？这些都可以有很多种做法。
 
-课件给的例子是一个类 C 风格的接口，声明"整数集合"这个抽象类型：
+课件给的例子是一个只声明操作的接口，声明"整数集合"这个抽象类型（下面给出四种语言的同一份声明，没有任何一种带实现）：
 
-```text
-ADT IntegerSet
-  IntegerSet createEmptySet();                  // 创建一个空集合
-  IntegerSet addElementToSet(integer, SetA);    // 往集合里加一个元素
-  Boolean search(integer, SetA);                // 查询某整数是否在集合中
-  IntegerSet intersection(setA, setB);          // 求两个集合的交集
-  IntegerSet union(setA, setB);                 // 求两个集合的并集
-  IntegerSet difference(setA, setB);            // 求两个集合的差集
+::: code-group
+
+```java [Java]
+interface IntegerSet {                            // 只有签名：名字 + 参数类型 + 返回类型
+    IntegerSet createEmptySet();                  // 创建一个空集合
+    IntegerSet addElementToSet(int elem);         // 往集合里加一个元素
+    Boolean search(int elem);                     // 查询某整数是否在集合中
+    IntegerSet intersection(IntegerSet setA, IntegerSet setB);   // 求交集
+    IntegerSet setUnion(IntegerSet setA, IntegerSet setB);       // 求并集
+    IntegerSet difference(IntegerSet setA, IntegerSet setB);     // 求差集
+}
 ```
+
+```python [Python]
+class IntegerSet:                              # 只有签名：方法名 + 参数类型 + 返回类型
+    def createEmptySet(self) -> "IntegerSet": raise NotImplementedError
+    def addElementToSet(self, elem: int) -> "IntegerSet": raise NotImplementedError
+    def search(self, elem: int) -> bool: raise NotImplementedError
+    def intersection(self, setA, setB) -> "IntegerSet": raise NotImplementedError
+    def setUnion(self, setA, setB) -> "IntegerSet": raise NotImplementedError
+    def difference(self, setA, setB) -> "IntegerSet": raise NotImplementedError
+```
+
+```cpp [C++]
+struct IntegerSet {                               // 只有签名：全是纯虚函数，没有数据成员
+    virtual ~IntegerSet() = default;
+    virtual IntegerSet* createEmptySet() = 0;
+    virtual IntegerSet* addElementToSet(int elem) = 0;
+    virtual bool search(int elem) const = 0;
+    virtual IntegerSet* intersection(const IntegerSet* setA, const IntegerSet* setB) const = 0;
+    virtual IntegerSet* setUnion(const IntegerSet* setA, const IntegerSet* setB) const = 0;
+    virtual IntegerSet* difference(const IntegerSet* setA, const IntegerSet* setB) const = 0;
+};
+```
+
+```c [C]
+#include <stdbool.h>
+
+typedef struct IntegerSet IntegerSet;             /* 只有签名：内部布局完全没有定 */
+
+IntegerSet* createEmptySet(void);
+IntegerSet* addElementToSet(const IntegerSet* setA, int elem);
+bool search(const IntegerSet* setA, int elem);
+IntegerSet* intersection(const IntegerSet* setA, const IntegerSet* setB);
+IntegerSet* setUnion(const IntegerSet* setA, const IntegerSet* setB);   /* union 是 C 关键字 */
+IntegerSet* difference(const IntegerSet* setA, const IntegerSet* setB);
+```
+
+:::
 
 每一行都只有"操作名 + 参数类型 + 返回类型"，没有一个字提到内部结构。这七行就是全部约定，它同时规定了两件事：
 

@@ -1,5 +1,5 @@
 ---
-title: Lecture 14 二叉搜索树（Binary Search Tree）
+title: Lecture 14 Binary Search Tree（二叉搜索树）
 course: CSC3100 Data Structures
 lecture: Lecture 14 - Binary Search Tree
 date: 2026-10-29
@@ -272,14 +272,66 @@ $$
 
 p.7 的 `find(x, k)`：
 
+::: code-group
+
+```java [Java]
+class Node { int key; Node left, right, p; Node(int k) { this.key = k; } }
+
+class BST {
+    static Node find(Node x, int k) {
+        if (x == null || k == x.key) return x;        // 第 1-2 行
+        if (k < x.key) return find(x.left, k);        // 第 3-4 行
+        else           return find(x.right, k);       // 第 5-6 行
+    }
+}
 ```
-1.  if x = NIL or k = key[x]
-2.      return x
-3.  if k < key[x]
-4.      return find(left[x], k)
-5.  else
-6.      return find(right[x], k)
+
+```python [Python]
+class Node:
+    def __init__(self, key, p=None):
+        self.key = key
+        self.left = self.right = None
+        self.p = p
+
+
+def find(x, k):
+    if x is None or k == x.key: return x        # 第 1-2 行
+    if k < x.key: return find(x.left, k)        # 第 3-4 行
+    return find(x.right, k)                     # 第 5-6 行
 ```
+
+```cpp [C++]
+struct Node {
+    int key; Node *left, *right, *p;
+    Node(int k) : key(k), left(NULL), right(NULL), p(NULL) {}
+};
+
+Node *find(Node *x, int k) {
+    if (x == NULL || k == x->key) return x;      // 第 1-2 行
+    if (k < x->key) return find(x->left, k);     // 第 3-4 行
+    return find(x->right, k);                    // 第 5-6 行
+}
+```
+
+```c [C]
+#include <stdlib.h>
+
+typedef struct Node { int key; struct Node *left, *right, *p; } Node;
+
+Node *newNode(int k) {
+    Node *z = (Node *)malloc(sizeof(Node));
+    z->key = k; z->left = z->right = z->p = NULL;
+    return z;
+}
+
+Node *find(Node *x, int k) {
+    if (x == NULL || k == x->key) return x;      /* 第 1-2 行 */
+    if (k < x->key) return find(x->left, k);     /* 第 3-4 行 */
+    return find(x->right, k);                    /* 第 5-6 行 */
+}
+```
+
+:::
 
 六个符号先说清楚：$x$ 是"当前所在的结点"（第一次调用时传根），$k$ 是要找的键，`NIL` 是空指针，`left[x]`/`right[x]` 是左右孩子指针，`key[x]` 是结点存的值。
 
@@ -311,11 +363,63 @@ p.7 底部写 `Running time: O(h), where h is the height of tree`。
 
 p.8 的 `findMin(x)`：
 
+::: code-group
+
+```java [Java]
+// Node 见 §5.2 组
+class BST {
+    static Node findMin(Node x) {
+        while (x.left != null) x = x.left;    // 第 1-2 行
+        return x;                             // 第 3 行
+    }
+    static Node findMax(Node x) {             // p.9：左边换成右边
+        while (x.right != null) x = x.right;
+        return x;
+    }
+}
 ```
-1.  while left[x] != NIL
-2.      do x <- left[x]
-3.  return x
+
+```python [Python]
+# Node 见 §5.2 组
+
+
+def find_min(x):
+    while x.left is not None: x = x.left    # 第 1-2 行
+    return x                                # 第 3 行
+
+
+def find_max(x):                            # p.9：左边换成右边
+    while x.right is not None: x = x.right
+    return x
 ```
+
+```cpp [C++]
+// Node 见 §5.2 组
+
+Node *findMin(Node *x) {
+    while (x->left != NULL) x = x->left;     // 第 1-2 行
+    return x;                                // 第 3 行
+}
+Node *findMax(Node *x) {                     // p.9：左边换成右边
+    while (x->right != NULL) x = x->right;
+    return x;
+}
+```
+
+```c [C]
+/* Node 见 §5.2 组 */
+
+Node *findMin(Node *x) {
+    while (x->left != NULL) x = x->left;     /* 第 1-2 行 */
+    return x;                                /* 第 3 行 */
+}
+Node *findMax(Node *x) {                     /* p.9：左边换成右边 */
+    while (x->right != NULL) x = x->right;
+    return x;
+}
+```
+
+:::
 
 p.9 的 `findMax(x)` 把 `left` 换成 `right`，其余一模一样。三行，没有比较、没有分支——**它甚至不需要看键的值**，只顺着指针走。
 
@@ -387,15 +491,61 @@ p.10 与 p.11 的图里都标了红字的 $x$ 与 $y$。p.11 那张我用 420 dp
 
 p.11：
 
+::: code-group
+
+```java [Java]
+// Node 见 §5.2 组；findMin 见 §6.1 组
+class BST {
+    static Node successor(Node x) {
+        if (x.right != null) return findMin(x.right);   // 第 1-2 行
+        Node y = x.p;                                   // 第 3 行
+        while (y != null && x == y.right) {             // 第 4 行：两个条件不能换
+            x = y; y = y.p;                             // 第 5-6 行
+        }
+        return y;                                       // 第 7 行
+    }
+}
 ```
-1.  if right[x] != NIL
-2.      return findMin(right[x])
-3.  y <- p[x]
-4.  while y != NIL and x = right[y]
-5.      do x <- y
-6.          y <- p[y]
-7.  return y
+
+```python [Python]
+# Node 见 §5.2 组；find_min 见 §6.1 组
+
+
+def successor(x):
+    if x.right is not None: return find_min(x.right)   # 第 1-2 行
+    y = x.p                                            # 第 3 行
+    while y is not None and x is y.right:              # 第 4 行：两个条件不能换
+        x, y = y, y.p                                  # 第 5-6 行
+    return y                                           # 第 7 行
 ```
+
+```cpp [C++]
+// Node 见 §5.2 组；findMin 见 §6.1 组
+
+Node *successor(Node *x) {
+    if (x->right != NULL) return findMin(x->right);  // 第 1-2 行
+    Node *y = x->p;                                  // 第 3 行
+    while (y != NULL && x == y->right) {             // 第 4 行：两个条件不能换
+        x = y; y = y->p;                             // 第 5-6 行
+    }
+    return y;                                        // 第 7 行
+}
+```
+
+```c [C]
+/* Node 见 §5.2 组；findMin 见 §6.1 组 */
+
+Node *successor(Node *x) {
+    if (x->right != NULL) return findMin(x->right);  /* 第 1-2 行 */
+    Node *y = x->p;                                  /* 第 3 行 */
+    while (y != NULL && x == y->right) {             /* 第 4 行：两个条件不能换 */
+        x = y; y = y->p;                             /* 第 5-6 行 */
+    }
+    return y;                                        /* 第 7 行 */
+}
+```
+
+:::
 
 逐行读：
 
@@ -518,24 +668,77 @@ $$
 
 p.15：
 
+::: code-group
+
+```java [Java]
+// Node 见 §5.2 组
+class BST {
+    static Node insert(Node root, Node z) {          // z 的左右孩子须先置 null
+        Node y = null, x = root;                     // 第 1-2 行
+        while (x != null) {                          // 第 3 行
+            y = x;                                   // 第 4 行：必须在比较之前
+            x = (z.key < x.key) ? x.left : x.right;  // 第 5-8 行：相等键往右
+        }
+        z.p = y;                                     // 第 9 行
+        if (y == null) root = z;                     // 第 10-11 行：T 本来是空树
+        else if (z.key < y.key) y.left = z;          // 第 13-14 行
+        else y.right = z;                            // 第 15-16 行
+        return root;
+    }
+}
 ```
-1.  y <- NIL
-2.  x <- root[T]
-3.  while x != NIL
-4.      do y <- x
-5.          if key[z] < key[x]
-6.              x <- left[x]
-7.          else
-8.              x <- right[x]
-9.  p[z] <- y
-10. if y = NIL
-11.     root[T] <- z        // T was empty
-12. else
-13.     if key[z] < key[y]
-14.         left[y] <- z
-15.     else
-16.         right[y] <- z
+
+```python [Python]
+# Node 见 §5.2 组
+
+
+def insert(root, z):                                # z 的左右孩子须先置 None
+    y, x = None, root                               # 第 1-2 行
+    while x is not None:                            # 第 3 行
+        y = x                                       # 第 4 行：必须在比较之前
+        x = x.left if z.key < x.key else x.right     # 第 5-8 行：相等键往右
+    z.p = y                                         # 第 9 行
+    if y is None: root = z                          # 第 10-11 行：T 本来是空树
+    elif z.key < y.key: y.left = z                   # 第 13-14 行
+    else: y.right = z                                # 第 15-16 行
+    return root
 ```
+
+```cpp [C++]
+// Node 见 §5.2 组
+
+Node *insert(Node *root, Node *z) {              // z 的左右孩子须先置 NULL
+    Node *y = NULL, *x = root;                      // 第 1-2 行
+    while (x != NULL) {                             // 第 3 行
+        y = x;                                      // 第 4 行：必须在比较之前
+        x = (z->key < x->key) ? x->left : x->right;  // 第 5-8 行：相等键往右
+    }
+    z->p = y;                                       // 第 9 行
+    if (y == NULL) root = z;                        // 第 10-11 行：T 本来是空树
+    else if (z->key < y->key) y->left = z;           // 第 13-14 行
+    else y->right = z;                               // 第 15-16 行
+    return root;
+}
+```
+
+```c [C]
+/* Node 见 §5.2 组 */
+
+Node *insert(Node *root, Node *z) {              /* z 的左右孩子须先置 NULL */
+    Node *y = NULL, *x = root;                      /* 第 1-2 行 */
+    while (x != NULL) {                             /* 第 3 行 */
+        y = x;                                      /* 第 4 行：必须在比较之前 */
+        x = (z->key < x->key) ? x->left : x->right;  /* 第 5-8 行：相等键往右 */
+    }
+    z->p = y;                                       /* 第 9 行 */
+    if (y == NULL) root = z;                        /* 第 10-11 行：T 本来是空树 */
+    else if (z->key < y->key) y->left = z;           /* 第 13-14 行 */
+    else y->right = z;                               /* 第 15-16 行 */
+    return root;
+}
+```
+
+:::
 
 新的符号：$z$ 是**要插入的那个结点**（课件在右边用小字注明 "z: the node to be inserted"），它的 `key[z]` 就是值 $v$；$T$ 是整棵树。
 
@@ -745,7 +948,7 @@ $$
 
 ### 12.1 case 1 的七行（p.20）
 
-```
+```text
 1.  if left[z] = NIL and right[z] = NIL        // z has no child
 2.      if p[z] = NIL then root[T] = NIL
 3.      else
@@ -755,6 +958,65 @@ $$
 7.              right[p[z]] = NIL
 ```
 
+同一段的四语言写法（行号仍指上面这段原文；`=` 的比较与赋值已分开，删完把 `z` 的三个指针清空）：
+
+::: code-group
+
+```java [Java]
+// Node 见 §5.2 组
+class BST {
+    static Node deleteLeaf(Node root, Node z) {              // case 1：叶子
+        if (z.left != null || z.right != null) return root;  // 第 1 行
+        if (z.p == null) root = null;                        // 第 2 行：z 是根
+        else if (z == z.p.left) z.p.left = null;             // 第 4-5 行
+        else z.p.right = null;                               // 第 6-7 行
+        z.p = null;                                          // 课件没写：删完清指针
+        return root;
+    }
+}
+```
+
+```python [Python]
+# Node 见 §5.2 组
+
+
+def delete_leaf(root, z):                               # case 1：叶子
+    if z.left is not None or z.right is not None: return root  # 第 1 行
+    if z.p is None: root = None                          # 第 2 行：z 是根
+    elif z is z.p.left: z.p.left = None                  # 第 4-5 行
+    else: z.p.right = None                               # 第 6-7 行
+    z.p = None                                           # 课件没写：删完清指针
+    return root
+```
+
+```cpp [C++]
+// Node 见 §5.2 组
+
+Node *deleteLeaf(Node *root, Node *z) {          // case 1：叶子
+    if (z->left != NULL || z->right != NULL) return root;  // 第 1 行
+    if (z->p == NULL) root = NULL;                         // 第 2 行：z 是根
+    else if (z == z->p->left) z->p->left = NULL;           // 第 4-5 行
+    else z->p->right = NULL;                               // 第 6-7 行
+    z->p = NULL;                                           // 课件没写：删完清指针
+    return root;
+}
+```
+
+```c [C]
+/* Node 见 §5.2 组 */
+
+Node *deleteLeaf(Node *root, Node *z) {          /* case 1：叶子 */
+    if (z->left != NULL || z->right != NULL) return root;  /* 第 1 行 */
+    if (z->p == NULL) root = NULL;                         /* 第 2 行：z 是根 */
+    else if (z == z->p->left) z->p->left = NULL;           /* 第 4-5 行 */
+    else z->p->right = NULL;                               /* 第 6-7 行 */
+    z->p = NULL;                                           /* 课件没写：删完清指针 */
+    return root;
+}
+```
+
+:::
+
 第 1 行判"两个指针都空"；第 2 行处理根（`p[z] = NIL` 说明 $z$ 是根）；第 4-7 行按"$z$ 是左孩子还是右孩子"改对应的那个指针。**逻辑完全正确，没有 bug。**
 
 两处小瑕疵。**其一，`=` 一会儿当比较、一会儿当赋值。** 第 1、2、4 行的 `=` 是比较，第 5、7 行的 `=` 是赋值。伪代码里这种混用很常见，但它会在 p.22 第 8 行真的变成一个 bug（§12.5）。**其二，删完没有清 $z$ 自己的三个指针。** 工程上要么 `free(z)`/交给 GC，要么把 `left[z]`、`right[z]`、`p[z]` 置 NIL，否则 $z$ 还挂着整棵子树，会造成"看起来已经删了、其实还引用着"的内存泄漏（Java 里如果外部还有引用，整棵子树都不会被回收）。
@@ -763,7 +1025,7 @@ $$
 
 p.21 是一页两段，结构完全对称：
 
-```
+```text
 1.  if left[z] = NIL and right[z] != NIL        // z has one right child
 2.      y = right[z]
 3.      if p[z] = NIL
@@ -786,6 +1048,80 @@ p.21 是一页两段，结构完全对称：
 20.             right[p[z]] = y
 ```
 
+同一段的四语言写法（行号仍指上面这段原文；根的情形补上了 `p[y] = NIL`，见 §12.3）：
+
+::: code-group
+
+```java [Java]
+// Node 见 §5.2 组
+class BST {
+    static Node deleteOne(Node root, Node z) {           // case 2：一个孩子
+        Node y = (z.left != null) ? z.left : z.right;    // 第 2 / 12 行
+        if (z.p == null) {                               // 第 3-4 行：z 是根
+            root = y; y.p = null;                        // 补：课件漏了 p[y]=NIL
+        } else {
+            y.p = z.p;                                   // 第 6 / 16 行
+            if (z == z.p.left) z.p.left = y;             // 第 7-8 行
+            else z.p.right = y;                          // 第 9-10 行
+        }
+        z.left = z.right = z.p = null;
+        return root;
+    }
+}
+```
+
+```python [Python]
+# Node 见 §5.2 组
+
+
+def delete_one(root, z):                          # case 2：一个孩子
+    y = z.left if z.left is not None else z.right     # 第 2 / 12 行
+    if z.p is None:                                   # 第 3-4 行：z 是根
+        root, y.p = y, None                           # 补：课件漏了 p[y]=NIL
+    else:
+        y.p = z.p                                     # 第 6 / 16 行
+        if z is z.p.left: z.p.left = y                # 第 7-8 行
+        else: z.p.right = y                           # 第 9-10 行
+    z.left = z.right = z.p = None
+    return root
+```
+
+```cpp [C++]
+// Node 见 §5.2 组
+
+Node *deleteOne(Node *root, Node *z) {             // case 2：一个孩子
+    Node *y = (z->left != NULL) ? z->left : z->right;   // 第 2 / 12 行
+    if (z->p == NULL) {                                 // 第 3-4 行：z 是根
+        root = y; y->p = NULL;                          // 补：课件漏了 p[y]=NIL
+    } else {
+        y->p = z->p;                                    // 第 6 / 16 行
+        if (z == z->p->left) z->p->left = y;            // 第 7-8 行
+        else z->p->right = y;                           // 第 9-10 行
+    }
+    z->left = z->right = z->p = NULL;
+    return root;
+}
+```
+
+```c [C]
+/* Node 见 §5.2 组 */
+
+Node *deleteOne(Node *root, Node *z) {             /* case 2：一个孩子 */
+    Node *y = (z->left != NULL) ? z->left : z->right;   /* 第 2 / 12 行 */
+    if (z->p == NULL) {                                 /* 第 3-4 行：z 是根 */
+        root = y; y->p = NULL;                          /* 补：课件漏了 p[y]=NIL */
+    } else {
+        y->p = z->p;                                    /* 第 6 / 16 行 */
+        if (z == z->p->left) z->p->left = y;            /* 第 7-8 行 */
+        else z->p->right = y;                           /* 第 9-10 行 */
+    }
+    z->left = z->right = z->p = NULL;
+    return root;
+}
+```
+
+:::
+
 两段只差第 2 行与第 12 行的 `right`/`left`。第 6 行（及第 16 行）的 `p[y] = p[z]` 就是 §11.3 说的"第二件事"——把孩子的父亲改成祖父。
 
 **注意第 11 行：它用的是 `if` 而不是 `else if`。** 这在本段代码里是安全的：第 1 行的条件（`left` 空且 `right` 非空）与第 11 行的条件（`left` 非空且 `right` 空）互斥，不可能同时成立。但如果有人把它当成"三段代码拼起来"复制到别处，忘了这个前提，就会出问题。写成 `else if` 更稳。
@@ -794,7 +1130,7 @@ p.21 是一页两段，结构完全对称：
 
 现在看第 3-4 行与第 13-14 行：
 
-```
+```text
 3.  if p[z] = NIL
 4.      root[T] = y
 ```
@@ -816,7 +1152,7 @@ $z$ 是根，$y$ 是它唯一的孩子，于是 $y$ 变成新根。**但第 6 �
 
 p.22 是全讲最难的一页（我把这一页单独按 500 dpi 重渲了一遍逐字核对，行号与缩进如下）：
 
-```
+```text
 1.  if left[z] != NIL and right[z] != NIL        // z has two children
 2.      y <- TREE-SUCCESSOR(z)                    // left-most node in right tree
 3.      if p[y] = z
@@ -832,6 +1168,91 @@ p.22 是全讲最难的一页（我把这一页单独按 500 dpi 重渲了一遍
 13.             left[p[y]] <- x
 14.     key[z] <- key[y]                          // copy y's data into z
 ```
+
+同一段的四语言写法（行号仍指上面这段原文；第 8 行按语义读成 `== NIL`，其余照抄，见 §12.5）：
+
+::: code-group
+
+```java [Java]
+// Node 见 §5.2 组；successor 见 §7.4 组
+class BST {
+    static Node deleteTwo(Node root, Node z) {            // case 3：两个孩子
+        Node y = successor(z);                            // 第 2 行：右子树最左
+        if (y.p == z) {                                   // 第 3 行：y 就是 z 的右孩子
+            z.right = y.right;                            // 第 4 行
+            if (y.right != null) y.right.p = z;           // 第 5-6 行
+        } else if (y.right == null) {                     // 第 8-9 行
+            y.p.left = null;                              // 原文第 8 行写作 =
+        } else {                                          // 第 10-13 行
+            Node x = y.right;
+            x.p = y.p; y.p.left = x;
+        }
+        z.key = y.key;                                    // 第 14 行：copy y's data
+        y.left = y.right = y.p = null;
+        return root;
+    }
+}
+```
+
+```python [Python]
+# Node 见 §5.2 组；successor 见 §7.4 组
+
+
+def delete_two(root, z):                          # case 3：两个孩子
+    y = successor(z)                                # 第 2 行：右子树最左
+    if y.p is z:                                    # 第 3 行：y 就是 z 的右孩子
+        z.right = y.right                           # 第 4 行
+        if y.right is not None: y.right.p = z       # 第 5-6 行
+    elif y.right is None: y.p.left = None           # 第 8-9 行（原文第 8 行写作 =）
+    else:                                           # 第 10-13 行
+        x = y.right
+        x.p, y.p.left = y.p, x
+    z.key = y.key                                   # 第 14 行：copy y's data
+    y.left = y.right = y.p = None
+    return root
+```
+
+```cpp [C++]
+// Node 见 §5.2 组；successor 见 §7.4 组
+
+Node *deleteTwo(Node *root, Node *z) {            // case 3：两个孩子
+    Node *y = successor(z);                          // 第 2 行：右子树最左
+    if (y->p == z) {                                 // 第 3 行：y 就是 z 的右孩子
+        z->right = y->right;                         // 第 4 行
+        if (y->right != NULL) y->right->p = z;       // 第 5-6 行
+    } else if (y->right == NULL) {                   // 第 8-9 行
+        y->p->left = NULL;                           // 原文第 8 行写作 =
+    } else {                                         // 第 10-13 行
+        Node *x = y->right;
+        x->p = y->p; y->p->left = x;
+    }
+    z->key = y->key;                                 // 第 14 行：copy y's data
+    y->left = y->right = y->p = NULL;
+    return root;
+}
+```
+
+```c [C]
+/* Node 见 §5.2 组；successor 见 §7.4 组 */
+
+Node *deleteTwo(Node *root, Node *z) {            /* case 3：两个孩子 */
+    Node *y = successor(z);                          /* 第 2 行：右子树最左 */
+    if (y->p == z) {                                 /* 第 3 行：y 就是 z 的右孩子 */
+        z->right = y->right;                         /* 第 4 行 */
+        if (y->right != NULL) y->right->p = z;       /* 第 5-6 行 */
+    } else if (y->right == NULL) {                   /* 第 8-9 行 */
+        y->p->left = NULL;                           /* 原文第 8 行写作 = */
+    } else {                                         /* 第 10-13 行 */
+        Node *x = y->right;
+        x->p = y->p; y->p->left = x;
+    }
+    z->key = y->key;                                 /* 第 14 行：copy y's data */
+    y->left = y->right = y->p = NULL;
+    return root;
+}
+```
+
+:::
 
 先看骨架：**第 3 行的 `if p[y] = z` 把两种情形分开了。**
 
@@ -851,7 +1272,7 @@ p.22 是全讲最难的一页（我把这一页单独按 500 dpi 重渲了一遍
 
 第 8 行写的是：
 
-```
+```text
 8.  if right[y] = NIL
 ```
 
@@ -867,9 +1288,9 @@ p.22 是全讲最难的一页（我把这一页单独按 500 dpi 重渲了一遍
 
 **这两种读法都是"把课件代码抄下来"的合法结果，而它们都错。** 所以第 8 行是一个必须改的 bug：正确写法是 `if right[y] = NIL` 里的 `=` 改成 `==`（或干脆写成 `if right[y] == NIL` / `if not right[y]`）。
 
-**顺带说一句更根本的话：这一段的"两个分支"其实可以写成更对称的形式**，也就不容易出现这种错：
+**顺带说一句更根本的话：这一段的"两个分支"其实可以写成更对称的形式**，也就不容易出现这种错（这段保持伪代码、不落成真码——本小节讨论的正是"伪代码里的 `=` 该读成什么"，换成真码就看不到那个符号了）：
 
-```
+```text
 if p[y] = z                       // y 就是 z 的右孩子
     right[z] <- right[y]
     if right[y] != NIL: p[right[y]] <- z
@@ -909,7 +1330,7 @@ key[z] <- key[y]
 
 **正确版本**（V1，只改第 8 行一个字符）：
 
-```
+```text
 1.  if left[z] != NIL and right[z] != NIL
 2.      y <- TREE-SUCCESSOR(z)
 3.      if p[y] = z
@@ -928,9 +1349,9 @@ key[z] <- key[y]
 
 改完之后，$1270$ 次试验零失败。**顺带说明：这也验证了第 3 行的分支结构本身是对的**——"分支 A 只碰 `right[z]`、分支 B 只碰 `left[p[y]]`"这个看似不对称的写法，在两种情形下都成立（分支 B 里 $y$ 必为左孩子，§12.4 已证且 $588$ 次实测无例外）。
 
-**【补】如果让我重写这一段，我会按 CLRS 的 transplant 写**，因为 copy-deletion 除了上面这些坑，还有 §11.5 说的"外部指针悬空"问题。CLRS 的版本是：
+**【补】如果让我重写这一段，我会按 CLRS 的 transplant 写**，因为 copy-deletion 除了上面这些坑，还有 §11.5 说的"外部指针悬空"问题。CLRS 的版本是（它依赖课件没给出的 `TRANSPLANT` 子程序，所以按原文保留、不落成真码）：
 
-```
+```text
 if y.p != z                       // y 在更深处
     TRANSPLANT(T, y, y.right)     // 用 y 的右孩子顶替 y
     y.right = z.right
@@ -1068,6 +1489,53 @@ int Mytree::count_leaf(TreeNode* p)
 }
 ```
 
+同一个函数换成四语言、签名按 §16.3 的建议改齐（`Node` + `countLeaf`/`count_leaf`），逐字逻辑不变：
+
+::: code-group
+
+```java [Java]
+// Node 见 §5.2 组
+class BST {
+    static int countLeaf(Node p) {
+        if (p == null) return 0;                          // 空树没有叶子
+        if (p.left == null && p.right == null) return 1;   // 叶子
+        return countLeaf(p.left) + countLeaf(p.right);
+    }
+}
+```
+
+```python [Python]
+# Node 见 §5.2 组
+
+
+def count_leaf(p):
+    if p is None: return 0                          # 空树没有叶子
+    if p.left is None and p.right is None: return 1  # 叶子
+    return count_leaf(p.left) + count_leaf(p.right)
+```
+
+```cpp [C++]
+// Node 见 §5.2 组
+
+int countLeaf(Node *p) {
+    if (p == NULL) return 0;                          // 空树没有叶子
+    if (p->left == NULL && p->right == NULL) return 1;  // 叶子
+    return countLeaf(p->left) + countLeaf(p->right);
+}
+```
+
+```c [C]
+/* Node 见 §5.2 组 */
+
+int countLeaf(Node *p) {
+    if (p == NULL) return 0;                          /* 空树没有叶子 */
+    if (p->left == NULL && p->right == NULL) return 1;  /* 叶子 */
+    return countLeaf(p->left) + countLeaf(p->right);
+}
+```
+
+:::
+
 四个例子（从左到右）：空树 0 片叶子；单结点树 1 片；两个结点的链 1 片；六个结点的一棵树 3 片。
 
 ### 16.1 三个分支为什么恰好覆盖全部结点
@@ -1184,13 +1652,86 @@ insert 的情况更微妙，因为**两个键都是新来的**，没有"删谁"�
 
 p.28 的伪代码五行：
 
-```
+```text
 1.  Sort(A[ ])
 2.      initialize a BST T
 3.      for i = 1 to n
 4.          insert(A[i]) into T
 5.      inorder-tree-walk(T)
 ```
+
+同一算法的四语言写法（`for i = 1 to n` 改成了 0-based，见诚实备注一.8）：
+
+::: code-group
+
+```java [Java]
+// Node 见 §5.2 组；insert 见 §9.3 组
+class BST {
+    static void inorder(Node x, int[] out, int[] n) {
+        if (x == null) return;
+        inorder(x.left, out, n); out[n[0]++] = x.key; inorder(x.right, out, n);
+    }
+    static void treeSort(int[] a) {
+        Node root = null;                                  // 第 2 行：initialize a BST T
+        for (int i = 0; i < a.length; i++)                  // 第 3-4 行：A 从 0 开始
+            root = insert(root, new Node(a[i]));
+        int[] n = {0};
+        inorder(root, a, n);                                // 第 5 行
+    }
+}
+```
+
+```python [Python]
+# Node 见 §5.2 组；insert 见 §9.3 组
+
+
+def inorder(x, out):
+    if x is None: return
+    inorder(x.left, out); out.append(x.key); inorder(x.right, out)
+
+
+def tree_sort(a):
+    root = None                                     # 第 2 行：initialize a BST T
+    for v in a:                                     # 第 3-4 行：A 从 0 开始
+        root = insert(root, Node(v))
+    out = []
+    inorder(root, out)                              # 第 5 行
+    return out
+```
+
+```cpp [C++]
+// Node 见 §5.2 组；insert 见 §9.3 组
+
+void inorder(Node *x, int *out, int &n) {
+    if (x == NULL) return;
+    inorder(x->left, out, n); out[n++] = x->key; inorder(x->right, out, n);
+}
+void treeSort(int *a, int len) {
+    Node *root = NULL;                               // 第 2 行：initialize a BST T
+    for (int i = 0; i < len; i++)                    // 第 3-4 行：A 从 0 开始
+        root = insert(root, new Node(a[i]));
+    int n = 0;
+    inorder(root, a, n);                             // 第 5 行
+}
+```
+
+```c [C]
+/* Node 见 §5.2 组；insert 见 §9.3 组 */
+
+void inorder(Node *x, int *out, int *n) {
+    if (x == NULL) return;
+    inorder(x->left, out, n); out[(*n)++] = x->key; inorder(x->right, out, n);
+}
+void treeSort(int *a, int len) {
+    Node *root = NULL;                               /* 第 2 行：initialize a BST T */
+    for (int i = 0; i < len; i++)                    /* 第 3-4 行：A 从 0 开始 */
+        root = insert(root, newNode(a[i]));
+    int n = 0;
+    inorder(root, a, &n);                            /* 第 5 行 */
+}
+```
+
+:::
 
 思路简单到一句话：**把数组里的键一个个插进 BST，再中序遍历输出。** 正确性直接来自 §2.4 的等价链：BST 的中序是升序，所以输出就是排好序的数组。
 

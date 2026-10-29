@@ -1,5 +1,5 @@
 ---
-title: Lecture 2 Java 基础（Java Basics）
+title: Lecture 2 Java Basics（Java 基础）
 course: CSC3100 Data Structures
 lecture: Lecture 2 - Java Basics
 date: 2026-09-09
@@ -113,9 +113,11 @@ tags: [CSC3100, java, jdk, jvm, jre, class, object, method, exception, lecture-n
 ### 2.3 第一个程序的三行骨架（p.9）
 
 ```java
-class Welcome { … }                              // 1. 声明一个名为 Welcome 的类
-public static void main(String args[ ]) { … }    // 2. 声明 main 方法
-System.out.println("Welcome to Java!");          // 3. 往控制台打印一行
+class Welcome {                                   // 1. 声明一个名为 Welcome 的类
+    public static void main(String[] args) {      // 2. 声明 main 方法
+        System.out.println("Welcome to Java!");   // 3. 往控制台打印一行
+    }
+}
 ```
 
 课件对第二条只加了一句："Java 的 main 方法是任何 Java 程序的入口（entry point）。"这句话背后的机制值得拆开，因为后面每段代码都要套这个壳。
@@ -320,7 +322,7 @@ class Guru99 {
 ```java
 double radians;
 int degrees;
-…
+radians = 1.0;                       // 先给 radians 赋一个值（课件此处省略）
 degrees = radians * 180 / 3.14159265;               // Error
 degrees = (int) (radians * 180 / 3.14159265);       // OK
 ```
@@ -364,9 +366,9 @@ String a = "abc";
 String b = "abc";
 String c = new String("abc");
 
-a == b              // true  —— 两个字面量指向常量池里同一个对象
-a == c              // false —— new 一定在堆上造一个新对象
-a.equals(c)         // true  —— equals 比的是内容
+System.out.println(a == b);      // true  —— 两个字面量指向常量池里同一个对象
+System.out.println(a == c);      // false —— new 一定在堆上造一个新对象
+System.out.println(a.equals(c)); // true  —— equals 比的是内容
 ```
 
 第一行为什么是 `true`？因为源码里的字符串字面量（literal）被放进**字符串常量池（string constant pool）**，同样的字面量只存一份，`a` 与 `b` 拿到同一个地址；而 `new String("abc")` 明确要求"再造一个"，于是堆上多了一个内容相同、地址不同的对象。
@@ -438,7 +440,7 @@ else
 ```java
 int x, y;
 boolean b;
-…
+x = 1; y = 2; b = false;             // 先赋初值（课件此处省略）
 if ((x <= 9 || y > 3) && !b) {
     b = true;
 }
@@ -901,7 +903,9 @@ p.45 给了一条快捷键（`Shift + Ctrl + O` 自动导入包）与三个自�
 
 ### 14.1 斐波那契：循环版（p.47-48）
 
-```java
+::: code-group
+
+```java [Java]
 class FibonacciExample1
 {
     public static void main(String args[])
@@ -920,13 +924,62 @@ class FibonacciExample1
 }
 ```
 
+```python [Python]
+n1, n2, count = 0, 1, 10
+print(str(n1) + " " + str(n2), end="")   # printing 0 and 1
+
+for i in range(2, count):                # loop starts from 2 because 0 and 1 are already printed
+    n3 = n1 + n2
+    print(" " + str(n3), end="")
+    n1 = n2
+    n2 = n3
+```
+
+```cpp [C++]
+#include <iostream>
+
+int main() {
+    int n1 = 0, n2 = 1, n3, i, count = 10;
+    std::cout << n1 << " " << n2;        // printing 0 and 1
+
+    for (i = 2; i < count; ++i) {        // loop starts from 2 because 0 and 1 are already printed
+        n3 = n1 + n2;
+        std::cout << " " << n3;
+        n1 = n2;
+        n2 = n3;
+    }
+    return 0;
+}
+```
+
+```c [C]
+#include <stdio.h>
+
+int main(void) {
+    int n1 = 0, n2 = 1, n3, i, count = 10;
+    printf("%d %d", n1, n2);             /* printing 0 and 1 */
+
+    for (i = 2; i < count; ++i) {        /* loop starts from 2 because 0 and 1 are already printed */
+        n3 = n1 + n2;
+        printf(" %d", n3);
+        n1 = n2;
+        n2 = n3;
+    }
+    return 0;
+}
+```
+
+:::
+
 循环体四行是一个"滑动窗口"：算出新项、打印、把窗口往后挪一格。**`n1 = n2; n2 = n3;` 的顺序不能颠倒**——先写 `n2 = n3` 的话，`n1` 拿到的就是新值，两个变量会变成同一个数。输出是 `0 1 1 2 3 5 8 13 21 34`：`count = 10` 是要打印的项数，前两项已打印，所以循环从 `i = 2` 起跑 8 次。
 
 【补】这是斐波那契的最优迭代解：三个变量、$O(n)$ 时间、$O(1)$ 空间；它也是后面"动态规划"的雏形——每项只依赖前两项。
 
 ### 14.2 斐波那契：递归版（p.49）
 
-```java
+::: code-group
+
+```java [Java]
 class FibonacciExample2
 {
     static int n1 = 0, n2 = 1, n3 = 0;
@@ -950,13 +1003,80 @@ class FibonacciExample2
 }
 ```
 
+```python [Python]
+n1, n2, n3 = 0, 1, 0
+
+def printFibonacci(count):
+    global n1, n2, n3
+    if count > 0:
+        n3 = n1 + n2
+        n1 = n2
+        n2 = n3
+        print(" " + str(n3), end="")
+        printFibonacci(count - 1)
+
+count = 10
+print(str(n1) + " " + str(n2), end="")   # printing 0 and 1
+printFibonacci(count - 2)                # n-2 because 2 numbers are already printed
+```
+
+```cpp [C++]
+#include <iostream>
+
+static int n1 = 0, n2 = 1, n3 = 0;
+
+static void printFibonacci(int count) {
+    if (count > 0) {
+        n3 = n1 + n2;
+        n1 = n2;
+        n2 = n3;
+        std::cout << " " << n3;
+        printFibonacci(count - 1);
+    }
+}
+
+int main() {
+    int count = 10;
+    std::cout << n1 << " " << n2;   // printing 0 and 1
+    printFibonacci(count - 2);      // n-2 because 2 numbers are already printed
+    return 0;
+}
+```
+
+```c [C]
+#include <stdio.h>
+
+static int n1 = 0, n2 = 1, n3 = 0;
+
+static void printFibonacci(int count) {
+    if (count > 0) {
+        n3 = n1 + n2;
+        n1 = n2;
+        n2 = n3;
+        printf(" %d", n3);
+        printFibonacci(count - 1);
+    }
+}
+
+int main(void) {
+    int count = 10;
+    printf("%d %d", n1, n2);   /* printing 0 and 1 */
+    printFibonacci(count - 2); /* n-2 because 2 numbers are already printed */
+    return 0;
+}
+```
+
+:::
+
 【补】三点：① 递归调用是方法体最后一句（尾递归），计算量与 §14.1 相同——真正的递归版 `fib(n)=fib(n-1)+fib(n-2)` 才是指数级 $O(2^n)$ 的，别拿这个版本当"递归慢"的证据；② `n1`、`n2`、`n3` 必须 `static`，否则无法跨调用保存状态（副作用是只能算一次）；③ `if(count > 0)` 是终止条件，缺了就是无限递归、最后 `StackOverflowError`。
 
 ### 14.3 最大公因数：暴力版（p.50-51）
 
 （原页还有 `class gcd1` 外壳与 `main`，这里只摘方法体。）
 
-```java
+::: code-group
+
+```java [Java]
 static int gcdByBruteForce(int n1, int n2) {
     int gcd = 1;
     for (int i = 1; i <= n1 && i <= n2; i++)
@@ -965,13 +1085,44 @@ static int gcdByBruteForce(int n1, int n2) {
 }
 ```
 
+```python [Python]
+def gcdByBruteForce(n1, n2):
+    gcd = 1
+    for i in range(1, min(n1, n2) + 1):      # i <= n1 && i <= n2
+        if n1 % i == 0 and n2 % i == 0:
+            gcd = i
+    return gcd
+```
+
+```cpp [C++]
+int gcdByBruteForce(int n1, int n2) {
+    int gcd = 1;
+    for (int i = 1; i <= n1 && i <= n2; i++)
+        if (n1 % i == 0 && n2 % i == 0) gcd = i;
+    return gcd;
+}
+```
+
+```c [C]
+int gcdByBruteForce(int n1, int n2) {
+    int gcd = 1;
+    for (int i = 1; i <= n1 && i <= n2; i++)
+        if (n1 % i == 0 && n2 % i == 0) gcd = i;
+    return gcd;
+}
+```
+
+:::
+
 `i <= n1 && i <= n2` 就是 $i \le \min(n_1,n_2)$；凡是能同时整除两者的就记下来，**最后记下的就是最大的**（因为从小到大试）。输出 `GCD of 15 and 5 is: 5`。
 
 【补】p.50 说"从较小的数**往下**试"，代码从 1 **往上**试——两种都对（一个留首个命中、一个留最后命中），但方向相反。复杂度 $O(\min(a,b))$，这正是算法二要解决的。
 
 ### 14.4 最大公因数：欧几里得算法（p.52）
 
-```java
+::: code-group
+
+```java [Java]
 public class gcd2 {
     static int gcdByEuclidsAlgorithm(int n1, int n2) {
         if (n2 == 0) {
@@ -986,6 +1137,55 @@ public class gcd2 {
     }
 }
 ```
+
+```python [Python]
+def gcdByEuclidsAlgorithm(n1, n2):
+    if n2 == 0:
+        return n1
+    return gcdByEuclidsAlgorithm(n2, n1 % n2)
+
+a, b = 15, 5
+g = gcdByEuclidsAlgorithm(a, b)
+print("GCD of " + str(a) + " and " + str(b) + " is: " + str(g))
+```
+
+```cpp [C++]
+#include <iostream>
+
+static int gcdByEuclidsAlgorithm(int n1, int n2) {
+    if (n2 == 0) {
+        return n1;
+    }
+    return gcdByEuclidsAlgorithm(n2, n1 % n2);
+}
+
+int main() {
+    int a = 15, b = 5;
+    int g = gcdByEuclidsAlgorithm(a, b);
+    std::cout << "GCD of " << a << " and " << b << " is: " << g << std::endl;
+    return 0;
+}
+```
+
+```c [C]
+#include <stdio.h>
+
+static int gcdByEuclidsAlgorithm(int n1, int n2) {
+    if (n2 == 0) {
+        return n1;
+    }
+    return gcdByEuclidsAlgorithm(n2, n1 % n2);
+}
+
+int main(void) {
+    int a = 15, b = 5;
+    int g = gcdByEuclidsAlgorithm(a, b);
+    printf("GCD of %d and %d is: %d\n", a, b, g);
+    return 0;
+}
+```
+
+:::
 
 用到 $\gcd(n_1,n_2) = \gcd(n_2,\ n_1 \bmod n_2)$。跟踪 $\gcd(20,15)$：`gcd(20,15) → gcd(15,5) → gcd(5,0) → 5`。
 
@@ -1031,7 +1231,9 @@ public class PrimeExample
 
 ### 14.6 回文数（p.55-56）
 
-```java
+::: code-group
+
+```java [Java]
 class PalindromeExample
 {
     public static void main(String args[])
@@ -1053,6 +1255,65 @@ class PalindromeExample
     }
 }
 ```
+
+```python [Python]
+sum = 0
+n = 454          # It is the number variable to be checked for palindrome
+
+temp = n
+while n > 0:
+    r = n % 10   # getting remainder
+    sum = (sum * 10) + r
+    n = n // 10
+if temp == sum:
+    print("palindrome number ")
+else:
+    print("not palindrome")
+```
+
+```cpp [C++]
+#include <iostream>
+
+int main() {
+    int r, sum = 0, temp;
+    int n = 454;   // It is the number variable to be checked for palindrome
+
+    temp = n;
+    while (n > 0) {
+        r = n % 10;              // getting remainder
+        sum = (sum * 10) + r;
+        n = n / 10;
+    }
+    if (temp == sum)
+        std::cout << "palindrome number " << std::endl;
+    else
+        std::cout << "not palindrome" << std::endl;
+    return 0;
+}
+```
+
+```c [C]
+#include <stdio.h>
+
+int main(void) {
+    int r, sum = 0, temp;
+    int n = 454;   /* It is the number variable to be checked for palindrome */
+
+    temp = n;
+    while (n > 0) {
+        r = n % 10;              /* getting remainder */
+        sum = (sum * 10) + r;
+        n = n / 10;
+    }
+    if (temp == sum)
+        printf("palindrome number \n");
+    else
+        printf("not palindrome\n");
+    return 0;
+}
+```
+
+:::
 
 核心三行：`r = n % 10` 取最低位；`sum = sum * 10 + r` 把结果左移一位再补这一位；`n = n / 10` 砍掉最低位。454 的三轮是 `(r=4,sum=4,n=45)`、`(5,45,4)`、`(4,454,0)`，退出后 `sum == temp`。
 
@@ -1102,7 +1363,7 @@ public static void main(String[] String)   // 参数名与类型同名
 {
     int ch1 = 'a';                          // 仍然没有 (int)
     int ch2 = 'b';
-    ...
+    // 其余打印语句与 p.62 相同（课件此处省略）
 }
 ```
 
@@ -1191,7 +1452,9 @@ public class changeCase
 
 ### 14.13 字符串旋转（p.70-71）
 
-```java
+::: code-group
+
+```java [Java]
 public class StringRotation
 {
     public static void main(String[] args)
@@ -1213,6 +1476,64 @@ public class StringRotation
     }
 }
 ```
+
+```python [Python]
+str1, str2 = "abcde", "deabc"
+
+if len(str1) != len(str2):
+    print("Second string is not a rotation of first string")
+else:
+    str1 = str1 + str1
+    if str1.find(str2) != -1:
+        print("Second string is a rotation of first string")
+    else:
+        print("Second string is not a rotation of first string")
+```
+
+```cpp [C++]
+#include <iostream>
+#include <string>
+
+int main() {
+    std::string str1 = "abcde", str2 = "deabc";
+
+    if (str1.length() != str2.length()) {
+        std::cout << "Second string is not a rotation of first string" << std::endl;
+    } else {
+        str1 = str1 + str1;
+        if (str1.find(str2) != std::string::npos)
+            std::cout << "Second string is a rotation of first string" << std::endl;
+        else
+            std::cout << "Second string is not a rotation of first string" << std::endl;
+    }
+    return 0;
+}
+```
+
+```c [C]
+#include <stdio.h>
+#include <string.h>
+
+int main(void) {
+    char str1[64] = "abcde";
+    const char *str2 = "deabc";
+
+    if (strlen(str1) != strlen(str2)) {
+        printf("Second string is not a rotation of first string\n");
+    } else {
+        char doubled[64];
+        strcpy(doubled, str1);           /* C 里不能 strcat(str1, str1)：重叠复制是未定义行为 */
+        strcat(doubled, str1);           /* doubled = str1 + str1 */
+        if (strstr(doubled, str2) != NULL)
+            printf("Second string is a rotation of first string\n");
+        else
+            printf("Second string is not a rotation of first string\n");
+    }
+    return 0;
+}
+```
+
+:::
 
 输出 `Second string is a rotation of first string`。
 

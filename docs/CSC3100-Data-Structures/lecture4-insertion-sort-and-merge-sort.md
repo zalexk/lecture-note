@@ -1,5 +1,5 @@
 ---
-title: Lecture 4 插入排序与归并排序（Insertion Sort and Merge Sort）
+title: Lecture 4 Insertion Sort and Merge Sort（插入排序与归并排序）
 course: CSC3100 Data Structures
 lecture: Lecture 4 - Insertion Sort and Merge Sort
 date: 2026-09-16
@@ -122,7 +122,7 @@ p.4 还有一行被下划线强调的话：**"a simple algorithm for a small num
 
 ### 3.1 逐行读
 
-第 6 页给的是 CLRS 3rd ed 第 18 页的原版伪代码，一字未改：
+第 6 页给的是 CLRS 3rd ed 第 18 页的原版伪代码，一字未改。这里保留伪代码而不翻成真码，因为 §3.1 逐行讲的正是它的行号（第 1-8 行）与 `▷` 注释，换成任何一门语言的代码，"第 3 行成本记 0"这类对照就失去落点：
 
 ```text
 INSERTION-SORT(A)
@@ -421,7 +421,9 @@ $$
 
 课件的例子是 $f(x) = 2f(x-1) + x^2$，基例 $f(0)=0$：
 
-```java
+::: code-group
+
+```java [Java]
 public int f( int x ) {
     if ( x == 0 )
         return 0;
@@ -429,6 +431,34 @@ public int f( int x ) {
         return 2 * f( x - 1 ) + x*x;
 }
 ```
+
+```python [Python]
+def f(x):
+    if x == 0:
+        return 0
+    else:
+        return 2 * f(x - 1) + x * x
+```
+
+```cpp [C++]
+int f(int x) {
+    if (x == 0)
+        return 0;
+    else
+        return 2 * f(x - 1) + x * x;
+}
+```
+
+```c [C]
+int f(int x) {
+    if (x == 0)
+        return 0;
+    else
+        return 2 * f(x - 1) + x * x;
+}
+```
+
+:::
 
 手算前几项：$f(0)=0$、$f(1)=1$、$f(2)=6$、$f(3)=21$、$f(4)=58$、$f(5)=141$、$f(6)=318$。每一项只用前一项，这就是"子问题的解组合成大问题的解"。
 
@@ -444,7 +474,9 @@ public int f( int x ) {
 
 ### 6.3 `bad(N)` 为什么永远到不了基例（p.16）
 
-```java
+::: code-group
+
+```java [Java]
 public static int bad (int N)
 {
     if (N == 0)
@@ -453,6 +485,36 @@ public static int bad (int N)
         return bad (N / 3 + 1) + N - 1;
 }
 ```
+
+```python [Python]
+def bad(N):
+    if N == 0:
+        return 0
+    else:
+        return bad(N // 3 + 1) + N - 1
+```
+
+```cpp [C++]
+int bad(int N)
+{
+    if (N == 0)
+        return 0;
+    else
+        return bad(N / 3 + 1) + N - 1;
+}
+```
+
+```c [C]
+int bad(int N)
+{
+    if (N == 0)
+        return 0;
+    else
+        return bad(N / 3 + 1) + N - 1;
+}
+```
+
+:::
 
 Java 的整数除法在 $N \ge 0$ 时就是向下取整，逐种情况看：
 
@@ -485,9 +547,11 @@ L3 §1.5 讲过：调用方法时 Java 会分配一块**栈帧**（stack frame�
 
 ### 7.2 代码（【补】）
 
-课件只给文字描述，补一份 0-based Java 版本：
+课件只给文字描述，补一份 0-based 的四语言实现：
 
-```java
+::: code-group
+
+```java [Java]
 // 排好 a[0..n-1]
 static void insertionSort(int[] a, int n) {
     if (n <= 1) return;                  // 基例：0 个或 1 个元素，天然有序
@@ -500,6 +564,50 @@ static void insertionSort(int[] a, int n) {
     a[i + 1] = key;
 }
 ```
+
+```python [Python]
+# 排好 a[0..n-1]
+def insertion_sort(a, n):
+    if n <= 1:
+        return                           # 基例：0 个或 1 个元素，天然有序
+    insertion_sort(a, n - 1)             # 递归：前 n-1 个已经有序
+    key = a[n - 1]
+    i = n - 2                            # 把最后一个元素插进去
+    while i >= 0 and a[i] > key:
+        a[i + 1] = a[i]
+        i -= 1
+    a[i + 1] = key
+```
+
+```cpp [C++]
+// 排好 a[0..n-1]
+void insertionSort(std::vector<int>& a, int n) {
+    if (n <= 1) return;                  // 基例：0 个或 1 个元素，天然有序
+    insertionSort(a, n - 1);             // 递归：前 n-1 个已经有序
+    int key = a[n - 1], i = n - 2;       // 把最后一个元素插进去
+    while (i >= 0 && a[i] > key) {
+        a[i + 1] = a[i];
+        i--;
+    }
+    a[i + 1] = key;
+}
+```
+
+```c [C]
+// 排好 a[0..n-1]
+void insertionSort(int* a, int n) {
+    if (n <= 1) return;                  // 基例：0 个或 1 个元素，天然有序
+    insertionSort(a, n - 1);             // 递归：前 n-1 个已经有序
+    int key = a[n - 1], i = n - 2;       // 把最后一个元素插进去
+    while (i >= 0 && a[i] > key) {
+        a[i + 1] = a[i];
+        i--;
+    }
+    a[i + 1] = key;
+}
+```
+
+:::
 
 三处细节：**基例写 `n <= 1` 而不是 `n == 1`**（$n=0$ 也要能返回，空数组）；**内层 `while` 与迭代版逐字相同**（改的只是外层控制流）；**递归深度是 $n$**（对 $n=10^5$ 会栈溢出，所以工程上没人这么写，它在这里的唯一作用是把递归讲清楚）。
 
@@ -586,6 +694,8 @@ p.18 的图画出初始状态（A 上有三个盘，从上到下编号 1、2、3
 ### 10.2 算法三步与伪代码（p.22）
 
 **分**：把 $A[p\,..\,r]$ 分成 $A[p\,..\,q]$ 和 $A[q+1\,..\,r]$，$q$ 是中点。**治**：递归排序这两个子数组。**合**：把两个已排序的子数组合并。
+
+课件的五行伪代码同样保留原样——下面紧接着逐行引用它的第 1-5 行，`q ← ⌊(p + r)/2⌋` 这类记号本身就是讲解对象：
 
 ```text
 MERGE-SORT(A, p, r)
@@ -682,14 +792,100 @@ MERGE-SORT(A, p, r)
 
 先定义**稳定性（stability）**：键相等的两个元素，排序**保持它们在原数组中的相对先后**。为什么重要？回到 §1.2 的卫星数据：按学号排序学生记录时，若两条记录学号相同，稳定性保证"原来谁在前，排完还是谁在前"。不稳定的话，同一个输入跑两次可能得到不同结果——需要复现的场合是灾难。
 
-归并排序的稳定性**完全来自 `merge` 里那个 `<=`**：
+归并排序的稳定性**完全来自 `merge` 里那个 `<=`**。课件只摘了比较那四行，下面补成能独立跑起来的完整 `merge`（补的只是缓冲区分配与回拷，比较这一步一字未动）：
 
-```java
-if (a[leftPos] <= a[rightPos])
-    tmpArray[tmpPos++] = a[leftPos++];   // 相等时取左边
-else
-    tmpArray[tmpPos++] = a[rightPos++];
+::: code-group
+
+```java [Java]
+// 合并 a[lo..mid] 与 a[mid+1..hi]（两段各自已升序）
+// §12.2 给的是把 tmpArray 作为参数传进来的课件原版，这里为让片段自成一体会就地分配
+static void merge(int[] a, int lo, int mid, int hi) {
+    int[] tmpArray = new int[hi - lo + 1];
+    int leftPos = lo, rightPos = mid + 1, tmpPos = 0;
+    while (leftPos <= mid && rightPos <= hi) {
+        if (a[leftPos] <= a[rightPos])
+            tmpArray[tmpPos++] = a[leftPos++];   // 相等时取左边
+        else
+            tmpArray[tmpPos++] = a[rightPos++];
+    }
+    while (leftPos <= mid)
+        tmpArray[tmpPos++] = a[leftPos++];
+    while (rightPos <= hi)
+        tmpArray[tmpPos++] = a[rightPos++];
+    for (int i = 0; i < tmpArray.length; i++)
+        a[lo + i] = tmpArray[i];
+}
 ```
+
+```python [Python]
+# 合并 a[lo..mid] 与 a[mid+1..hi]（两段各自已升序）
+# §12.2 给的是把 tmp_array 作为参数传进来的课件原版，这里为让片段自成一体会就地分配
+def merge(a, lo, mid, hi):
+    tmp_array = [0] * (hi - lo + 1)
+    left_pos, right_pos, tmp_pos = lo, mid + 1, 0
+    while left_pos <= mid and right_pos <= hi:
+        if a[left_pos] <= a[right_pos]:
+            tmp_array[tmp_pos] = a[left_pos]     # 相等时取左边
+            left_pos += 1
+        else:
+            tmp_array[tmp_pos] = a[right_pos]
+            right_pos += 1
+        tmp_pos += 1
+    while left_pos <= mid:
+        tmp_array[tmp_pos] = a[left_pos]
+        left_pos += 1
+        tmp_pos += 1
+    while right_pos <= hi:
+        tmp_array[tmp_pos] = a[right_pos]
+        right_pos += 1
+        tmp_pos += 1
+    for i in range(len(tmp_array)):
+        a[lo + i] = tmp_array[i]
+```
+
+```cpp [C++]
+// 合并 a[lo..mid] 与 a[mid+1..hi]（两段各自已升序）
+// §12.2 给的是把 tmpArray 作为参数传进来的课件原版，这里为让片段自成一体会就地分配
+void merge(std::vector<int>& a, int lo, int mid, int hi) {
+    std::vector<int> tmpArray(hi - lo + 1);
+    int leftPos = lo, rightPos = mid + 1, tmpPos = 0;
+    while (leftPos <= mid && rightPos <= hi) {
+        if (a[leftPos] <= a[rightPos])
+            tmpArray[tmpPos++] = a[leftPos++];   // 相等时取左边
+        else
+            tmpArray[tmpPos++] = a[rightPos++];
+    }
+    while (leftPos <= mid)
+        tmpArray[tmpPos++] = a[leftPos++];
+    while (rightPos <= hi)
+        tmpArray[tmpPos++] = a[rightPos++];
+    for (int i = 0; i < (int)tmpArray.size(); i++)
+        a[lo + i] = tmpArray[i];
+}
+```
+
+```c [C]
+// 合并 a[lo..mid] 与 a[mid+1..hi]（两段各自已升序）
+// §12.2 给的是把 tmpArray 作为参数传进来的课件原版，这里为让片段自成一体会就地分配
+void merge(int* a, int lo, int mid, int hi) {
+    int tmpArray[hi - lo + 1];          /* C99 变长数组，长度就是本段元素个数 */
+    int leftPos = lo, rightPos = mid + 1, tmpPos = 0;
+    while (leftPos <= mid && rightPos <= hi) {
+        if (a[leftPos] <= a[rightPos])
+            tmpArray[tmpPos++] = a[leftPos++];   /* 相等时取左边 */
+        else
+            tmpArray[tmpPos++] = a[rightPos++];
+    }
+    while (leftPos <= mid)
+        tmpArray[tmpPos++] = a[leftPos++];
+    while (rightPos <= hi)
+        tmpArray[tmpPos++] = a[rightPos++];
+    for (int i = 0; i < (hi - lo + 1); i++)
+        a[lo + i] = tmpArray[i];
+}
+```
+
+:::
 
 左半 `A[p..q]` 在原数组中位于右半 `A[q+1..r]` 的**左边**。设左半有 $5_a$、右半有 $5_b$，键相等，且 $5_a$ 原来在 $5_b$ 前面（它本来就在前一半里）。合并到这一步时：用 `<=`，$5_a \le 5_b$ 成立，取 $5_a$，$5_a$ 先输出，**相对顺序保持**；用 `<`，条件不成立走 `else`，取 $5_b$，$5_b$ 先输出，**顺序反转**。
 
@@ -756,7 +952,9 @@ private static void mergeSort(int[] a, int[] tmpArray, int left, int right) {
 
 ### 12.2 merge 逐行（p.28）
 
-```java
+::: code-group
+
+```java [Java]
 private static void merge(int[] a, int[] tmpArray, int leftPos, int rightPos, int rightEnd){
     int leftEnd = rightPos - 1, tmpPos = leftPos;
     int numElements = rightEnd - leftPos + 1;
@@ -777,6 +975,84 @@ private static void merge(int[] a, int[] tmpArray, int leftPos, int rightPos, in
         a[rightEnd] = tmpArray[rightEnd];
 }
 ```
+
+```python [Python]
+def merge(a, tmp_array, left_pos, right_pos, right_end):
+    left_end = right_pos - 1
+    tmp_pos = left_pos
+    num_elements = right_end - left_pos + 1
+
+    while left_pos <= left_end and right_pos <= right_end:
+        if a[left_pos] <= a[right_pos]:
+            tmp_array[tmp_pos] = a[left_pos]
+            left_pos += 1
+        else:
+            tmp_array[tmp_pos] = a[right_pos]
+            right_pos += 1
+        tmp_pos += 1
+
+    while left_pos <= left_end:
+        tmp_array[tmp_pos] = a[left_pos]
+        left_pos += 1
+        tmp_pos += 1
+
+    while right_pos <= right_end:
+        tmp_array[tmp_pos] = a[right_pos]
+        right_pos += 1
+        tmp_pos += 1
+
+    # 从右往左回拷：right_end 往前走 num_elements 步，正好盖住 [left_pos0, right_end]
+    for i in range(num_elements):
+        a[right_end] = tmp_array[right_end]
+        right_end -= 1
+```
+
+```cpp [C++]
+void merge(std::vector<int>& a, std::vector<int>& tmpArray,
+           int leftPos, int rightPos, int rightEnd) {
+    int leftEnd = rightPos - 1, tmpPos = leftPos;
+    int numElements = rightEnd - leftPos + 1;
+
+    while (leftPos <= leftEnd && rightPos <= rightEnd)
+        if (a[leftPos] <= a[rightPos])
+            tmpArray[tmpPos++] = a[leftPos++];
+        else
+            tmpArray[tmpPos++] = a[rightPos++];
+
+    while (leftPos <= leftEnd)
+        tmpArray[tmpPos++] = a[leftPos++];
+
+    while (rightPos <= rightEnd)
+        tmpArray[tmpPos++] = a[rightPos++];
+
+    for (int i = 0; i < numElements; i++, rightEnd--)
+        a[rightEnd] = tmpArray[rightEnd];
+}
+```
+
+```c [C]
+void merge(int* a, int* tmpArray, int leftPos, int rightPos, int rightEnd){
+    int leftEnd = rightPos - 1, tmpPos = leftPos;
+    int numElements = rightEnd - leftPos + 1;
+
+    while (leftPos <= leftEnd && rightPos <= rightEnd)
+        if (a[leftPos] <= a[rightPos])
+            tmpArray[tmpPos++] = a[leftPos++];
+        else
+            tmpArray[tmpPos++] = a[rightPos++];
+
+    while (leftPos <= leftEnd)
+        tmpArray[tmpPos++] = a[leftPos++];
+
+    while (rightPos <= rightEnd)
+        tmpArray[tmpPos++] = a[rightPos++];
+
+    for (int i = 0; i < numElements; i++, rightEnd--)
+        a[rightEnd] = tmpArray[rightEnd];
+}
+```
+
+:::
 
 **`leftEnd = rightPos - 1`**：右半起点减一就是左半终点。这个"减一"是最隐晦的地方——它把"分界点"压缩进了 `rightPos`，少传一个参数，代价是读者要自己推一下。
 

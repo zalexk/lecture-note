@@ -1,5 +1,5 @@
 ---
-title: Lecture 11 快速排序（QuickSort）
+title: Lecture 11 QuickSort（快速排序）
 course: CSC3100 Data Structures
 lecture: Lecture 11 - QuickSort
 date: 2026-10-21
@@ -113,14 +113,55 @@ $$
 
 ### 2.3 flipCoin：一个"最坏情况无意义"的例子（p.5）
 
-p.5 给了一段只有三行的伪代码：
+p.5 给了一段只有三行的算法（下面给出四种语言的实现）：
 
+::: code-group
+
+```java [Java]
+int flipCoin() {
+    Random rnd = new Random();
+    int r = rnd.nextInt(2);        // 1  r ← RANDOM(0, 1)
+    while (r != 1)                 // 2  每轮：一次 RANDOM + 一次比较 = 2 个基本操作
+        r = rnd.nextInt(2);        // 3
+    return r;
+}
 ```
-Algorithm: flipCoin()
-1  r ← RANDOM(0, 1)
-2  while r != 1
-3      r = RANDOM(0, 1)
+
+```python [Python]
+import random
+
+def flipCoin():
+    r = random.randint(0, 1)       # 1  r ← RANDOM(0, 1)
+    while r != 1:                  # 2  每轮：一次 RANDOM + 一次比较 = 2 个基本操作
+        r = random.randint(0, 1)   # 3
+    return r
 ```
+
+```cpp [C++]
+#include <random>
+
+int flipCoin() {
+    static std::mt19937 gen(std::random_device{}());
+    std::uniform_int_distribution<int> coin(0, 1);
+    int r = coin(gen);             // 1  r ← RANDOM(0, 1)
+    while (r != 1)                 // 2  每轮：一次 RANDOM + 一次比较 = 2 个基本操作
+        r = coin(gen);             // 3
+    return r;
+}
+```
+
+```c [C]
+#include <stdlib.h>
+
+int flipCoin(void) {
+    int r = rand() % 2;            /* 1  r ← RANDOM(0, 1) */
+    while (r != 1)                 /* 2  每轮：一次 RANDOM + 一次比较 = 2 个基本操作 */
+        r = rand() % 2;            /* 3 */
+    return r;
+}
+```
+
+:::
 
 它反复抛一枚均匀硬币（0 与 1 各半），直到出现 1 为止。课件用它说明两件事：
 
@@ -232,15 +273,108 @@ $$
 
 p.9 给的 `quicksort` 只有六行，是本讲所有内容的总纲：
 
+::: code-group
+
+```java [Java]
+void swap(int[] arr, int i, int j) { int t = arr[i]; arr[i] = arr[j]; arr[j] = t; }
+
+int partition(int[] arr, int left, int right, int pivot) {   // 与 §5 同一份 Lomuto 划分
+    int pivotVal = arr[pivot];
+    swap(arr, right, pivot);
+    int nextsmallpos = left;
+    for (int j = left; j <= right - 1; j++)
+        if (arr[j] < arr[right]) { swap(arr, nextsmallpos, j); nextsmallpos++; }
+    swap(arr, nextsmallpos, right);
+    return nextsmallpos;
+}
+
+void quicksort(int[] arr, int left, int right) {
+    if (left >= right)                                              // 1
+        return;                                                     // 2
+    int pivot = left + (int)(Math.random() * (right - left + 1));    // 3  RANDOM(left, right)
+    int pivotNewposition = partition(arr, left, right, pivot);       // 4
+    quicksort(arr, left, pivotNewposition - 1);                      // 5
+    quicksort(arr, pivotNewposition + 1, right);                     // 6
+}
 ```
-Algorithm: quicksort(arr, left, right)
-1  if left >= right
-2      return
-3  pivot ← RANDOM(left, right)   // randomly select a pivot from [left, right]
-4  pivotNewposition = partition(arr, left, right, pivot)
-5  quicksort(arr, left, pivotNewposition - 1)
-6  quicksort(arr, pivotNewposition + 1, right)
+
+```python [Python]
+import random
+
+def swap(arr, i, j): arr[i], arr[j] = arr[j], arr[i]
+
+def partition(arr, left, right, pivot):          # 与 §5 同一份 Lomuto 划分
+    pivotVal = arr[pivot]
+    swap(arr, right, pivot)
+    nextsmallpos = left
+    for j in range(left, right):
+        if arr[j] < arr[right]:
+            swap(arr, nextsmallpos, j)
+            nextsmallpos += 1
+    swap(arr, nextsmallpos, right)
+    return nextsmallpos
+
+def quicksort(arr, left, right):
+    if left >= right:                                       # 1
+        return                                              # 2
+    pivot = random.randint(left, right)                     # 3  RANDOM(left, right)
+    pivotNewposition = partition(arr, left, right, pivot)   # 4
+    quicksort(arr, left, pivotNewposition - 1)              # 5
+    quicksort(arr, pivotNewposition + 1, right)             # 6
 ```
+
+```cpp [C++]
+#include <random>
+
+void swap(std::vector<int>& arr, int i, int j) { int t = arr[i]; arr[i] = arr[j]; arr[j] = t; }
+
+int partition(std::vector<int>& arr, int left, int right, int pivot) {   // 与 §5 同一份 Lomuto 划分
+    int pivotVal = arr[pivot];
+    swap(arr, right, pivot);
+    int nextsmallpos = left;
+    for (int j = left; j <= right - 1; j++)
+        if (arr[j] < arr[right]) { swap(arr, nextsmallpos, j); nextsmallpos++; }
+    swap(arr, nextsmallpos, right);
+    return nextsmallpos;
+}
+
+void quicksort(std::vector<int>& arr, int left, int right) {
+    if (left >= right)                                              // 1
+        return;                                                     // 2
+    static std::mt19937 gen(std::random_device{}());
+    int pivot = std::uniform_int_distribution<int>(left, right)(gen);   // 3  RANDOM(left, right)
+    int pivotNewposition = partition(arr, left, right, pivot);       // 4
+    quicksort(arr, left, pivotNewposition - 1);                      // 5
+    quicksort(arr, pivotNewposition + 1, right);                     // 6
+}
+```
+
+```c [C]
+#include <stdlib.h>
+
+void swap(int* arr, int i, int j) { int t = arr[i]; arr[i] = arr[j]; arr[j] = t; }
+
+int partition(int* arr, int left, int right, int pivot) {   /* 与 §5 同一份 Lomuto 划分 */
+    int pivotVal = arr[pivot];
+    swap(arr, right, pivot);
+    int nextsmallpos = left;
+    for (int j = left; j <= right - 1; j++)
+        if (arr[j] < arr[right]) { swap(arr, nextsmallpos, j); nextsmallpos++; }
+    swap(arr, nextsmallpos, right);
+    return nextsmallpos;
+}
+
+void quicksort(int* arr, int left, int right) {
+    if (left >= right)                                    /* 1 */
+        return;                                           /* 2 */
+    int pivot = left + rand() % (right - left + 1);       /* 3  RANDOM(left, right) */
+    int pivotNewposition = partition(arr, left, right, pivot);   /* 4 */
+    quicksort(arr, left, pivotNewposition - 1);           /* 5 */
+    quicksort(arr, pivotNewposition + 1, right);          /* 6 */
+}
+```
+
+:::
 
 逐行解释：
 
@@ -264,18 +398,77 @@ $$
 
 ### 5.1 伪代码逐行读
 
-p.10 的 `partition` 是这样的（课件编了 9 行号，只用了 7 行）：
+p.10 的 `partition` 是这样的（课件编了 9 行号，正文只写了前 7 行，第 8、9 行按 p.11 的收尾补全；四种语言的实现如下）：
 
+::: code-group
+
+```java [Java]
+void swap(int[] arr, int i, int j) { int t = arr[i]; arr[i] = arr[j]; arr[j] = t; }
+
+int partition(int[] arr, int left, int right, int pivot) {
+    int pivotVal = arr[pivot];                        // 1  记下 pivot 的值
+    swap(arr, right, pivot);                          // 2  把 pivot 换到末尾
+    int nextsmallpos = left;                          // 3  口袋口
+    for (int j = left; j <= right - 1; j++)           // 4
+        if (arr[j] < arr[right]) {                    // 5
+            swap(arr, nextsmallpos, j);               // 6
+            nextsmallpos++;                           // 7
+        }
+    swap(arr, nextsmallpos, right);                   // 8  p.11 补上的收尾
+    return nextsmallpos;                              // 9
+}
 ```
-Algorithm: partition(arr, left, right, pivot)
-1  pivotVal = arr[pivot]                                  // record the pivot data
-2  Swap(arr, right, pivot)                                // swap the pivot data and the last data
-3  nextsmallpos = left                                    // next position for data smaller than pivotVal
-4  for j from left to right - 1
-5      if arr[j] < arr[right]
-6          swap(arr, nextsmallpos, j)
-7          nextsmallpos++
+
+```python [Python]
+def swap(arr, i, j): arr[i], arr[j] = arr[j], arr[i]
+
+def partition(arr, left, right, pivot):
+    pivotVal = arr[pivot]                    # 1  记下 pivot 的值
+    swap(arr, right, pivot)                  # 2  把 pivot 换到末尾
+    nextsmallpos = left                      # 3  口袋口
+    for j in range(left, right):             # 4
+        if arr[j] < arr[right]:              # 5
+            swap(arr, nextsmallpos, j)       # 6
+            nextsmallpos += 1                # 7
+    swap(arr, nextsmallpos, right)           # 8  p.11 补上的收尾
+    return nextsmallpos                      # 9
 ```
+
+```cpp [C++]
+void swap(std::vector<int>& arr, int i, int j) { int t = arr[i]; arr[i] = arr[j]; arr[j] = t; }
+
+int partition(std::vector<int>& arr, int left, int right, int pivot) {
+    int pivotVal = arr[pivot];                        // 1  记下 pivot 的值
+    swap(arr, right, pivot);                          // 2  把 pivot 换到末尾
+    int nextsmallpos = left;                          // 3  口袋口
+    for (int j = left; j <= right - 1; j++)           // 4
+        if (arr[j] < arr[right]) {                    // 5
+            swap(arr, nextsmallpos, j);               // 6
+            nextsmallpos++;                           // 7
+        }
+    swap(arr, nextsmallpos, right);                   // 8  p.11 补上的收尾
+    return nextsmallpos;                              // 9
+}
+```
+
+```c [C]
+void swap(int* arr, int i, int j) { int t = arr[i]; arr[i] = arr[j]; arr[j] = t; }
+
+int partition(int* arr, int left, int right, int pivot) {
+    int pivotVal = arr[pivot];                        /* 1  记下 pivot 的值 */
+    swap(arr, right, pivot);                          /* 2  把 pivot 换到末尾 */
+    int nextsmallpos = left;                          /* 3  口袋口 */
+    for (int j = left; j <= right - 1; j++)           /* 4 */
+        if (arr[j] < arr[right]) {                    /* 5 */
+            swap(arr, nextsmallpos, j);               /* 6 */
+            nextsmallpos++;                           /* 7 */
+        }
+    swap(arr, nextsmallpos, right);                   /* 8  p.11 补上的收尾 */
+    return nextsmallpos;                              /* 9 */
+}
+```
+
+:::
 
 它的思路可以用一个比喻讲完：**手里拎着一个"小值口袋"，口袋的口子始终停在 `nextsmallpos`。** 从左到右扫每个元素，遇到比 pivot 小的，就把它换到口袋口上，口袋口往右挪一格；遇到不小于 pivot 的，跳过不管。扫完之后，"口袋"里就是所有小值，口袋口左边全是小值，右边全是大值，最后把 pivot 从末尾换到口袋口，就完成了。
 
@@ -484,9 +677,13 @@ p.15 还有一句话在严格意义上不成立："左边都小于 pivot、右�
 
 ### 9.1 `median3`：三次比较把三个数排好
 
-p.19 的代码只有十四行，但它同时完成了三件事：把三个候选排好、把中位数藏到 `right-1`、把两端变成哨兵。
+p.19 的代码只有十四行（它调用的 `swap` 课件没给实现，四种语言里各补了一行），但它同时完成了三件事：把三个候选排好、把中位数藏到 `right-1`、把两端变成哨兵。
 
-```java
+::: code-group
+
+```java [Java]
+private static void swap(int[] a, int i, int j) { int t = a[i]; a[i] = a[j]; a[j] = t; }
+
 private static int median3(int[] a, int left, int right) {
     // Ensure a[left] <= a[center] <= a[right]
     int center = (left + right) / 2;
@@ -503,6 +700,61 @@ private static int median3(int[] a, int left, int right) {
 }
 ```
 
+```python [Python]
+def swap(a, i, j): a[i], a[j] = a[j], a[i]
+
+def median3(a, left, right):
+    # Ensure a[left] <= a[center] <= a[right]
+    center = (left + right) // 2
+    if a[center] < a[left]:
+        swap(a, left, center)
+    if a[right] < a[left]:
+        swap(a, left, right)
+    if a[right] < a[center]:
+        swap(a, center, right)
+    # Place pivot at position right - 1
+    swap(a, center, right - 1)
+    return a[right - 1]
+```
+
+```cpp [C++]
+void swap(std::vector<int>& a, int i, int j) { int t = a[i]; a[i] = a[j]; a[j] = t; }
+
+int median3(std::vector<int>& a, int left, int right) {
+    // Ensure a[left] <= a[center] <= a[right]
+    int center = (left + right) / 2;
+    if (a[center] < a[left])
+        swap(a, left, center);
+    if (a[right] < a[left])
+        swap(a, left, right);
+    if (a[right] < a[center])
+        swap(a, center, right);
+    // Place pivot at position right - 1
+    swap(a, center, right - 1);
+    return a[right - 1];
+}
+```
+
+```c [C]
+void swap(int* a, int i, int j) { int t = a[i]; a[i] = a[j]; a[j] = t; }
+
+int median3(int* a, int left, int right) {
+    /* Ensure a[left] <= a[center] <= a[right] */
+    int center = (left + right) / 2;
+    if (a[center] < a[left])
+        swap(a, left, center);
+    if (a[right] < a[left])
+        swap(a, left, right);
+    if (a[right] < a[center])
+        swap(a, center, right);
+    /* Place pivot at position right - 1 */
+    swap(a, center, right - 1);
+    return a[right - 1];
+}
+```
+
+:::
+
 三行 `if` 是一个**排序网络（sorting network）**：先保证 `left` 与 `center` 有序，再用 `right` 与 `left` 比较把最小值放到 `left`，最后用 `right` 与 `center` 比较把剩下的两个排好。三步之后一定满足 $a[\text{left}] \le a[\text{center}] \le a[\text{right}]$，无需循环、无需分支嵌套。
 
 `swap(a, center, right - 1)` 之后，中位数到了 `right-1`，而原来在 `right-1` 的元素被换到 `center`——它还在扫描区间内，会被正常扫到，不会丢。
@@ -513,7 +765,30 @@ private static int median3(int[] a, int left, int right) {
 
 p.20 的主函数：
 
-```java
+::: code-group
+
+```java [Java]
+private static final int CUTOFF = 3;   // 课件没给值，这里取 3（理由见 §9.4 第 4 条）
+
+private static void swap(int[] a, int i, int j) { int t = a[i]; a[i] = a[j]; a[j] = t; }
+
+private static int median3(int[] a, int left, int right) {
+    int center = (left + right) / 2;
+    if (a[center] < a[left]) swap(a, left, center);
+    if (a[right] < a[left]) swap(a, left, right);
+    if (a[right] < a[center]) swap(a, center, right);
+    swap(a, center, right - 1);           // pivot 藏到 right - 1
+    return a[right - 1];
+}
+
+private static void insertionSort(int[] a, int left, int right) {
+    for (int i = left + 1; i <= right; i++) {
+        int tmp = a[i], j = i;
+        while (j > left && a[j - 1] > tmp) { a[j] = a[j - 1]; j--; }
+        a[j] = tmp;
+    }
+}
+
 private static void quicksort(int[] a, int left, int right) {
     if (left + CUTOFF <= right) {
         int pivot = median3(a, left, right);
@@ -532,6 +807,128 @@ private static void quicksort(int[] a, int left, int right) {
         insertionSort(a, left, right);
 }
 ```
+
+```python [Python]
+CUTOFF = 3                       # 课件没给值，这里取 3（理由见 §9.4 第 4 条）
+
+def swap(a, i, j): a[i], a[j] = a[j], a[i]
+
+def median3(a, left, right):
+    center = (left + right) // 2
+    if a[center] < a[left]: swap(a, left, center)
+    if a[right] < a[left]: swap(a, left, right)
+    if a[right] < a[center]: swap(a, center, right)
+    swap(a, center, right - 1)             # pivot 藏到 right - 1
+    return a[right - 1]
+
+def insertionSort(a, left, right):
+    for i in range(left + 1, right + 1):
+        tmp, j = a[i], i
+        while j > left and a[j - 1] > tmp:
+            a[j] = a[j - 1]
+            j -= 1
+        a[j] = tmp
+
+def quicksort(a, left, right):
+    if left + CUTOFF <= right:
+        pivot = median3(a, left, right)
+        # Begin partitioning
+        i, j = left + 1, right - 2
+        while True:
+            while i <= j and a[i] <= pivot: i += 1
+            while i <= j and a[j] > pivot: j -= 1
+            if i > j: break                # i meets j
+            swap(a, i, j)
+        swap(a, i, right - 1)              # Restore pivot
+        quicksort(a, left, i - 1)          # Sort small elements
+        quicksort(a, i + 1, right)         # Sort large elements
+    else:
+        insertionSort(a, left, right)
+```
+
+```cpp [C++]
+const int CUTOFF = 3;   // 课件没给值，这里取 3（理由见 §9.4 第 4 条）
+
+void swap(std::vector<int>& a, int i, int j) { int t = a[i]; a[i] = a[j]; a[j] = t; }
+
+int median3(std::vector<int>& a, int left, int right) {
+    int center = (left + right) / 2;
+    if (a[center] < a[left]) swap(a, left, center);
+    if (a[right] < a[left]) swap(a, left, right);
+    if (a[right] < a[center]) swap(a, center, right);
+    swap(a, center, right - 1);            // pivot 藏到 right - 1
+    return a[right - 1];
+}
+
+void insertionSort(std::vector<int>& a, int left, int right) {
+    for (int i = left + 1; i <= right; i++) {
+        int tmp = a[i], j = i;
+        while (j > left && a[j - 1] > tmp) { a[j] = a[j - 1]; j--; }
+        a[j] = tmp;
+    }
+}
+
+void quicksort(std::vector<int>& a, int left, int right) {
+    if (left + CUTOFF <= right) {
+        int pivot = median3(a, left, right);
+        // Begin partitioning
+        int i = left + 1, j = right - 2;
+        while (true) {
+            while (i <= j && a[i] <= pivot) { i++; }
+            while (i <= j && a[j] > pivot) { j--; }
+            if (i > j) break;   // i meets j
+            swap(a, i, j);
+        }
+        swap(a, i, right - 1);  // Restore pivot
+        quicksort(a, left, i - 1);   // Sort small elements
+        quicksort(a, i + 1, right);  // Sort large elements
+    } else
+        insertionSort(a, left, right);
+}
+```
+
+```c [C]
+#define CUTOFF 3   /* 课件没给值，这里取 3（理由见 §9.4 第 4 条） */
+
+void swap(int* a, int i, int j) { int t = a[i]; a[i] = a[j]; a[j] = t; }
+
+int median3(int* a, int left, int right) {
+    int center = (left + right) / 2;
+    if (a[center] < a[left]) swap(a, left, center);
+    if (a[right] < a[left]) swap(a, left, right);
+    if (a[right] < a[center]) swap(a, center, right);
+    swap(a, center, right - 1);            /* pivot 藏到 right - 1 */
+    return a[right - 1];
+}
+
+void insertionSort(int* a, int left, int right) {
+    for (int i = left + 1; i <= right; i++) {
+        int tmp = a[i], j = i;
+        while (j > left && a[j - 1] > tmp) { a[j] = a[j - 1]; j--; }
+        a[j] = tmp;
+    }
+}
+
+void quicksort(int* a, int left, int right) {
+    if (left + CUTOFF <= right) {
+        int pivot = median3(a, left, right);
+        /* Begin partitioning */
+        int i = left + 1, j = right - 2;
+        while (1) {
+            while (i <= j && a[i] <= pivot) { i++; }
+            while (i <= j && a[j] > pivot) { j--; }
+            if (i > j) break;   /* i meets j */
+            swap(a, i, j);
+        }
+        swap(a, i, right - 1);  /* Restore pivot */
+        quicksort(a, left, i - 1);   /* Sort small elements */
+        quicksort(a, i + 1, right);  /* Sort large elements */
+    } else
+        insertionSort(a, left, right);
+}
+```
+
+:::
 
 四处关键设计：
 

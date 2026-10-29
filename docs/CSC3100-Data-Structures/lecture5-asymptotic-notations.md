@@ -1,5 +1,5 @@
 ---
-title: Lecture 5 渐进记号（Asymptotic Notations）
+title: Lecture 5 Asymptotic Notations（渐进记号）
 course: CSC3100 Data Structures
 lecture: Lecture 5 - Asymptotic Notations
 date: 2026-09-22
@@ -107,13 +107,46 @@ tags: [CSC3100, data-structures, asymptotic-notation, big-oh, big-omega, big-the
 
 课件第 5 页给出的第一个例子是数组求和：
 
-```text
-sum(A, n)
-1  tempsum = 0
-2  for i = 0 to n - 1
-3      tempsum += A[i]
-4  return tempsum
+课件第 5 页给出的第一个例子是数组求和（下面给出四种语言的实现，注释里的行号与课件逐行计数表一一对应）：
+
+::: code-group
+
+```java [Java]
+int sum(int[] A, int n) {
+    int tempsum = 0;                     // 第 1 行
+    for (int i = 0; i < n; i++)          // 第 2 行
+        tempsum += A[i];                 // 第 3 行
+    return tempsum;                      // 第 4 行
+}
 ```
+
+```python [Python]
+def sum(A, n):
+    tempsum = 0                          # 第 1 行
+    for i in range(n):                   # 第 2 行
+        tempsum += A[i]                  # 第 3 行
+    return tempsum                       # 第 4 行
+```
+
+```cpp [C++]
+int sum(const std::vector<int>& A, int n) {
+    int tempsum = 0;                     // 第 1 行
+    for (int i = 0; i < n; i++)          // 第 2 行
+        tempsum += A[i];                 // 第 3 行
+    return tempsum;                      // 第 4 行
+}
+```
+
+```c [C]
+int sum(const int* A, int n) {
+    int tempsum = 0;                     /* 第 1 行 */
+    for (int i = 0; i < n; i++)          /* 第 2 行 */
+        tempsum += A[i];                 /* 第 3 行 */
+    return tempsum;                      /* 第 4 行 */
+}
+```
+
+:::
 
 课件逐行给出了操作次数，并特别解释了两种「看着奇怪」的数字：
 
@@ -148,13 +181,46 @@ $$
 
 课件第 6 页的下半部分给出第二个例子——线性搜索：
 
-```text
-LinearSearch(A, n, searchnum)
-1  for i = 0 to n - 1
-2      if A[i] == searchnum
-3          return i
-4  return -1
+课件第 6 页的下半部分给出第二个例子——线性搜索（四种语言，行号与后面的计数表对齐）：
+
+::: code-group
+
+```java [Java]
+int linearSearch(int[] A, int n, int searchnum) {
+    for (int i = 0; i < n; i++)              // 第 1 行
+        if (A[i] == searchnum)               // 第 2 行
+            return i;                        // 第 3 行
+    return -1;                               // 第 4 行
+}
 ```
+
+```python [Python]
+def linearSearch(A, n, searchnum):
+    for i in range(n):                       # 第 1 行
+        if A[i] == searchnum:                # 第 2 行
+            return i                         # 第 3 行
+    return -1                                # 第 4 行
+```
+
+```cpp [C++]
+int linearSearch(const std::vector<int>& A, int n, int searchnum) {
+    for (int i = 0; i < n; i++)              // 第 1 行
+        if (A[i] == searchnum)               // 第 2 行
+            return i;                        // 第 3 行
+    return -1;                               // 第 4 行
+}
+```
+
+```c [C]
+int linearSearch(const int* A, int n, int searchnum) {
+    for (int i = 0; i < n; i++)              /* 第 1 行 */
+        if (A[i] == searchnum)               /* 第 2 行 */
+            return i;                        /* 第 3 行 */
+    return -1;                               /* 第 4 行 */
+}
+```
+
+:::
 
 课件配了一个具体的数组 $3,7,9,12,13,18,20,23,27$，并对比 `searchnum = 3` 与 `searchnum = 20` 两种情形，点出结论：**基本操作次数取决于 `searchnum` 这个值出现在数组的什么位置**。
 
@@ -176,17 +242,68 @@ $$
 
 课件第 7 页给了一道练习题：求下面这个算法**最坏情况下**的基本操作数。
 
-```text
-maxSubArraySum(A, n)
-1  maxSum = A[0]
-2  for i = 0 to n - 1
-3      subSumFromI = 0
-4      for j = i to n - 1
-5          subSumFromI += A[j]
-6          if subSumFromI > maxSum
-7              maxSum = subSumFromI
-8  return maxSum
+课件第 7 页给了一道练习题：求下面这个算法**最坏情况下**的基本操作数（四种语言，行号与后面的逐行计数表对齐）。
+
+::: code-group
+
+```java [Java]
+int maxSubArraySum(int[] A, int n) {
+    int maxSum = A[0];                          // 第 1 行
+    for (int i = 0; i < n; i++) {               // 第 2 行
+        int subSumFromI = 0;                    // 第 3 行
+        for (int j = i; j < n; j++) {           // 第 4 行
+            subSumFromI += A[j];                // 第 5 行
+            if (subSumFromI > maxSum)           // 第 6 行
+                maxSum = subSumFromI;           // 第 7 行
+        }
+    }
+    return maxSum;                              // 第 8 行
+}
 ```
+
+```python [Python]
+def maxSubArraySum(A, n):
+    maxSum = A[0]                          # 第 1 行
+    for i in range(n):                     # 第 2 行
+        subSumFromI = 0                    # 第 3 行
+        for j in range(i, n):              # 第 4 行
+            subSumFromI += A[j]            # 第 5 行
+            if subSumFromI > maxSum:       # 第 6 行
+                maxSum = subSumFromI       # 第 7 行
+    return maxSum                          # 第 8 行
+```
+
+```cpp [C++]
+int maxSubArraySum(const std::vector<int>& A, int n) {
+    int maxSum = A[0];                          // 第 1 行
+    for (int i = 0; i < n; i++) {               // 第 2 行
+        int subSumFromI = 0;                    // 第 3 行
+        for (int j = i; j < n; j++) {           // 第 4 行
+            subSumFromI += A[j];                // 第 5 行
+            if (subSumFromI > maxSum)           // 第 6 行
+                maxSum = subSumFromI;           // 第 7 行
+        }
+    }
+    return maxSum;                              // 第 8 行
+}
+```
+
+```c [C]
+int maxSubArraySum(const int* A, int n) {
+    int maxSum = A[0];                          /* 第 1 行 */
+    for (int i = 0; i < n; i++) {               /* 第 2 行 */
+        int subSumFromI = 0;                    /* 第 3 行 */
+        for (int j = i; j < n; j++) {           /* 第 4 行 */
+            subSumFromI += A[j];                /* 第 5 行 */
+            if (subSumFromI > maxSum)           /* 第 6 行 */
+                maxSum = subSumFromI;           /* 第 7 行 */
+        }
+    }
+    return maxSum;                              /* 第 8 行 */
+}
+```
+
+:::
 
 这是一个暴力做法：枚举所有「从 $i$ 开始」的子数组，逐个累加并记录最大值。课件给出的逐行计数是：
 

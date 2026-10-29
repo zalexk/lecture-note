@@ -1,5 +1,5 @@
 ---
-title: Lecture 6 分治与递归的复杂度（Complexity of Divide-and-Conquer and Recursion）
+title: Lecture 6 Complexity of Divide-and-Conquer and Recursion（分治与递归的复杂度分析）
 course: CSC3100 Data Structures
 lecture: Lecture 6 - Complexity of Divide-and-Conquer and Recursion
 date: 2026-09-26
@@ -80,18 +80,71 @@ $$g(n) \le g(n-1) + c\cdot n$$
 
 课件第 5 页的例子本身没有新东西，但它演示了一条计费规则：**调用一个你已知复杂度的方法时，把那个复杂度直接当成这一行的代价**。
 
-```text
-Sum_LinearSearch(A, searchnum, sumestimation)
-Input:  array A, a search number, and a sum estimation
-Output: return 1 if the search number exists in A and the sum estimation
-        is exactly the sum of the array, otherwise return 0
+::: code-group
 
-1  tempsum = 0                                          O(1)
-2  for i = 0 to n-1                                     O(n)
-3      tempsum += A[i]                                  O(n)
-4  findmatch = linear_search(A, searchnum)               O(n)  ← 见下方红框
-5  return findmatch != -1 and tempsum == sumestimation   O(1)
+```java [Java]
+int linearSearch(int[] A, int searchnum) {              // 上一讲 §2.3 数过的 4n+3，即 O(n)
+    for (int i = 0; i < A.length; i++)
+        if (A[i] == searchnum) return i;
+    return -1;
+}
+
+boolean sumLinearSearch(int[] A, int searchnum, int sumestimation) {
+    int tempsum = 0;                                    // 第 1 行  O(1)
+    for (int i = 0; i < A.length; i++)                  // 第 2 行  O(n)
+        tempsum += A[i];                                // 第 3 行  O(n)
+    int findmatch = linearSearch(A, searchnum);         // 第 4 行  O(n)  ← 红框：代价整块搬来
+    return findmatch != -1 && tempsum == sumestimation; // 第 5 行  O(1)
+}
 ```
+
+```python [Python]
+def linearSearch(A, searchnum):                    # 上一讲 §2.3 数过的 4n+3，即 O(n)
+    for i in range(len(A)):
+        if A[i] == searchnum: return i
+    return -1
+
+def sumLinearSearch(A, searchnum, sumestimation):
+    tempsum = 0                                     # 第 1 行  O(1)
+    for i in range(len(A)):                         # 第 2 行  O(n)
+        tempsum += A[i]                             # 第 3 行  O(n)
+    findmatch = linearSearch(A, searchnum)          # 第 4 行  O(n)  ← 红框：代价整块搬来
+    return findmatch != -1 and tempsum == sumestimation   # 第 5 行  O(1)
+```
+
+```cpp [C++]
+int linearSearch(const std::vector<int>& A, int searchnum) {     // 上一讲 §2.3 的 4n+3，即 O(n)
+    for (int i = 0; i < (int)A.size(); i++)
+        if (A[i] == searchnum) return i;
+    return -1;
+}
+
+bool sumLinearSearch(const std::vector<int>& A, int searchnum, int sumestimation) {
+    int tempsum = 0;                                     // 第 1 行  O(1)
+    for (int i = 0; i < (int)A.size(); i++)              // 第 2 行  O(n)
+        tempsum += A[i];                                 // 第 3 行  O(n)
+    int findmatch = linearSearch(A, searchnum);           // 第 4 行  O(n)  ← 红框：代价整块搬来
+    return findmatch != -1 && tempsum == sumestimation;   // 第 5 行  O(1)
+}
+```
+
+```c [C]
+int linearSearch(const int* A, int n, int searchnum) {   /* 上一讲 §2.3 的 4n+3，即 O(n) */
+    for (int i = 0; i < n; i++)
+        if (A[i] == searchnum) return i;
+    return -1;
+}
+
+int sumLinearSearch(const int* A, int n, int searchnum, int sumestimation) {
+    int tempsum = 0;                                    /* 第 1 行  O(1) */
+    for (int i = 0; i < n; i++)                         /* 第 2 行  O(n) */
+        tempsum += A[i];                                /* 第 3 行  O(n) */
+    int findmatch = linearSearch(A, n, searchnum);       /* 第 4 行  O(n)  ← 红框：代价整块搬来 */
+    return findmatch != -1 && tempsum == sumestimation;  /* 第 5 行  O(1) */
+}
+```
+
+:::
 
 第 4 行的 $O(n)$ 旁边课件画了一个红框，里面写着"**通过进一步数它的基本操作数**（by further counting its number of basic operations）"。这句话指的就是上一讲 §2.3 数过的结果：线性搜索在最坏情况下的基本操作数是 $4n+3$，即 $O(n)$。
 
@@ -107,21 +160,79 @@ Output: return 1 if the search number exists in A and the sum estimation
 
 课件第 6 页给出二分搜索的完整代码，逐行标复杂度：
 
-```text
-BinarySearch(arr, searchnum, left, right)
-1  if left >= right                                          O(1)
-2      if arr[left] == searchnum                             O(1)
-3          return left                                       O(1)
-4      else                                                  O(1)
-5          return -1                                         O(1)
-6  middle = (left + right)/2                                 O(1)
-7  if arr[middle] == searchnum                               O(1)
-8      return middle                                         O(1)
-9  elseif arr[middle] < searchnum                            O(1)
-10     return BinarySearch(arr, searchnum, middle+1, right)  O(?)
-11 else
-12     return BinarySearch(arr, searchnum, left, middle -1)  O(?)
+::: code-group
+
+```java [Java]
+int binarySearch(int[] arr, int searchnum, int left, int right) {
+    if (left >= right) {                                     // 1  O(1)
+        if (arr[left] == searchnum)                          // 2  O(1)
+            return left;                                     // 3  O(1)
+        else                                                 // 4  O(1)
+            return -1;                                       // 5  O(1)
+    }
+    int middle = (left + right) / 2;                         // 6  O(1)
+    if (arr[middle] == searchnum)                            // 7  O(1)
+        return middle;                                       // 8  O(1)
+    else if (arr[middle] < searchnum)                        // 9  O(1)
+        return binarySearch(arr, searchnum, middle + 1, right);   // 10  O(?)
+    else                                                     // 11
+        return binarySearch(arr, searchnum, left, middle - 1);    // 12  O(?)
+}
 ```
+
+```python [Python]
+def binarySearch(arr, searchnum, left, right):
+    if left >= right:                                    # 1  O(1)
+        if arr[left] == searchnum:                       # 2  O(1)
+            return left                                  # 3  O(1)
+        else:                                            # 4  O(1)
+            return -1                                    # 5  O(1)
+    middle = (left + right) // 2                         # 6  O(1)
+    if arr[middle] == searchnum:                         # 7  O(1)
+        return middle                                    # 8  O(1)
+    elif arr[middle] < searchnum:                        # 9  O(1)
+        return binarySearch(arr, searchnum, middle + 1, right)   # 10  O(?)
+    else:                                                # 11
+        return binarySearch(arr, searchnum, left, middle - 1)     # 12  O(?)
+```
+
+```cpp [C++]
+int binarySearch(const std::vector<int>& arr, int searchnum, int left, int right) {
+    if (left >= right) {                                     // 1  O(1)
+        if (arr[left] == searchnum)                          // 2  O(1)
+            return left;                                     // 3  O(1)
+        else                                                 // 4  O(1)
+            return -1;                                       // 5  O(1)
+    }
+    int middle = (left + right) / 2;                         // 6  O(1)
+    if (arr[middle] == searchnum)                            // 7  O(1)
+        return middle;                                       // 8  O(1)
+    else if (arr[middle] < searchnum)                        // 9  O(1)
+        return binarySearch(arr, searchnum, middle + 1, right);   // 10  O(?)
+    else                                                     // 11
+        return binarySearch(arr, searchnum, left, middle - 1);    // 12  O(?)
+}
+```
+
+```c [C]
+int binarySearch(const int* arr, int searchnum, int left, int right) {
+    if (left >= right) {                                     /* 1  O(1) */
+        if (arr[left] == searchnum)                          /* 2  O(1) */
+            return left;                                     /* 3  O(1) */
+        else                                                 /* 4  O(1) */
+            return -1;                                       /* 5  O(1) */
+    }
+    int middle = (left + right) / 2;                         /* 6  O(1) */
+    if (arr[middle] == searchnum)                            /* 7  O(1) */
+        return middle;                                       /* 8  O(1) */
+    else if (arr[middle] < searchnum)                        /* 9  O(1) */
+        return binarySearch(arr, searchnum, middle + 1, right);   /* 10  O(?) */
+    else                                                     /* 11 */
+        return binarySearch(arr, searchnum, left, middle - 1);    /* 12  O(?) */
+}
+```
+
+:::
 
 前 9 行都是 $O(1)$——纯比较、算术、赋值、数组访问，与 $n$ 无关。到第 10 和第 12 行，课件把问号标成**红色**：这两行的代价没法这样标。
 
@@ -269,29 +380,110 @@ $$g(n) = a\cdot\lfloor\log_2 n\rfloor + b$$
 
 ### 3.2 代码与追踪（p.13）
 
-```text
-SelectionSort(arr, n)
-1  if n <= 1
-2      return arr
-3  maxnum = arr[0]
-4  maxIndex = 0
-5  for i = 1 to n-1
-6      if maxnum < arr[i]
-7          maxnum = arr[i]
-8          maxIndex = i
-9  arr[maxIndex] = arr[n-1]
-10 arr[n-1] = maxnum
-11 SelectionSort(arr, n-1)
+::: code-group
+
+```java [Java]
+int[] selectionSort(int[] arr, int n) {
+    if (n <= 1)                              // 1
+        return arr;                          // 2
+    int maxnum = arr[0];                     // 3
+    int maxIndex = 0;                        // 4
+    for (int i = 1; i < n; i++)              // 5
+        if (maxnum < arr[i]) {               // 6
+            maxnum = arr[i];                 // 7
+            maxIndex = i;                    // 8
+        }
+    arr[maxIndex] = arr[n - 1];              // 9
+    arr[n - 1] = maxnum;                     // 10
+    return selectionSort(arr, n - 1);        // 11
+}
 ```
+
+```python [Python]
+def selectionSort(arr, n):
+    if n <= 1:                                      # 1
+        return arr                                  # 2
+    maxnum = arr[0]                                 # 3
+    maxIndex = 0                                    # 4
+    for i in range(1, n):                           # 5
+        if maxnum < arr[i]:                         # 6
+            maxnum = arr[i]                         # 7
+            maxIndex = i                            # 8
+    arr[maxIndex] = arr[n - 1]                      # 9
+    arr[n - 1] = maxnum                             # 10
+    return selectionSort(arr, n - 1)                # 11
+```
+
+```cpp [C++]
+std::vector<int> selectionSort(std::vector<int>& arr, int n) {
+    if (n <= 1)                              // 1
+        return arr;                          // 2
+    int maxnum = arr[0];                     // 3
+    int maxIndex = 0;                        // 4
+    for (int i = 1; i < n; i++)              // 5
+        if (maxnum < arr[i]) {               // 6
+            maxnum = arr[i];                 // 7
+            maxIndex = i;                    // 8
+        }
+    arr[maxIndex] = arr[n - 1];              // 9
+    arr[n - 1] = maxnum;                     // 10
+    return selectionSort(arr, n - 1);        // 11
+}
+```
+
+```c [C]
+int* selectionSort(int* arr, int n) {
+    if (n <= 1)                              /* 1 */
+        return arr;                          /* 2 */
+    int maxnum = arr[0];                     /* 3 */
+    int maxIndex = 0;                        /* 4 */
+    for (int i = 1; i < n; i++)              /* 5 */
+        if (maxnum < arr[i]) {               /* 6 */
+            maxnum = arr[i];                 /* 7 */
+            maxIndex = i;                    /* 8 */
+        }
+    arr[maxIndex] = arr[n - 1];              /* 9 */
+    arr[n - 1] = maxnum;                     /* 10 */
+    return selectionSort(arr, n - 1);        /* 11 */
+}
+```
+
+:::
 
 页面右侧是执行追踪图：数组 $4, 2, 3, 6, 9, 5$，下方五个向上箭头标注 $i = 1$ 到 $i = 5$；上方三个向下箭头分别标出扫描过程中的状态——"$maxnum = 4$, $maxIndex = 0$"（初始值，对应第 3、4 行）、"$maxnum = 6$, $maxIndex = 3$"（扫到 $i = 3$ 时更新）、"$maxnum = 9$, $maxIndex = 4$"（扫到 $i = 4$ 时更新）。最后一个大箭头指向下面的 $4, 2, 3, 6, 5$ 加一格 "sorted"，说明交换完成后进入第 11 行的递归。
 
 **第 9、10 行是一个不用 if 的交换技巧**：
 
-```text
-9  arr[maxIndex] = arr[n-1]
-10 arr[n-1] = maxnum
+::: code-group
+
+```java [Java]
+static void moveMaxToEnd(int[] arr, int maxIndex, int maxnum) {
+    arr[maxIndex] = arr[arr.length - 1];      // 第 9 行
+    arr[arr.length - 1] = maxnum;             // 第 10 行
+}
 ```
+
+```python [Python]
+def moveMaxToEnd(arr, maxIndex, maxnum):
+    arr[maxIndex] = arr[len(arr) - 1]         # 第 9 行
+    arr[len(arr) - 1] = maxnum                # 第 10 行
+```
+
+```cpp [C++]
+void moveMaxToEnd(std::vector<int>& arr, int maxIndex, int maxnum) {
+    arr[maxIndex] = arr[arr.size() - 1];      // 第 9 行
+    arr[arr.size() - 1] = maxnum;             // 第 10 行
+}
+```
+
+```c [C]
+void moveMaxToEnd(int* arr, int n, int maxIndex, int maxnum) {
+    arr[maxIndex] = arr[n - 1];               /* 第 9 行 */
+    arr[n - 1] = maxnum;                      /* 第 10 行 */
+}
+```
+
+:::
 
 先把"最后一个元素"写到最大元素原来的位置，再把最大值写到最后。如果 `maxIndex` 恰好就是 `n-1`（最大值本来就在最后），第 9 行相当于把 `arr[n-1]` 写给自己（无害），第 10 行再把 `maxnum`（它等于 `arr[n-1]` 的原值）写回去——结果仍然正确。所以这里**不需要额外的边界判断**，这是个省掉一次比较的小聪明。反过来说，如果写成"先用临时变量保存 `arr[n-1]` 再交换"的常规三行写法，逻辑也一样对，只是多一次赋值。
 
@@ -362,14 +554,51 @@ $$g(n) = O(n^2)$$
 
 ### 4.1 maxInArray1：减治（p.16）
 
-```text
-maxInArray1(arr, n)
-1  if n == 1                                            O(1)
-2      return arr[0]                                    O(1)
-3  else
-4      tempMax = maxInArray1(arr, n-1)                  ?
-5      return max(arr[n-1], tempMax)                    O(1)
+::: code-group
+
+```java [Java]
+int maxInArray1(int[] arr, int n) {
+    if (n == 1)                                      // 1  O(1)
+        return arr[0];                               // 2  O(1)
+    else {                                           // 3
+        int tempMax = maxInArray1(arr, n - 1);       // 4  O(?)
+        return Math.max(arr[n - 1], tempMax);        // 5  O(1)
+    }
+}
 ```
+
+```python [Python]
+def maxInArray1(arr, n):
+    if n == 1:                                       # 1  O(1)
+        return arr[0]                                # 2  O(1)
+    else:                                            # 3
+        tempMax = maxInArray1(arr, n - 1)            # 4  O(?)
+        return max(arr[n - 1], tempMax)              # 5  O(1)
+```
+
+```cpp [C++]
+int maxInArray1(const std::vector<int>& arr, int n) {
+    if (n == 1)                                      // 1  O(1)
+        return arr[0];                               // 2  O(1)
+    else {                                           // 3
+        int tempMax = maxInArray1(arr, n - 1);       // 4  O(?)
+        return std::max(arr[n - 1], tempMax);        // 5  O(1)
+    }
+}
+```
+
+```c [C]
+int maxInArray1(const int* arr, int n) {
+    if (n == 1)                                      /* 1  O(1) */
+        return arr[0];                               /* 2  O(1) */
+    else {                                           /* 3 */
+        int tempMax = maxInArray1(arr, n - 1);       /* 4  O(?) */
+        return arr[n - 1] > tempMax ? arr[n - 1] : tempMax;   /* 5  O(1) */
+    }
+}
+```
+
+:::
 
 设 $g(n)$ 为最坏情况下的基本操作数。第 4 行以规模 $n-1$ 调用自己，所以它的代价是 $g(n-1)$：
 
@@ -387,16 +616,59 @@ $$g(n) = O(n)$$
 
 ### 4.2 maxInArray2：把规模对半分（p.17）
 
-```text
-maxInArray2(arr, left, right)
-1  if left == right                                     O(1)
-2      return arr[left]                                 O(1)
-3  else                                                 O(1)
-4      mid = (left+right)/2                             O(1)
-5      maxLeft = maxInArray2(arr, left, middle)          ?
-6      maxRight = maxInArray2(arr, middle+1, right)      ?
-7      return max(maxLeft, maxRight)                    O(1)
+::: code-group
+
+```java [Java]
+int maxInArray2(int[] arr, int left, int right) {
+    if (left == right)                                  // 1  O(1)
+        return arr[left];                               // 2  O(1)
+    else {                                              // 3  O(1)
+        int mid = (left + right) / 2;                   // 4  O(1)
+        int maxLeft = maxInArray2(arr, left, mid);      // 5  O(?)
+        int maxRight = maxInArray2(arr, mid + 1, right); // 6  O(?)
+        return Math.max(maxLeft, maxRight);             // 7  O(1)
+    }
+}
 ```
+
+```python [Python]
+def maxInArray2(arr, left, right):
+    if left == right:                                   # 1  O(1)
+        return arr[left]                                # 2  O(1)
+    else:                                               # 3  O(1)
+        mid = (left + right) // 2                       # 4  O(1)
+        maxLeft = maxInArray2(arr, left, mid)           # 5  O(?)
+        maxRight = maxInArray2(arr, mid + 1, right)     # 6  O(?)
+        return max(maxLeft, maxRight)                   # 7  O(1)
+```
+
+```cpp [C++]
+int maxInArray2(const std::vector<int>& arr, int left, int right) {
+    if (left == right)                                  // 1  O(1)
+        return arr[left];                               // 2  O(1)
+    else {                                              // 3  O(1)
+        int mid = (left + right) / 2;                   // 4  O(1)
+        int maxLeft = maxInArray2(arr, left, mid);      // 5  O(?)
+        int maxRight = maxInArray2(arr, mid + 1, right); // 6  O(?)
+        return std::max(maxLeft, maxRight);             // 7  O(1)
+    }
+}
+```
+
+```c [C]
+int maxInArray2(const int* arr, int left, int right) {
+    if (left == right)                                  /* 1  O(1) */
+        return arr[left];                               /* 2  O(1) */
+    else {                                              /* 3  O(1) */
+        int mid = (left + right) / 2;                   /* 4  O(1) */
+        int maxLeft = maxInArray2(arr, left, mid);      /* 5  O(?) */
+        int maxRight = maxInArray2(arr, mid + 1, right); /* 6  O(?) */
+        return maxLeft > maxRight ? maxLeft : maxRight;  /* 7  O(1) */
+    }
+}
+```
+
+:::
 
 设 $g(n)$ 为最坏情况下的基本操作数，$g(1) = b$：
 
@@ -548,22 +820,129 @@ $$a^t \cdot c\cdot\left(\frac{n}{b^t}\right)^d = c\cdot n^d\cdot\left(\frac{a}{b
 
 课件先给了两个"笨办法"：
 
-```text
-MaxSubarray-1(i, j)
-  for i = 1,...,n
-    for j = i, i+1, ..., n
-      S[i][j] = A[i] + A[i+1] + ... + A[j]
-  return Champion(S)                        O(n^3)
+::: code-group
 
-MaxSubarray-2(i, j)
-  R[0] = 0
-  for i = 1,...,n
-    R[i] = R[i-1] + A[i]
-  for i = 1,...,n
-    for j = i+1, i+2, ..., n
-      S[i][j] = R[j] - R[i-1]
-  return Champion(S)                        O(n^2)
+```java [Java]
+int maxSubarray1(int[] A, int n) {                    // MaxSubarray-1：三重循环，O(n^3)
+    int best = A[0];                                  // 相当于最后那一步 Champion(S)
+    for (int i = 1; i <= n; i++)                      // for i = 1..n
+        for (int j = i; j <= n; j++) {                // for j = i..n
+            int Sij = 0;                              // S[i][j] = A[i]+A[i+1]+…+A[j]
+            for (int p = i; p <= j; p++)
+                Sij += A[p - 1];
+            if (Sij > best) best = Sij;
+        }
+    return best;
+}
 ```
+
+```python [Python]
+def maxSubarray1(A, n):                          # MaxSubarray-1：三重循环，O(n^3)
+    best = A[0]                                  # 相当于最后那一步 Champion(S)
+    for i in range(1, n + 1):                    # for i = 1..n
+        for j in range(i, n + 1):                # for j = i..n
+            Sij = 0                              # S[i][j] = A[i]+A[i+1]+…+A[j]
+            for p in range(i, j + 1):
+                Sij += A[p - 1]
+            if Sij > best: best = Sij
+    return best
+```
+
+```cpp [C++]
+int maxSubarray1(const std::vector<int>& A, int n) {   // MaxSubarray-1：三重循环，O(n^3)
+    int best = A[0];                                   // 相当于最后那一步 Champion(S)
+    for (int i = 1; i <= n; i++)                       // for i = 1..n
+        for (int j = i; j <= n; j++) {                 // for j = i..n
+            int Sij = 0;                               // S[i][j] = A[i]+A[i+1]+…+A[j]
+            for (int p = i; p <= j; p++)
+                Sij += A[p - 1];
+            if (Sij > best) best = Sij;
+        }
+    return best;
+}
+```
+
+```c [C]
+int maxSubarray1(const int* A, int n) {              /* MaxSubarray-1：三重循环，O(n^3) */
+    int best = A[0];                                 /* 相当于最后那一步 Champion(S) */
+    for (int i = 1; i <= n; i++)                     /* for i = 1..n */
+        for (int j = i; j <= n; j++) {               /* for j = i..n */
+            int Sij = 0;                             /* S[i][j] = A[i]+A[i+1]+…+A[j] */
+            for (int p = i; p <= j; p++)
+                Sij += A[p - 1];
+            if (Sij > best) best = Sij;
+        }
+    return best;
+}
+```
+
+:::
+
+::: code-group
+
+```java [Java]
+int maxSubarray2(int[] A, int n) {                    // MaxSubarray-2：前缀和，O(n^2)
+    int[] R = new int[n + 1];                         // R[0] = 0
+    R[0] = 0;
+    for (int i = 1; i <= n; i++)                      // for i = 1..n
+        R[i] = R[i - 1] + A[i - 1];
+    int best = Integer.MIN_VALUE;
+    for (int i = 1; i <= n; i++)
+        for (int j = i + 1; j <= n; j++) {            // for j = i+1..n（课件原文如此）
+            int Sij = R[j] - R[i - 1];                // S[i][j] = R[j] - R[i-1]
+            if (Sij > best) best = Sij;               // Champion(S)
+        }
+    return best;
+}
+```
+
+```python [Python]
+def maxSubarray2(A, n):                          # MaxSubarray-2：前缀和，O(n^2)
+    R = [0] * (n + 1)                            # R[0] = 0
+    for i in range(1, n + 1):                    # for i = 1..n
+        R[i] = R[i - 1] + A[i - 1]
+    best = float("-inf")
+    for i in range(1, n + 1):
+        for j in range(i + 1, n + 1):            # for j = i+1..n（课件原文如此）
+            Sij = R[j] - R[i - 1]                # S[i][j] = R[j] - R[i-1]
+            if Sij > best: best = Sij            # Champion(S)
+    return best
+```
+
+```cpp [C++]
+int maxSubarray2(const std::vector<int>& A, int n) {   // MaxSubarray-2：前缀和，O(n^2)
+    std::vector<int> R(n + 1, 0);                      // R[0] = 0
+    for (int i = 1; i <= n; i++)                       // for i = 1..n
+        R[i] = R[i - 1] + A[i - 1];
+    int best = INT_MIN;
+    for (int i = 1; i <= n; i++)
+        for (int j = i + 1; j <= n; j++) {             // for j = i+1..n（课件原文如此）
+            int Sij = R[j] - R[i - 1];                 // S[i][j] = R[j] - R[i-1]
+            if (Sij > best) best = Sij;                // Champion(S)
+        }
+    return best;
+}
+```
+
+```c [C]
+#include <limits.h>
+
+int maxSubarray2(const int* A, int n) {              /* MaxSubarray-2：前缀和，O(n^2) */
+    int R[n + 1];                                    /* R[0] = 0 */
+    R[0] = 0;
+    for (int i = 1; i <= n; i++)                     /* for i = 1..n */
+        R[i] = R[i - 1] + A[i - 1];
+    int best = INT_MIN;
+    for (int i = 1; i <= n; i++)
+        for (int j = i + 1; j <= n; j++) {           /* for j = i+1..n（课件原文如此） */
+            int Sij = R[j] - R[i - 1];               /* S[i][j] = R[j] - R[i-1] */
+            if (Sij > best) best = Sij;              /* Champion(S) */
+        }
+    return best;
+}
+```
+
+:::
 
 **MaxSubarray-1 是三重循环**：最外层枚举起点 $i$、中间枚举终点 $j$、最内层那个 $\cdots$ 是显式地把 $A[i]$ 加到 $A[j]$，要 $j-i+1$ 次。三者相乘是 $O(n^3)$。
 
@@ -632,24 +1011,80 @@ $$\sum_{p=x}^{k} A[p] \;+\; \sum_{q=k+1}^{y} A[q]$$
 
 p.27 给出代码：
 
-```text
-MaxCrossSubarray(A, i, k, j)
-  left_sum = -∞
-  sum = 0
-  for p = k downto i                 O(k-i+1)
-    sum = sum + A[p]
-    if sum > left_sum
-      left_sum = sum
-      max_left = p
-  right_sum = -∞
-  sum = 0
-  for q = k+1 to j                   O(j-k)
-    sum = sum + A[q]
-    if sum > right_sum
-      right_sum = sum
-      max_right = q
-  return (max_left, max_right, left_sum + right_sum)
+::: code-group
+
+```java [Java]
+int[] maxCrossSubarray(int[] A, int i, int k, int j) {
+    int leftSum = Integer.MIN_VALUE, sum = 0, maxLeft = k;    // left_sum = -∞
+    for (int p = k; p >= i; p--) {                            // p = k downto i，O(k-i+1)
+        sum += A[p];
+        if (sum > leftSum) { leftSum = sum; maxLeft = p; }
+    }
+    int rightSum = Integer.MIN_VALUE, maxRight = k + 1;       // right_sum = -∞
+    sum = 0;
+    for (int q = k + 1; q <= j; q++) {                        // q = k+1 to j，O(j-k)
+        sum += A[q];
+        if (sum > rightSum) { rightSum = sum; maxRight = q; }
+    }
+    return new int[]{maxLeft, maxRight, leftSum + rightSum};
+}
 ```
+
+```python [Python]
+def maxCrossSubarray(A, i, k, j):
+    leftSum, s, maxLeft = float("-inf"), 0, k         # left_sum = -∞, sum = 0
+    for p in range(k, i - 1, -1):                     # p = k downto i，O(k-i+1)
+        s += A[p]
+        if s > leftSum:
+            leftSum, maxLeft = s, p
+    rightSum, s, maxRight = float("-inf"), 0, k + 1   # right_sum = -∞, sum = 0
+    for q in range(k + 1, j + 1):                     # q = k+1 to j，O(j-k)
+        s += A[q]
+        if s > rightSum:
+            rightSum, maxRight = s, q
+    return (maxLeft, maxRight, leftSum + rightSum)
+```
+
+```cpp [C++]
+std::array<int, 3> maxCrossSubarray(const std::vector<int>& A, int i, int k, int j) {
+    int leftSum = INT_MIN, sum = 0, maxLeft = k;              // left_sum = -∞
+    for (int p = k; p >= i; p--) {                            // p = k downto i，O(k-i+1)
+        sum += A[p];
+        if (sum > leftSum) { leftSum = sum; maxLeft = p; }
+    }
+    int rightSum = INT_MIN, maxRight = k + 1;                 // right_sum = -∞
+    sum = 0;
+    for (int q = k + 1; q <= j; q++) {                        // q = k+1 to j，O(j-k)
+        sum += A[q];
+        if (sum > rightSum) { rightSum = sum; maxRight = q; }
+    }
+    return {maxLeft, maxRight, leftSum + rightSum};
+}
+```
+
+```c [C]
+#include <limits.h>
+
+typedef struct { int low, high, sum; } Triple;                /* Java 的 int[]、Python 的元组 */
+
+Triple maxCrossSubarray(const int* A, int i, int k, int j) {
+    int leftSum = INT_MIN, sum = 0, maxLeft = k;              /* left_sum = -∞ */
+    for (int p = k; p >= i; p--) {                            /* p = k downto i，O(k-i+1) */
+        sum += A[p];
+        if (sum > leftSum) { leftSum = sum; maxLeft = p; }
+    }
+    int rightSum = INT_MIN, maxRight = k + 1;                 /* right_sum = -∞ */
+    sum = 0;
+    for (int q = k + 1; q <= j; q++) {                        /* q = k+1 to j，O(j-k) */
+        sum += A[q];
+        if (sum > rightSum) { rightSum = sum; maxRight = q; }
+    }
+    Triple t = {maxLeft, maxRight, leftSum + rightSum};
+    return t;
+}
+```
+
+:::
 
 页面右侧用两个大括号标出复杂度：左边循环 $O(k-i+1)$、右边循环 $O(j-k)$，合起来 $= O(j-i+1)$。
 
@@ -663,23 +1098,123 @@ MaxCrossSubarray(A, i, k, j)
 
 ### 6.5 完整算法（p.28-29）
 
-```text
-MaxSubarray(A, i, j)
-  if i == j                                    // base case
-    return (i, j, A[i])
-  else                                         // recursive case
-    k = floor((i + j) / 2)
-    (l_low, l_high, l_sum) = MaxSubarray(A, i, k)
-    (r_low, r_high, r_sum) = MaxSubarray(A, k+1, j)
-    (c_low, c_high, c_sum) = MaxCrossSubarray(A, i, k, j)
+::: code-group
 
-  if l_sum >= r_sum and l_sum >= c_sum         // case 1
-    return (l_low, l_high, l_sum)
-  else if r_sum >= l_sum and r_sum >= c_sum    // case 2
-    return (r_low, r_high, r_sum)
-  else                                         // case 3
-    return (c_low, c_high, c_sum)
+```java [Java]
+int[] maxCrossSubarray(int[] A, int i, int k, int j) {     // 与 §6.4 同名同实现，此处再写一份以便整段可跑
+    int leftSum = Integer.MIN_VALUE, sum = 0, maxLeft = k;
+    for (int p = k; p >= i; p--) {
+        sum += A[p];
+        if (sum > leftSum) { leftSum = sum; maxLeft = p; }
+    }
+    int rightSum = Integer.MIN_VALUE, maxRight = k + 1;
+    sum = 0;
+    for (int q = k + 1; q <= j; q++) {
+        sum += A[q];
+        if (sum > rightSum) { rightSum = sum; maxRight = q; }
+    }
+    return new int[]{maxLeft, maxRight, leftSum + rightSum};
+}
+
+int[] maxSubarray(int[] A, int i, int j) {
+    if (i == j) return new int[]{i, j, A[i]};              // base case
+    int k = (i + j) / 2;                                   // floor((i+j)/2)
+    int[] l = maxSubarray(A, i, k);                         // Divide / Conquer
+    int[] r = maxSubarray(A, k + 1, j);
+    int[] c = maxCrossSubarray(A, i, k, j);                 // 跨中点：递归本身拿不到
+    if (l[2] >= r[2] && l[2] >= c[2]) return l;             // case 1
+    else if (r[2] >= l[2] && r[2] >= c[2]) return r;        // case 2
+    else return c;                                          // case 3
+}
 ```
+
+```python [Python]
+def maxCrossSubarray(A, i, k, j):                 # 与 §6.4 同名同实现，此处再写一份以便整段可跑
+    leftSum, s, maxLeft = float("-inf"), 0, k
+    for p in range(k, i - 1, -1):
+        s += A[p]
+        if s > leftSum:
+            leftSum, maxLeft = s, p
+    rightSum, s, maxRight = float("-inf"), 0, k + 1
+    for q in range(k + 1, j + 1):
+        s += A[q]
+        if s > rightSum:
+            rightSum, maxRight = s, q
+    return (maxLeft, maxRight, leftSum + rightSum)
+
+def maxSubarray(A, i, j):
+    if i == j: return (i, j, A[i])                # base case
+    k = (i + j) // 2                              # floor((i+j)/2)
+    l = maxSubarray(A, i, k)                      # Divide / Conquer
+    r = maxSubarray(A, k + 1, j)
+    c = maxCrossSubarray(A, i, k, j)              # 跨中点：递归本身拿不到
+    if l[2] >= r[2] and l[2] >= c[2]: return l    # case 1
+    elif r[2] >= l[2] and r[2] >= c[2]: return r  # case 2
+    else: return c                                # case 3
+```
+
+```cpp [C++]
+std::array<int, 3> maxCrossSubarray(const std::vector<int>& A, int i, int k, int j) {
+    int leftSum = INT_MIN, sum = 0, maxLeft = k;
+    for (int p = k; p >= i; p--) {
+        sum += A[p];
+        if (sum > leftSum) { leftSum = sum; maxLeft = p; }
+    }
+    int rightSum = INT_MIN, maxRight = k + 1;
+    sum = 0;
+    for (int q = k + 1; q <= j; q++) {
+        sum += A[q];
+        if (sum > rightSum) { rightSum = sum; maxRight = q; }
+    }
+    return {maxLeft, maxRight, leftSum + rightSum};
+}
+
+std::array<int, 3> maxSubarray(const std::vector<int>& A, int i, int j) {
+    if (i == j) return {i, j, A[i]};                            // base case
+    int k = (i + j) / 2;                                        // floor((i+j)/2)
+    auto l = maxSubarray(A, i, k);                              // Divide / Conquer
+    auto r = maxSubarray(A, k + 1, j);
+    auto c = maxCrossSubarray(A, i, k, j);                      // 跨中点：递归本身拿不到
+    if (l[2] >= r[2] && l[2] >= c[2]) return l;                  // case 1
+    else if (r[2] >= l[2] && r[2] >= c[2]) return r;             // case 2
+    else return c;                                               // case 3
+}
+```
+
+```c [C]
+#include <limits.h>
+
+typedef struct { int low, high, sum; } Triple;                  /* Java 的 int[]、Python 的元组 */
+
+Triple maxCrossSubarray(const int* A, int i, int k, int j) {
+    int leftSum = INT_MIN, sum = 0, maxLeft = k;
+    for (int p = k; p >= i; p--) {
+        sum += A[p];
+        if (sum > leftSum) { leftSum = sum; maxLeft = p; }
+    }
+    int rightSum = INT_MIN, maxRight = k + 1;
+    sum = 0;
+    for (int q = k + 1; q <= j; q++) {
+        sum += A[q];
+        if (sum > rightSum) { rightSum = sum; maxRight = q; }
+    }
+    Triple t = {maxLeft, maxRight, leftSum + rightSum};
+    return t;
+}
+
+Triple maxSubarray(const int* A, int i, int j) {
+    if (i == j) { Triple t = {i, j, A[i]}; return t; }          /* base case */
+    int k = (i + j) / 2;                                        /* floor((i+j)/2) */
+    Triple l = maxSubarray(A, i, k);                            /* Divide / Conquer */
+    Triple r = maxSubarray(A, k + 1, j);
+    Triple c = maxCrossSubarray(A, i, k, j);                    /* 跨中点：递归本身拿不到 */
+    if (l.sum >= r.sum && l.sum >= c.sum) return l;              /* case 1 */
+    else if (r.sum >= l.sum && r.sum >= c.sum) return r;         /* case 2 */
+    else return c;                                               /* case 3 */
+}
+```
+
+:::
 
 p.28 用三种颜色把分治的三段标注得很清楚：蓝色的两行 `MaxSubarray` 调用和红色的 `MaxCrossSubarray` 调用标着 **Divide**（切分）与 **Conquer**（求解）；下面那个绿框（三路比较并返回）标着 **Combine**（合并）。
 

@@ -1,5 +1,5 @@
 ---
-title: Lecture 13 树与二叉树（Tree and Binary Tree）
+title: Lecture 13 Tree and Binary Tree（树与二叉树）
 course: CSC3100 Data Structures
 lecture: Lecture 13 - Tree and Binary Tree
 date: 2026-10-29
@@ -477,16 +477,60 @@ p.9 的图很简单：一个 `root` 圆圈，两条线分别连到两个淡蓝�
 
 ### 11.1 `Create` 与 `IsEmpty`
 
-```
-Algorithm: create(bintree)
-1  bintree = NULL
-2  return bintree
+::: code-group
+
+```java [Java]
+class Node { char element; Node parent, leftchild, rightchild; Node(char e) { this.element = e; } }
+
+class Tree {
+    static Node create() { return null; }        // 第 1-2 行：bintree = NULL; return bintree
+    static boolean isEmpty(Node bintree) { return bintree == null; }   // 第 1 行
+}
 ```
 
+```python [Python]
+class Node:
+    def __init__(self, element):
+        self.element = element
+        self.parent = self.leftchild = self.rightchild = None
+
+
+def create():
+    return None                                  # 第 1-2 行：bintree = NULL; return bintree
+
+
+def is_empty(bintree):
+    return bintree is None                       # 第 1 行
 ```
-Algorithm: isEmpty(bintree)
-1  return bintree == NULL
+
+```cpp [C++]
+struct Node {
+    char element; Node *parent, *leftchild, *rightchild;
+    Node(char e) : element(e), parent(NULL), leftchild(NULL), rightchild(NULL) {}
+};
+
+Node *create() { return NULL; }               // 第 1-2 行：bintree = NULL; return bintree
+bool isEmpty(Node *bintree) { return bintree == NULL; }   // 第 1 行
 ```
+
+```c [C]
+#include <stdlib.h>
+
+typedef struct Node {
+    char element; struct Node *parent, *leftchild, *rightchild;
+} Node;
+
+Node *newNode(char e) {
+    Node *z = (Node *)malloc(sizeof(Node));
+    z->element = e; z->parent = z->leftchild = z->rightchild = NULL;
+    return z;
+}
+
+Node *create() { return NULL; }               /* 第 1-2 行：bintree = NULL; return bintree */
+int isEmpty(Node *bintree) { return bintree == NULL; }     /* 第 1 行 */
+```
+
+:::
 
 `Create` 两行，实质是"返回 NULL"。第一行 `bintree = NULL` 是对**形参**赋值——伪代码里参数怎么传没写清，如果按值传递，这个赋值只改了副本，第二行返回的仍是调用者传进来的那个值，函数就什么也没做。正确的读法是"这个函数返回一个空树"，也就是 Java 里的 `return null;`。
 
@@ -496,19 +540,66 @@ Algorithm: isEmpty(bintree)
 
 ### 11.2 `MakeBT`：那两行 `if` 在补什么
 
+::: code-group
+
+```java [Java]
+// Node 见 §11.1 首组
+class Tree {
+    static Node makeBT(Node bintree1, char element, Node bintree2) {
+        Node rootNode = new Node(element);                    // 第 1-2 行
+        rootNode.parent = null;                               // 第 3 行
+        rootNode.leftchild = bintree1;                        // 第 4 行
+        rootNode.rightchild = bintree2;                       // 第 5 行
+        if (bintree1 != null) bintree1.parent = rootNode;     // 第 6-7 行
+        if (bintree2 != null) bintree2.parent = rootNode;     // 第 8-9 行
+        return rootNode;                                      // 第 10 行
+    }
+}
 ```
-Algorithm: MakeBT(bintree1, element, bintree2)
-1   rootNode <- allocate new memory
-2   rootNode.element = element
-3   rootNode.parent = NULL
-4   rootNode.leftchild = bintree1
-5   rootNode.rightchild = bintree2
-6   if bintree1 != NULL
-7     bintree1.parent = rootNode
-8   if bintree 2 != NULL
-9     bintree2.parent = rootNode
-10  return rootNode
+
+```python [Python]
+# Node 见 §11.1 首组
+
+
+def make_bt(bintree1, element, bintree2):
+    root_node = Node(element)                             # 第 1-2 行
+    root_node.parent = None                               # 第 3 行
+    root_node.leftchild = bintree1                        # 第 4 行
+    root_node.rightchild = bintree2                       # 第 5 行
+    if bintree1 is not None: bintree1.parent = root_node  # 第 6-7 行
+    if bintree2 is not None: bintree2.parent = root_node  # 第 8-9 行
+    return root_node                                      # 第 10 行
 ```
+
+```cpp [C++]
+// Node 见 §11.1 首组
+
+Node *makeBT(Node *bintree1, char element, Node *bintree2) {
+    Node *rootNode = new Node(element);                   // 第 1-2 行
+    rootNode->parent = NULL;                              // 第 3 行
+    rootNode->leftchild = bintree1;                       // 第 4 行
+    rootNode->rightchild = bintree2;                      // 第 5 行
+    if (bintree1 != NULL) bintree1->parent = rootNode;    // 第 6-7 行
+    if (bintree2 != NULL) bintree2->parent = rootNode;    // 第 8-9 行
+    return rootNode;                                      // 第 10 行
+}
+```
+
+```c [C]
+/* Node 见 §11.1 首组 */
+
+Node *makeBT(Node *bintree1, char element, Node *bintree2) {
+    Node *rootNode = newNode(element);                    /* 第 1-2 行 */
+    rootNode->parent = NULL;                              /* 第 3 行 */
+    rootNode->leftchild = bintree1;                       /* 第 4 行 */
+    rootNode->rightchild = bintree2;                      /* 第 5 行 */
+    if (bintree1 != NULL) bintree1->parent = rootNode;    /* 第 6-7 行 */
+    if (bintree2 != NULL) bintree2->parent = rootNode;    /* 第 8-9 行 */
+    return rootNode;                                      /* 第 10 行 */
+}
+```
+
+:::
 
 第 1-2 行：申请一个新结点，把元素装进去。这是"新根"。
 
@@ -532,12 +623,51 @@ Algorithm: MakeBT(bintree1, element, bintree2)
 
 ### 11.3 `Lchild`、`Rchild`、`Data`
 
+::: code-group
+
+```java [Java]
+// Node 见 §11.1 首组
+class Tree {
+    static Node lchild(Node bintree) {
+        if (bintree == null)                                  // 第 1 行
+            throw new java.util.NoSuchElementException("empty tree");  // 第 2 行
+        return bintree.leftchild;                             // 第 3 行
+    }
+}
 ```
-Algorithm: Lchild(bintree)
-1  if bintree == NULL
-2    error "empty tree"
-3  return bintree.leftchild
+
+```python [Python]
+# Node 见 §11.1 首组
+
+
+def lchild(bintree):
+    if bintree is None:                                       # 第 1 行
+        raise LookupError("empty tree")                       # 第 2 行
+    return bintree.leftchild                                  # 第 3 行
 ```
+
+```cpp [C++]
+// Node 见 §11.1 首组
+
+Node *lchild(Node *bintree) {
+    if (bintree == NULL)                                      // 第 1 行
+        throw std::runtime_error("empty tree");               // 第 2 行
+    return bintree->leftchild;                                // 第 3 行
+}
+```
+
+```c [C]
+/* Node 见 §11.1 首组 */
+
+Node *lchild(Node *bintree) {
+    if (bintree == NULL) {                                    /* 第 1 行 */
+        fprintf(stderr, "empty tree\n"); exit(1);             /* 第 2 行 */
+    }
+    return bintree->leftchild;                                /* 第 3 行 */
+}
+```
+
+:::
 
 三个算法结构完全一样：**先查空，再取字段**。第 2 行的 `error "empty tree"` 是抽象写法，Java 里对应抛 `NoSuchElementException` 或返回 `null`（两种都能接受，但要在文档里说清）。
 
@@ -845,13 +975,57 @@ $$
 
 ### 18.1 伪代码
 
+::: code-group
+
+```java [Java]
+// Node 见 §11.1 首组
+class Tree {
+    static void inorderWalk(Node x) {
+        if (x != null) {                          // 第 1 行：基例
+            inorderWalk(x.leftchild);             // 第 2 行
+            System.out.print(x.element);          // 第 3 行：唯一有副作用的一行
+            inorderWalk(x.rightchild);            // 第 4 行
+        }
+    }
+}
 ```
-INORDER-TREE-WALK(x)
-1  if x ≠ NIL
-2    then INORDER-TREE-WALK(left[x])
-3         print key[x]
-4         INORDER-TREE-WALK(right[x])
+
+```python [Python]
+# Node 见 §11.1 首组
+
+
+def inorder_walk(x):
+    if x is not None:                             # 第 1 行：基例
+        inorder_walk(x.leftchild)                 # 第 2 行
+        print(x.element, end="")                  # 第 3 行：唯一有副作用的一行
+        inorder_walk(x.rightchild)                # 第 4 行
 ```
+
+```cpp [C++]
+// Node 见 §11.1 首组
+
+void inorderWalk(Node *x) {
+    if (x != NULL) {                              // 第 1 行：基例
+        inorderWalk(x->leftchild);                // 第 2 行
+        putchar(x->element);                      // 第 3 行：唯一有副作用的一行
+        inorderWalk(x->rightchild);               // 第 4 行
+    }
+}
+```
+
+```c [C]
+/* Node 见 §11.1 首组 */
+
+void inorderWalk(Node *x) {
+    if (x != NULL) {                              /* 第 1 行：基例 */
+        inorderWalk(x->leftchild);                /* 第 2 行 */
+        putchar(x->element);                      /* 第 3 行：唯一有副作用的一行 */
+        inorderWalk(x->rightchild);               /* 第 4 行 */
+    }
+}
+```
+
+:::
 
 四行，就是 p.19 的中序定义翻成了代码。三个细节：
 
@@ -1129,18 +1303,73 @@ for (int i = 0; i < inorder.length; i++) pos.put(inorder[i], i);
 
 两个优化一起用：
 
-```java
-TreeNode build(int preLo, int preHi, int inLo, int inHi) {
-    if (preLo > preHi) return null;
+::: code-group
+
+```java [Java]
+// TreeNode 见 §22.1 组
+class BTreeBuilder {
+    static TreeNode build(char[] preorder, java.util.Map<Character, Integer> pos,
+                          int preLo, int preHi, int inLo, int inHi) {
+        if (preLo > preHi) return null;
+        char rootValue = preorder[preLo];
+        int k = pos.get(rootValue);                    // O(1)
+        int leftSize = k - inLo;                       // 左子树的结点数
+        TreeNode root = new TreeNode(rootValue);
+        root.left  = build(preorder, pos, preLo + 1, preLo + leftSize, inLo, k - 1);
+        root.right = build(preorder, pos, preLo + leftSize + 1, preHi, k + 1, inHi);
+        return root;
+    }
+}
+```
+
+```python [Python]
+# TreeNode 见 §22.1 组
+
+
+def build(preorder, pos, preLo, preHi, inLo, inHi):
+    if preLo > preHi: return None
+    root_value = preorder[preLo]
+    k = pos[root_value]                               # O(1)
+    left_size = k - inLo                              # 左子树的结点数
+    root = TreeNode(root_value)
+    root.left  = build(preorder, pos, preLo + 1, preLo + left_size, inLo, k - 1)
+    root.right = build(preorder, pos, preLo + left_size + 1, preHi, k + 1, inHi)
+    return root
+```
+
+```cpp [C++]
+// TreeNode 见 §22.1 组
+
+TreeNode *build(const char *preorder, const int *pos,
+                int preLo, int preHi, int inLo, int inHi) {
+    if (preLo > preHi) return NULL;
     char rootValue = preorder[preLo];
-    int k = pos.get(rootValue);          // O(1)
-    int leftSize = k - inLo;             // 左子树的结点数
-    TreeNode root = new TreeNode(rootValue);
-    root.left  = build(preLo + 1, preLo + leftSize, inLo, k - 1);
-    root.right = build(preLo + leftSize + 1, preHi, k + 1, inHi);
+    int k = pos[(int)rootValue];                       // O(1)
+    int leftSize = k - inLo;                           // 左子树的结点数
+    TreeNode *root = new TreeNode(rootValue);
+    root->left  = build(preorder, pos, preLo + 1, preLo + leftSize, inLo, k - 1);
+    root->right = build(preorder, pos, preLo + leftSize + 1, preHi, k + 1, inHi);
     return root;
 }
 ```
+
+```c [C]
+/* TreeNode 见 §22.1 组 */
+
+TreeNode *build(const char *preorder, const int *pos,
+                int preLo, int preHi, int inLo, int inHi) {
+    if (preLo > preHi) return NULL;
+    char rootValue = preorder[preLo];
+    int k = pos[(int)rootValue];                       /* O(1) */
+    int leftSize = k - inLo;                           /* 左子树的结点数 */
+    TreeNode *root = newTreeNode(rootValue);
+    root->left  = build(preorder, pos, preLo + 1, preLo + leftSize, inLo, k - 1);
+    root->right = build(preorder, pos, preLo + leftSize + 1, preHi, k + 1, inHi);
+    return root;
+}
+```
+
+:::
 
 **复杂度**：每次调用做 $O(1)$ 的工作（一次查表、两次减法、两次递归），一共 $n+1$ 次调用（$n$ 个结点 + $n+1$ 个空段），所以
 
