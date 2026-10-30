@@ -210,6 +210,10 @@ export const courses: CourseEntry[] = [
         text: 'Ch9 货币、物价与金融中介（Money, Prices, and Financial Intermediaries）',
         file: 'ch9-money-prices-and-financial-intermediaries',
       },
+      {
+        text: 'Ch4 支出、收入与 GDP（Spending, Income and GDP）',
+        file: 'ch4-spending-income-gdp',
+      },
     ],
   },
   {

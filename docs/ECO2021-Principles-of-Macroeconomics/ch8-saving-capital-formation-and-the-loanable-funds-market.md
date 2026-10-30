@@ -52,7 +52,7 @@ title: Ch8 储蓄、资本形成与可贷资金市场（Saving, Capital Formatio
 
 ### 1.1 六条目标（p2）
 
-课件第 2 页列了六件事，它们不是并列的，而是"定义 → 拆解 → 动机 → 工具 → 需求 → 市场"的一条链：
+六条目标不是并列的，而是"定义 → 拆解 → 动机 → 工具 → 需求 → 市场"的一条链：
 
 第一，**解释储蓄与财富之间的关系（Explain the relationship between saving and wealth）**。这是本章的概念地基，也是最容易答错的一问——答案不是"储蓄就是财富"，而是"储蓄是流量、财富是存量，储蓄改变财富"。
 
@@ -70,7 +70,7 @@ title: Ch8 储蓄、资本形成与可贷资金市场（Saving, Capital Formatio
 
 ### 1.2 三分法骨架（p3，并在 p57、p64 重复）
 
-第 3 页是全章目录：**I. Saving、II. Investment、III. The market for loanable funds**。这张幻灯片在本讲出现了**三次**（p3、p57、p64），分别在 Part I 开头、Part II 开头、Part III 开头，充当路标。**读法：第一次出现时看全貌，后两次出现时确认自己换段了。**
+全章目录是**I. Saving、II. Investment、III. The market for loanable funds**，这一页在本讲出现了**三次**（p3、p57、p64），分别在 Part I 开头、Part II 开头、Part III 开头，充当路标。**读法：第一次出现时看全貌，后两次出现时确认自己换段了。**
 
 三块的分量差别很大：Part I（p4–p56）占 53 页，Part II（p57–p63）只占 7 页，Part III（p64–p76）占 13 页。**Part II 最短，但它是"需求方"，是挤出效应那半张图的主角**——不能因为页数少就跳。
 
@@ -96,7 +96,7 @@ title: Ch8 储蓄、资本形成与可贷资金市场（Saving, Capital Formatio
 
 ### 2.2 一张资产负债表：把定义算一遍（p5）
 
-第 5 页给了一张具体的表，并说明：**资产负债表（balance sheet）是一个经济单位的资产与负债清单**，它有两个限定：<b>特定日期（Specific date）</b>和**特定经济单位（企业、家庭等）**。
+**资产负债表（balance sheet）是一个经济单位的资产与负债清单**，它有两个限定：<b>特定日期（Specific date）</b>和**特定经济单位（企业、家庭等）**。
 
 | 资产 Assets | 金额 | 负债 Liabilities | 金额 |
 |---|---|---|---|
@@ -119,7 +119,7 @@ title: Ch8 储蓄、资本形成与可贷资金市场（Saving, Capital Formatio
 
 ### 2.3 流量与存量（p6）
 
-第 6 页把两件事分开：
+把两件事分开就很清楚：
 
 **流量值（A flow value）按单位时间定义**（is defined per unit of time）。例子：收入（Income）、支出（Spending）、储蓄（Saving）、工资（Wage）。**收入是"在一段时间内你收到的钱"（the amount of money you receive over some period of time），来源可以是市场收入、投资或政府。**
 
@@ -129,17 +129,17 @@ title: Ch8 储蓄、资本形成与可贷资金市场（Saving, Capital Formatio
 
 ### 2.4 浴缸图：流量怎么改变存量（p7）
 
-第 7 页只有一张图和一句话，但它是本章最好用的一个直觉模型，标题写得很清楚：**Wealth, Income, Depreciation, and Consumption: The Bathtub Analogy**。
+本章最好用的一个直觉模型是浴缸，标题写得很直白：**Wealth, Income, Depreciation, and Consumption: The Bathtub Analogy**（课件 p7）。
 
-图上是一个装了水的浴缸：**水位＝财富（Wealth）**；右上方一个花洒往里注水，标注 **Gross income**（总收入）；缸底有一个排水口向下流出，标注 **Consumption**（消费）；水面上方有三支虚线箭头向上蒸发，标注 **Depreciation**（折旧）。文字结论是：**储蓄的流量导致财富的存量发生变化；一个人每储蓄一美元，他的财富就增加一美元（Every dollar a person saves adds to his wealth）**。
+浴缸里装着水：**水位＝财富（Wealth）**；右上方一个花洒往里注水，标注 **Gross income**（总收入）；缸底有一个排水口向下流出，标注 **Consumption**（消费）；水面上方有三支虚线箭头向上蒸发，标注 **Depreciation**（折旧）。文字结论是：**储蓄的流量导致财富的存量发生变化；一个人每储蓄一美元，他的财富就增加一美元（Every dollar a person saves adds to his wealth）**。
 
 这个类比的用处在于它把"存量—流量"关系变成一句话：**流量是水管，存量是水位。水位的变化等于进水管减去出水管。**
 
-> **但图和文字对不上，这一处必须看清楚。** 文字说的是"储蓄改变财富"，图里画的却是"总收入进、消费和折旧出"。两者只有在<b>把储蓄定义成"毛收入 − 消费 − 折旧"</b>时才等价；而第 4 页给的定义是"储蓄＝当期收入 − 当期需要的支出"，那里**没有折旧这一项**（折旧不是一笔"支出"，它是资产价值的自然下降）。所以课件在本章开头就留下了一个口径裂缝：**p4 的储蓄是毛口径，p7 的图是净口径。** 我的处理办法是：把 p7 读成"完整版本"，把 p4 读成"简化版本"，然后在 p8 那个公式里看课件自己怎么收场（见 §2.5）。**这个裂缝在第 61 页还会再出现一次**——那里"折旧"被明确列为企业使用资本的两项成本之一，说明课件是知道折旧的。
+> **但课件 p7 的图和文字对不上，这一处必须看清楚。** 文字说的是"储蓄改变财富"，那张图里画的却是"总收入进、消费和折旧出"。两者只有在<b>把储蓄定义成"毛收入 − 消费 − 折旧"</b>时才等价；而课件 p4 的定义是"储蓄＝当期收入 − 当期需要的支出"，那里**没有折旧这一项**（折旧不是一笔"支出"，它是资产价值的自然下降）。所以课件在本章开头就留下了一个口径裂缝：**p4 的储蓄是毛口径，p7 的图是净口径。** 我的处理办法是：把 p7 读成"完整版本"，把 p4 读成"简化版本"，然后在 p8 那个公式里看课件自己怎么收场（见 §2.5）。**这个裂缝在第 61 页还会再出现一次**——那里"折旧"被明确列为企业使用资本的两项成本之一，说明课件是知道折旧的。
 
 ### 2.5 财富的第二条变动渠道：资本损益（p8）
 
-第 8 页给出本章第一个也是最重要的一个公式：
+本章第一个也是最重要的一个公式是（课件 p8）：
 
 $$\text{Change in wealth} = \text{Saving} + \text{Capital gains} - \text{Capital losses}$$
 
@@ -153,9 +153,9 @@ $$\text{Change in wealth} = \text{Saving} + \text{Capital gains} - \text{Capital
 
 ### 2.6 一个真实例子：牛市如何压低储蓄率（p9–p10）
 
-第 9 页是一张图，标题 **U.S. Bull Markets, 1974 – 2014**，纵轴是 **S&P/CPI, 1974 = 100**（即用 CPI 平减后的**实际**股价指数），横轴是年份。第 10 页是配的文字。
+实际股价的长期走势由一张图给出（课件 p9）：标题 **U.S. Bull Markets, 1974 – 2014**，纵轴是 **S&P/CPI, 1974 = 100**（即用 CPI 平减后的**实际**股价指数），横轴是年份。文字说明在 p10。
 
-**图上我量出来的读数**（把图内嵌位图在 400 dpi 下做坐标标定后逐列取曲线位置，标定用了两条独立校验：十个刻度标签的最小二乘拟合残差不超过 6.5 个指数点；1974 年起点读数为 96，而它按定义应当正好是 100，偏差 4%）：
+**我在那张图上量出来的读数**（把图内嵌位图在 400 dpi 下做坐标标定后逐列取曲线位置，标定用了两条独立校验：十个刻度标签的最小二乘拟合残差不超过 6.5 个指数点；1974 年起点读数为 96，而它按定义应当正好是 100，偏差 4%）：
 
 | 年份 | 实际股价指数（约） | 事件 |
 |---|---|---|
@@ -171,7 +171,7 @@ $$\text{Change in wealth} = \text{Saving} + \text{Capital gains} - \text{Capital
 
 **这张图给了第 10 页文字所需的全部背景，但课件没有把两者连起来读，我连一下。** 从 1980 年（约 68）到 2014 年（约 388），实际股价涨了 5.7 倍，**折合年均约 5.25%（实际口径）**；从 1974 到 2014 四十年是 4 倍，**年均约 3.55%（实际口径）**。**这两个数字在第 42 页会变成一个矛盾**——那里写"8% 低于 1980 年以来共同基金的回报率"，而 8% 在这张图里被当成**实际**利率用。详见 §7.3。
 
-第 10 页的文字讲了四件事，逻辑是一条因果链：
+配的文字（p10）讲了四件事，逻辑是一条因果链：
 
 **1990 年代股票持有量上升**，渠道有三个：直接购买（Direct purchases）、共同基金（Mutual funds）、养老金与退休基金（Pension and retirement funds）。**股价快速上涨 → 股票的资本利得增加了家庭财富 → 这可能减少了家庭储蓄（May have decreased household saving）**。
 
@@ -179,7 +179,7 @@ $$\text{Change in wealth} = \text{Saving} + \text{Capital gains} - \text{Capital
 
 **为什么这句最重要？** 因为它把"财富 → 储蓄"这条负向关系做了**跨资产类别的检验**：股市跌了，储蓄率却没有回升，因为**另一类资产（房子）的资本利得补上了缺口**。换句话说，家庭看的不是"股票账户"这一个抽屉，而是**财富总额**这个抽屉。如果只看股市那条线，你会得出"股市跌→储蓄升"的错误预测。**这就是 §2.5 那个三项式的政策含义：只要资本利得那条渠道还在工作，储蓄这条渠道就可以不动。**
 
-最后一句"Since 2009, a new bull market has taken hold"对应图上 2009 年那个约 175 的谷底之后一路回到 388。
+最后一句"Since 2009, a new bull market has taken hold"对应 2009 年那个约 175 的谷底之后一路回到 388。
 
 ---
 
@@ -199,7 +199,7 @@ $$Y = C + I + G + NX$$
 
 ### 3.2 两个简化假设与国民储蓄的定义（p12）
 
-第 12 页做了两件事，**两件都是假设，不是事实**，考试喜欢考"你知不知道这是假设"。
+这里有两件事，**两件都是假设，不是事实**（课件 p12），考试喜欢考"你知不知道这是假设"。
 
 **假设一：$NX = 0$（封闭经济）。** 于是 $Y = C + I + G$。
 
@@ -227,7 +227,7 @@ $$S = Y - C - G$$
 
 ### 3.3 五国横比（p13）
 
-第 13 页是一张世界银行图：**National Saving Rates, 1960 – 2024**，纵轴"National saving rate (% of GDP)"，五个国家 China / Japan / Germany / U.S. / U.K.（图上按线条颜色标注，来源 `data.worldbank.org/indicator/NY.GDS.TOTL.ZS`）。我从图上读到的走向：
+五个国家的储蓄率长期横比由一张世界银行图给出（课件 p13）：**National Saving Rates, 1960 – 2024**，纵轴"National saving rate (% of GDP)"，五个国家 China / Japan / Germany / U.S. / U.K.（按线条颜色区分，来源 `data.worldbank.org/indicator/NY.GDS.TOTL.ZS`）。我读到的走向：
 
 | 国家 | 1960 年前后 | 峰值（约） | 2024 年末（约） |
 |---|---|---|---|
@@ -295,7 +295,7 @@ $$S_{\text{PRIVATE}} + S_{\text{PUBLIC}} = (Y - T - C) + (T - G) = Y - C - G = S
 
 ### 4.1 2021 年联邦收支桑基图（p18）
 
-第 18 页是一张 **US Government 2021 Revenue vs Expenditure** 的桑基图（Sankey diagram），**所有数字单位为十亿美元（All numbers in \$B）**。三个总量：**REVENUE 4,045**、**EXPENDITURE 6,820**、**DEFICIT 2,775**。
+2021 年的美国联邦收支由一张 **US Government 2021 Revenue vs Expenditure** 桑基图（Sankey diagram，课件 p18）给出，**所有数字单位为十亿美元（All numbers in \$B）**。三个总量：**REVENUE 4,045**、**EXPENDITURE 6,820**、**DEFICIT 2,775**。
 
 **我先做总量校验：$6{,}820 - 4{,}045 = 2{,}775$ ✓，与图上的 Deficit 2,775 完全一致。**
 
@@ -305,7 +305,7 @@ $$S_{\text{PRIVATE}} + S_{\text{PUBLIC}} = (Y - T - C) + (T - G) = Y - C - G = S
 
 支出侧：Income security 1,649、Social Security 1,135、Health 797、National defense 755、Medicare 696、Net interest 352、Commerce & housing credit 304、Education 297、General government 270、Veterans' benefits 234、Transportation 155，另有 Administration of justice 72、Agriculture 50、International affairs 47、Community & regional development 47、Natural resources 42、General science, space & technology 36、Energy 6，以及 **Offsetting revenue collected but not attributed to functions (124)**（括号表示负项）。**前十一项相加 6,644，加后七项 300 得 6,944，再减 124 得 6,820 ✓。**
 
-**这张图上有三处值得读出来：**
+**这张账本上有三处值得读出来：**
 
 **第一，个人所得税（2,044）一项就占全部收入的 50.5%。** 联邦政府不是"收很多种税"，而是**主要靠一种税**。企业所得税只有 372，占 9.2%——**这个比例是理解"企业储蓄占私人储蓄大多数"（p15）的背景：企业赚的钱大部分没被政府拿走，所以能留在企业账上。**
 
@@ -315,21 +315,21 @@ $$S_{\text{PRIVATE}} + S_{\text{PUBLIC}} = (Y - T - C) + (T - G) = Y - C - G = S
 
 ### 4.2 1857–2023：赤字是流量，债务是存量（p19）
 
-第 19 页是 Peter G. Peterson Foundation 的两张叠放的图，标题 **US Government Debt 1857-2023**，上方那句话是全页的论点：
+美国债务的长期走势由两张叠放的图给出（Peter G. Peterson Foundation，课件 p19），总标题 **US Government Debt 1857-2023**，上方那句话是全页的论点：
 
 > Historically, debt and deficits rose with **wars and economic downturns**. Today, they rise from factors such as **growing healthcare costs and an aging population**.
 
-**上图：Deficits (+) and Surpluses (−) (% of GDP)。** 我读到的几个峰：Civil War 约 10%、WWI 约 18%、Great Depression 约 8%、**WWII 约 25%+（全期最高）**、Great Recession 约 10%、Pandemic 约 15%。中间 1955–1990 与 1995–2007 两段在 0 线附近甚至为负（盈余）。
+**上面那张：Deficits (+) and Surpluses (−) (% of GDP)。** 我读到的几个峰：Civil War 约 10%、WWI 约 18%、Great Depression 约 8%、**WWII 约 25%+（全期最高）**、Great Recession 约 10%、Pandemic 约 15%。中间 1955–1990 与 1995–2007 两段在 0 线附近甚至为负（盈余）。
 
-**下图：Debt Held by the Public (% of GDP)。** Civil War 约 30%、WWI 后约 35%、**WWII 峰值约 105%**、之后长期下降到 1970 年代的约 20%、Great Recession 后升到约 100%、Pandemic 后约 120%，**虚线（Projected）之后一路上到 2053 年约 190%**。两图都在约 2024 年处画了 "Actual | Projected" 的分隔虚线。
+**下面那张：Debt Held by the Public (% of GDP)。** Civil War 约 30%、WWI 后约 35%、**WWII 峰值约 105%**、之后长期下降到 1970 年代的约 20%、Great Recession 后升到约 100%、Pandemic 后约 120%，**虚线（Projected）之后一路上到 2053 年约 190%**。两图都在约 2024 年处画了 "Actual | Projected" 的分隔虚线。
 
-**这两张图放在一起，就是 §2.3 那个"流量—存量"区间的政府版，而且是本章最直观的一张对照图。** 上图是**每年**的赤字（流量，% GDP），下图是**累积**的债务（存量，% GDP）。**读出来的结论是：赤字是一条条尖峰，债务却是一次次台阶。** 二战后债务从 105% 降到 20%，用了三十年；而它从 20% 回到 100% 只用了不到二十年。**因为存量要多年连续的反向流量才能改变，而流量只要一年就能把存量抬高。** 这正是 §2.4 浴缸图的政府版本：浴缸的水位一旦涨上去，放掉它比注满它慢得多。
+**这两张图放在一起，就是 §2.3 那个"流量—存量"区间的政府版，而且是本章最直观的一张对照图。** 上面那张是**每年**的赤字（流量，% GDP），下面那张是**累积**的债务（存量，% GDP）。**读出来的结论是：赤字是一条条尖峰，债务却是一次次台阶。** 二战后债务从 105% 降到 20%，用了三十年；而它从 20% 回到 100% 只用了不到二十年。**因为存量要多年连续的反向流量才能改变，而流量只要一年就能把存量抬高。** 这正是 §2.4 浴缸图的政府版本：浴缸的水位一旦涨上去，放掉它比注满它慢得多。
 
 ### 4.3 政府预算变动的三个原因（p20）
 
 第 20 页把预算变动归为三类，**每一类的机制不同，考试喜欢问"这一条属于哪一类"**：
 
-**第一类：衰退期政府收入自动下降**（2001 年与 2007–2009 年两次衰退）。机制是"收入低→税少"（Lower income during recession means lower taxes）。**这是自动稳定器，不需要任何立法**——它同时是 §4.2 上图里 Great Recession 与 Pandemic 那两根尖峰的主因。
+**第一类：衰退期政府收入自动下降**（2001 年与 2007–2009 年两次衰退）。机制是"收入低→税少"（Lower income during recession means lower taxes）。**这是自动稳定器，不需要任何立法**——它同时是 §4.2 那张赤字图里 Great Recession 与 Pandemic 那两根尖峰的主因。
 
 **第二类：税法修改（Tax changes）。** 课件点了三件：1980 年代初的 Reagan 减税、1990 年代初（Clinton 时期）的增税、2000 年代初的 Bush 减税。**这是相机抉择的（discretionary），需要立法。**
 
@@ -339,9 +339,9 @@ $$S_{\text{PRIVATE}} + S_{\text{PUBLIC}} = (Y - T - C) + (T - G) = Y - C - G = S
 
 ### 4.4 三条储蓄分量曲线（p21）
 
-第 21 页是本章数据密度最高的一张图：**U.S. National Saving Component, 1960 – 2024**，副标题 "U.S. National Saving Rate (% of GDP)"，**季度、季调（Seasonally Adjusted, quarterly data）**，四条来源链接分别是 FRED 的 `GGSAVE`（政府）、`W998RC1Q027SBEA`（家庭）、`W997RC1Q027SBEA`（企业）与 `GDP`。三条线：**Government Saving Rate（橙）**、**Household Saving Rate（青）**、**Business Saving Rate（紫）**。
+本章数据密度最高的一张图是储蓄的三条分量（课件 p21）：**U.S. National Saving Component, 1960 – 2024**，副标题 "U.S. National Saving Rate (% of GDP)"，**季度、季调（Seasonally Adjusted, quarterly data）**，四条来源链接分别是 FRED 的 `GGSAVE`（政府）、`W998RC1Q027SBEA`（家庭）、`W997RC1Q027SBEA`（企业）与 `GDP`。三条线：**Government Saving Rate（橙）**、**Household Saving Rate（青）**、**Business Saving Rate（紫）**。
 
-我从图上读到的三条线（数值为近似读数，单位 % of GDP）：
+我读到的三条线（数值为近似读数，单位 % of GDP）：
 
 | 线 | 1960 年代 | 长期走势 | 2024 年末 |
 |---|---|---|---|
@@ -361,7 +361,7 @@ $$S_{\text{PRIVATE}} + S_{\text{PUBLIC}} = (Y - T - C) + (T - G) = Y - C - G = S
 
 ### 4.5 总量曲线与"12~25%"（p22）
 
-第 22 页把三条线加起来：**U.S. Gross National Saving Rate (% of GDP)**（标题），来源同上一页。课件的两句话：**自 1960 年以来国民储蓄率大约在 12~25%；比家庭储蓄波动小（Less volatile than household saving）**。
+把三条线加起来就是总量（课件 p22）：**U.S. Gross National Saving Rate (% of GDP)**，来源与上一页相同。课件的两句话：**自 1960 年以来国民储蓄率大约在 12~25%；比家庭储蓄波动小（Less volatile than household saving）**。
 
 **我逐条核对：**
 
@@ -373,7 +373,7 @@ $$S_{\text{PRIVATE}} + S_{\text{PUBLIC}} = (Y - T - C) + (T - G) = Y - C - G = S
 
 ### 4.6 四条结论与我对它的复核（p23）
 
-第 23 页给出四条结论：**国民储蓄决定一国投资新资本品的能力**；家庭储蓄一直偏低、企业储蓄相当可观；1990 年代政府储蓄上升；**1960 到 2002 年国民储蓄率相当地稳定，2002 年之后政府负储蓄导致美国国民储蓄率下降**。
+四条结论（课件 p23）：**国民储蓄决定一国投资新资本品的能力**；家庭储蓄一直偏低、企业储蓄相当可观；1990 年代政府储蓄上升；**1960 到 2002 年国民储蓄率相当地稳定，2002 年之后政府负储蓄导致美国国民储蓄率下降**。
 
 **第一条是本章的立论前提，值得单独标出来：** "National saving determines a country's ability to invest in new capital goods"。**注意它说的是"决定能力"，不是"决定投资"。** 这个措辞在第十一节会变成一张图——储蓄曲线就是"能力"的边界，投资曲线决定在这条边界上取哪一点。
 
@@ -435,9 +435,9 @@ $I = \mathbf{1.35}$ 万亿——**减少 0.15**。
 
 **这张表就是本章全部政策分析的缩影。** 一句话读法：**减税对国民储蓄的打击，恰好等于家庭把减税花掉的那一部分**，即 $\Delta S = -\text{mpc} \times \Delta T_{\text{cut}}$。情形 1 里 mpc = 0，所以 $\Delta S = 0$；情形 2 里 mpc = 0.75，所以 $\Delta S = -0.15$。**注意 $T$ 本身在 $S$ 的表达式里消掉了（§3.6）——真正起作用的一直是 $C$。**
 
-### 5.3 第 27 页的两个问题（课件抛题不解）
+### 5.3 两个问题：哪个情形更现实、为什么重要（p27，课件抛题不解）
 
-第 27 页把两个情形重述一遍，然后问：**"Which of these two scenarios do you think is the most realistic?"** 和 **"Why is this question important?"**
+课件把两个情形重述一遍（p27），然后问：**"Which of these two scenarios do you think is the most realistic?"** 和 **"Why is this question important?"**
 
 **我的回答（我的补充，非讲义内容）：**
 
@@ -480,7 +480,7 @@ $I = \mathbf{1.35}$ 万亿——**减少 0.15**。
 
 > **Lifecycle Theory of Saving**: By **borrowing, saving, and dissaving** at different times in life, workers can **smooth their consumption path**, improving their overall satisfaction.
 
-**这句话里三个动作对应人生的三段，第 28 页的图把它们画得很清楚**：横轴 Time，标了 **College, buying a first home**、**Prime working years**、**Retirement** 三个阶段；纵轴 Income, consumption；**收入路径（Income path）是一条先低、中间高、退休后又掉下去的驼峰曲线**，**消费路径（Consumption path）是一条水平直线**。
+**这句话里三个动作对应人生的三段，一张图把它们画得很清楚（课件 p28）**：横轴 Time，标了 **College, buying a first home**、**Prime working years**、**Retirement** 三个阶段；纵轴 Income, consumption；**收入路径（Income path）是一条先低、中间高、退休后又掉下去的驼峰曲线**，**消费路径（Consumption path）是一条水平直线**。
 
 **三段读法：**
 **第一段（大学、买首套房）**：收入线在消费线**下方**，缺口标注 **Borrowing**。
@@ -515,7 +515,7 @@ $I = \mathbf{1.35}$ 万亿——**减少 0.15**。
 
 ### 6.3 中国：储蓄率与投资率（p30–p31）
 
-第 30 页是一张图：**Chinese Saving and Investment 1985 – 2018**，副标题 "Chinese Saving and Investment as a percent of Chinese GDP"，三条线：**World Gross Saving (% of GDP)**（红，常年在 22–27%）、**China Gross Saving (% of GDP)**（紫）、**China Total Investment (% of GDP)**（橙）。
+中国的储蓄与投资由一张图给出（课件 p30）：**Chinese Saving and Investment 1985 – 2018**，副标题 "Chinese Saving and Investment as a percent of Chinese GDP"，三条线：**World Gross Saving (% of GDP)**（红，常年在 22–27%）、**China Gross Saving (% of GDP)**（紫）、**China Total Investment (% of GDP)**（橙）。
 
 我读到的关键读数：紫线 1985 年约 35%，2000 年前后约 35–36%，**2008 与 2010 年两个峰约 52%**，2016 年跌到约 45%，2018 年回升到约 46%；橙线 1985 年约 39.5%，**1993 年冲高到约 43.5%（此时高于紫线）**，2000 年跌到约 34%，之后一路上升，**2010 年约 48%**，2018 年约 44%。
 
@@ -523,7 +523,7 @@ $I = \mathbf{1.35}$ 万亿——**减少 0.15**。
 
 **这张图最有价值的地方，是它暴露了第三节那个 $NX = 0$ 假设的边界（我的分析，课件没有讲）：**
 
-第 12 页假设 $NX = 0$，于是 $S = I$。**但中国的储蓄与投资在图上并不相等。** 把恒等式还原成开放经济版本（我的推导，用第 11 页的 $Y = C + I + G + NX$ 与第 12 页的 $S \equiv Y - C - G$ 两式相减）：
+本章的假设一是 $NX = 0$（p12），于是 $S = I$。**但中国的储蓄与投资并不相等。** 把恒等式还原成开放经济版本（我的推导，用 p11 的 $Y = C + I + G + NX$ 与 p12 的 $S \equiv Y - C - G$ 两式相减）：
 
 $$S - I = NX$$
 
@@ -547,13 +547,13 @@ $$\text{CA} = S - I = NX$$
 
 **为什么这处对账值得单列。** 我在初版里把 $S - I = NX$ 标成"我的补充，非讲义内容"，并在诚实备注里说"课件从未写出这条"。**现在读物明确写出了它的经常账户版本（2005 年版），这条从"我的推导"升级为"有文献支持的结论"**——但它仍然不是课件内容，考试引用时按"讲义口径 + 读物来源"两层写最稳。
 
-第 31 页给的解释有三条：**1980 年代中期以来家庭储蓄上升**；**经济与收入快速增长，生活方式与消费跟不上（Life-style and consumption don't keep up）**；**文化规范倾向于为未来、教育、住房和养老储蓄，而不是即期消费**。最后一条写着 "Life-cycle pattern (see next page)"。
+三条解释（课件 p31）：**1980 年代中期以来家庭储蓄上升**；**经济与收入快速增长，生活方式与消费跟不上（Life-style and consumption don't keep up）**；**文化规范倾向于为未来、教育、住房和养老储蓄，而不是即期消费**。最后一条写着 "Life-cycle pattern (see next page)"。
 
 **第二条是本章里我认为最反直觉、也最正确的一条**：储蓄率高**不一定**是因为人们克制，**可以只是因为收入涨得太快，而消费习惯是一种慢变量**。如果消费随收入同步调整，储蓄率就不会变。**这条机制在第 7 章讲增长时也出现过（收入水平 vs 消费水平），它是"高增长 → 高储蓄率"这个相关性的一个非心理层面的解释。**
 
 ### 6.4 中国：年龄—储蓄曲线（p32）
 
-第 32 页是 Yang, D. (2023), *Regional Science and Urban Economics* 99, 103855 的两张图，标题 **Household Saving in China: Average Household Age-Saving Rate Profile**，左 **Urban**、右 **Rural**，各画 1995 / 2002 / 2007 三条线，横轴 Age（25–60），纵轴 Savings rate。
+中国的年龄—储蓄曲线由 Yang, D. (2023), *Regional Science and Urban Economics* 99, 103855 的两张图给出（课件 p32），标题 **Household Saving in China: Average Household Age-Saving Rate Profile**，左 **Urban**、右 **Rural**，各画 1995 / 2002 / 2007 三条线，横轴 Age（25–60），纵轴 Savings rate。
 
 **Urban 面板**：1995 线在 0.08–0.15 之间，2002 线 0.18–0.28，2007 线 0.29–0.39。**三条线都是 U 形**——从 25 岁起下降，在 **40–42 岁附近见底**，然后上升到 52–58 岁的第二个高点。
 **Rural 面板**：1995 线从 0.20 起（25 岁处有个小峰 0.22），在 **30 岁附近跌到谷底约 0.17**，然后**单调上升到 59 岁的约 0.38**；2002 线大致在 0.13–0.25 之间波动上行；2007 线从 0.21 起**下降到 33–34 岁的谷底约 0.10**，然后上升到 60 岁的约 0.26。
@@ -570,15 +570,15 @@ $$\text{CA} = S - I = NX$$
 
 ### 6.5 中国：预防性储蓄与收入不平等（p33–p35）
 
-第 33 页把中国的预防性储蓄落到具体制度上：**社会安全网不发达——医疗、教育、养老金、失业保险**（Underdeveloped social safety nets, such as healthcare, education, pensions, and unemployment insurance）；以及**不能再靠子女养老（Can no longer rely on children for support）**。
+中国的预防性储蓄落到具体制度上有两条（课件 p33）：**社会安全网不发达——医疗、教育、养老金、失业保险**（Underdeveloped social safety nets, such as healthcare, education, pensions, and unemployment insurance）；以及**不能再靠子女养老（Can no longer rely on children for support）**。
 
 **后一条值得多说一句**：它把"预防性储蓄"从"个人心理"变成"制度替代"——**过去养儿防老是一种非正式的养老保险，子女是那份保险的保单；社会化的养老体系没有建立、而子女又不再承担这个功能时，家庭必须自己买一份正式的保险，那就是储蓄。** 这一条与第 37 页讲美国时"Social Security 压低了美国储蓄"正好是**同一枚硬币的两面**：**公共养老金存在 → 私人预防性储蓄下降；公共养老金缺位 → 私人储蓄上升。** 把这两页并排读，本章关于"制度决定储蓄率"的论证就完整了。
 
-第 33 页的第二条机制是**收入不平等（Income Inequality）**：不平等限制了广大人口的购买力，**大量收入集中在高收入者手里，而他们的边际消费倾向更低（who have a lower marginal propensity to consume）**。
+第二条机制是**收入不平等（Income Inequality）**（课件 p33）：不平等限制了广大人口的购买力，**大量收入集中在高收入者手里，而他们的边际消费倾向更低（who have a lower marginal propensity to consume）**。
 
 **这条机制值得用公式写出来（我的补充，非讲义内容）。** 设经济里有两组人，收入 $y_1$（高）与 $y_2$（低），边际消费倾向 $\text{mpc}_1 < \text{mpc}_2$。总储蓄 $S = (1-\text{mpc}_1)y_1 + (1-\text{mpc}_2)y_2$。**在总收入 $y_1 + y_2$ 固定的前提下，把一块钱从组 2 转到组 1，总储蓄变化 $= (1-\text{mpc}_1) - (1-\text{mpc}_2) = \text{mpc}_2 - \text{mpc}_1 > 0$。** 所以**收入越集中，总储蓄越高**——这就是"不平等推高储蓄率"的全部算术。**注意它的另一面：同样这块机制在需求侧是"不平等压低消费"，也就是第 33 页第一句话说的"限制了购买力"。同一件事，储蓄率上升、消费率下降。**
 
-第 34 页（OECD 数据）与第 35 页（Standardized World Income Inequality Database, Version 9.6）是两张支撑图，课件**没有配任何文字**，我读了图：
+两张支撑图（课件 p34 用 OECD 数据，p35 用 Standardized World Income Inequality Database Version 9.6）**没有配任何文字**，我读了图：
 
 **第 34 页**两张条形图。左：**Domestic general government health expenditure as a share of GDP, 2021**——United States 约 9.7%、Japan 约 9.2%、OECD members 约 8.8%、European Union 约 8.5%、World 约 6.5%、Brazil 约 4.5%、**China 约 3.1%（橙色高亮）**、Indonesia 约 2.2%、Low income 约 1.1%、India 约 1.0%。右：**Government expenditure on education as a share of GDP, 2020**——Brazil 约 5.8%、United States 约 5.4%、OECD 约 5.3%、European Union 约 4.9%、World 约 4.4%、India 约 4.2%、Low income 约 3.6%、**China 约 3.6%（橙色高亮）**、Indonesia 约 3.5%、Japan 约 3.4%。
 
@@ -586,11 +586,11 @@ $$\text{CA} = S - I = NX$$
 
 **第 35 页**是"Income Inequality Before and After Transfers, 2020 (Gini points)"的哑铃图，三个量：**Market Gini (before taxes and transfers)**（空心点，右侧）、**Net Gini (after taxes and transfers)**（实心点，左侧）、中间标 **Absolute redistribution (difference between Market and Net Gini)**。我读到的几组：Denmark 48.8 → 25.8（再分配 **23**）、Germany 49.6 → 27.7（21.9）、France 50.5 → 29.3（21.2）、US 53.3 → 37.4（**15.9**）、**China 48.3 → 40.4（7.9，橙色高亮）**、Brazil 60.5 → 45.7（14.8）、Taiwan 36.5 → 31.8（4.7）、Bolivia 37.8 → 39.1（**−1.3**，唯一负值）。
 
-**这张图给第 33 页补了一个课件没写的机制**：中国的**市场不平等（48.3）比美国（53.3）低，但税后不平等（40.4）远高于美国（37.4）**，**差别全部来自再分配力度（7.9 vs 15.9，不到美国的一半）**。**所以"中国收入不平等推高储蓄率"这条论据，真正的落点不是市场分配得多不均，而是税收与转移支付几乎没有把它修正过来。** 这一句是我从图上读出来的，课件第 33 页的文字里没有。
+**这张哑铃图给 p33 那段文字补了一个课件没写的机制**：中国的**市场不平等（48.3）比美国（53.3）低，但税后不平等（40.4）远高于美国（37.4）**，**差别全部来自再分配力度（7.9 vs 15.9，不到美国的一半）**。**所以"中国收入不平等推高储蓄率"这条论据，真正的落点不是市场分配得多不均，而是税收与转移支付几乎没有把它修正过来。** 这一句是我从图上读出来的，课件第 33 页的文字里没有。
 
 ### 6.6 日本：一个反向的自然实验（p36）
 
-第 36 页讲日本，六条：战后家庭储蓄率 **15–25%**，**1990 年之后下降**；生命周期动机很重要——**预期寿命长**、**退休相对早、退休期长**、**人口年龄结构有利于储蓄**、**1990 年之前房价与首付要求非常高**；**1990 年之后房产价值下跌**；**遗赠储蓄重要、预防性储蓄低（Bequest saving matters; precautionary saving is low）**。
+日本那一页给了六条（课件 p36）：战后家庭储蓄率 **15–25%**，**1990 年之后下降**；生命周期动机很重要——**预期寿命长**、**退休相对早、退休期长**、**人口年龄结构有利于储蓄**、**1990 年之前房价与首付要求非常高**；**1990 年之后房产价值下跌**；**遗赠储蓄重要、预防性储蓄低（Bequest saving matters; precautionary saving is low）**。
 
 **这一页是全章写得最"经济学"的一页，因为它给了一个完整的自然实验：机制不变、变量变了、结果变了。** 拆开看：
 
@@ -598,7 +598,7 @@ $$\text{CA} = S - I = NX$$
 
 **"1990 年之前房价与首付要求高 → 储蓄率高；1990 年之后房产价值下跌 → 储蓄率下降"**：这是 §2.6 那个"资本利得替代储蓄"机制的**反面**——**资产价格下跌本应通过财富效应压低消费、抬高储蓄，但日本的情况是储蓄率也降了。** 课件把两件事并排写在一起（"Property values decreased after 1990"），但没有解释方向。**我的读法：首付要求下降使年轻人不必为买房攒那么多钱，这是生命周期储蓄的"目标金额"变小了，与房价涨跌是两条渠道。** 课件把"房价高"和"首付要求高"写在同一条里（"Housing prices and down payment requirements were very high before 1990"），实际上**只有后一条能解释储蓄率**。（这一处是我的判断，非讲义内容。）
 
-**"预防性储蓄低"**：这一句和第 33 页的中国**正好相反**，而原因也正好相反——**日本有全民医保、有公共养老金**。见 §6.5 末尾说的那枚硬币。
+**"预防性储蓄低"**：这一句和中国那一节（p33）**正好相反**，而原因也正好相反——**日本有全民医保、有公共养老金**。见 §6.5 末尾说的那枚硬币。
 
 **"Bequest saving matters"**：日本长期是高遗产税 + 高财富存量，遗赠动机强。**这一条与"预防性储蓄低"合起来，构成了对日本储蓄率下降的最好解释**：预防性储蓄那部分被社会保障永久地拿掉了，而遗赠那部分需要几十年才调整。
 
@@ -608,17 +608,17 @@ $$\text{CA} = S - I = NX$$
 
 ### 6.7 美国：为什么储蓄率被压低（p37–p38）
 
-第 37 页标题就是"US saving rate may be **depressed** by"，四条：
+美国那一页的标题就是"US saving rate may be **depressed** by"（课件 p37），四条：
 
 **① Social Security、Medicare 等面向老年人的政府项目。** 课件紧跟一句极重要的 caveat：**"Can't explain why US saving is less than Europe"**——**因为欧洲的社会保险比美国更慷慨**。这是课件自己做的一次**证伪检验**：**如果"公共养老金替代私人储蓄"这条机制是唯一的解释，那么社保越慷慨的国家储蓄率应该越低，但欧洲恰恰是社保最慷慨、储蓄率却比美国高的地区。** 所以这条机制在美国**成立但不足以解释水平差异**。**这个"机制对但解释不了跨国差异"的写法，是经济学论述题里最加分的一种 caveat，值得背下来照抄句式。**
 
-**② 小额或零首付的按揭贷款**——鼓励借款（Encourages borrowing）；**"home equity loans"（房屋净值贷款）让进一步借款成为可能**。机制很直白：**§6.1 的生命周期图里，第一段本该是 Borrowing，而美国把这个借款渠道开得比别国大**——首付门槛低意味着年轻人不必先攒够钱再买房，于是他们可以在生命周期上更早地"透支"。Home equity loan 则把已经攒下的房产财富**重新变现**，等于把"晚年的 Dissaving"提前到中年。
+**② 小额或零首付的按揭贷款**——鼓励借款（Encourages borrowing）；**"home equity loans"（房屋净值贷款）让进一步借款成为可能**。机制很直白：**§6.1 那个生命周期模型里，第一段本该是 Borrowing，而美国把这个借款渠道开得比别国大**——首付门槛低意味着年轻人不必先攒够钱再买房，于是他们可以在生命周期上更早地"透支"。Home equity loan 则把已经攒下的房产财富**重新变现**，等于把"晚年的 Dissaving"提前到中年。
 
 **③ 股票与房产价值上升带来的繁荣信心（Confidence in a prosperous future）**。这是 §2.6 那条机制的复述：**资本利得替代储蓄**。
 
 **④ 收入不平等加剧**，机制是**示范效应与地位商品（Demonstration effects and status goods）**。
 
-**第④条与第 33 页的中国形成一组绝佳的对照，而且方向相反——这是全章最值得记的一处对照。** 两边都在讲收入不平等，但**中国那条的结论是"储蓄率上升"**（高收入者 MPC 低 → 总储蓄上升，见 §6.5 的算术），**美国这条的结论是"储蓄率下降"**（低收入者模仿高收入者的消费、为地位商品举债 → MPC 上升 → 储蓄下降）。
+**第④条与中国那一节（p33）形成一组绝佳的对照，而且方向相反——这是全章最值得记的一处对照。** 两边都在讲收入不平等，但**中国那条的结论是"储蓄率上升"**（高收入者 MPC 低 → 总储蓄上升，见 §6.5 的算术），**美国这条的结论是"储蓄率下降"**（低收入者模仿高收入者的消费、为地位商品举债 → MPC 上升 → 储蓄下降）。
 
 **这不矛盾，关键在"钱怎么在两组人之间流动"。** §6.5 的算术假设**收入分配已定**，然后比较总储蓄——那时不平等确实抬高储蓄。**而第 37 页讲的是"低收入的组看到了高收入的组怎么花钱"**，示范效应改变的是**消费函数本身（MPC 上升）**，不是收入分配。**所以两条机制的变量不同：一条动 $y$，一条动 mpc。** 如果考试出"收入不平等对储蓄率的影响是正是负"，**唯一正确的答法是"取决于哪条机制占上风：只看高收入者的低 MPC，它抬高储蓄；看低收入者的示范效应与举债能力，它压低储蓄。净效应是经验问题。"** 我把这一处并排写在这里，因为课件把它们放在第 33 页和第 37 页、中间隔了三页，读者很容易只记住一边。
 
@@ -632,7 +632,7 @@ $$\text{CA} = S - I = NX$$
 
 > •Capital gains. ... A study by the OECD published late last year suggests that housing wealth has a bigger effect on saving than financial wealth, and that this effect is stronger in economies with flexible mortgage markets and high rates of home ownership.
 
-**这一条直接回答了课件 p9–p10 留下的那个疑问。** 第 10 页说"2000–2002 年股市崩了、家庭储蓄率仍然很低，因为住房价值上升"——当时只是猜测；读物的 OECD 研究把它变成有方向的结论：**住房财富对储蓄的抑制作用大于金融财富，且在按揭灵活、自有率高的经济里更强。** 美国三条全中（灵活按揭、高自有率、home equity loan），所以 §2.6 那个"跨资产类别的检验"正是这条规律的一个样本。
+**这一条直接回答了课件 p9–p10 留下的那个疑问。** 课件在 p10 说"2000–2002 年股市崩了、家庭储蓄率仍然很低，因为住房价值上升"——当时只是猜测；读物的 OECD 研究把它变成有方向的结论：**住房财富对储蓄的抑制作用大于金融财富，且在按揭灵活、自有率高的经济里更强。** 美国三条全中（灵活按揭、高自有率、home equity loan），所以 §2.6 那个"跨资产类别的检验"正是这条规律的一个样本。
 
 然后是富国与新兴市场的分道。**以下全部是读物原文、2005 年口径，最新数据只到 2004 年：**
 
@@ -678,7 +678,7 @@ $$1 + r = \frac{1 + i}{1 + \pi} \quad\Longleftrightarrow\quad r = \frac{i - \pi}
 
 ### 7.2 两户人家的 35 年：Thrifts 和 Spends（p40–p41）
 
-第 40 页是一道对照实验，标题 **Thrifts and Spends**（两户人家的姓，字面意思是"节俭家"和"挥霍家"）。**页上的表把 Spend 家庭放在左列、Thrift 家庭放在右列，而正文先讲 Thrifts，顺序相反——读表时容易串列，注意。**
+两户人家的 35 年对照实验（**Thrifts and Spends**，两户人家的姓，字面意思是"节俭家"和"挥霍家"；课件 p40）**输入表把 Spend 家庭放在左列、Thrift 家庭放在右列，而正文先讲 Thrifts，顺序相反——读表时容易串列，注意。**
 
 | | Spends | Thrifts |
 |---|---|---|
@@ -688,7 +688,7 @@ $$1 + r = \frac{1 + i}{1 + \pi} \quad\Longleftrightarrow\quad r = \frac{i - \pi}
 | Real Income | \$40,000 | \$40,000 |
 | Real Interest | 8% | 8% |
 
-课件的四句话：**其他条件完全相同的两户人家有不同的储蓄率**；**多储蓄会减少当期消费**——"Thrifts 在 1980 年消费 32,000 美元，Spends 消费 38,000 美元"；**Thrifts 得到更多非劳动收入（Thrifts get more unearned income）**；**Thrifts 的收入增长更快**；**从 1995 年起，Thrifts 消费比 Spends 多**。第 41 页给结果：**到 2015 年，Thrifts 的消费比 Spends 多 12,000 美元；Thrifts 累积储蓄 385,000 美元，Spends 累积储蓄 77,000 美元。**
+课件的四句话：**其他条件完全相同的两户人家有不同的储蓄率**；**多储蓄会减少当期消费**——"Thrifts 在 1980 年消费 32,000 美元，Spends 消费 38,000 美元"；**Thrifts 得到更多非劳动收入（Thrifts get more unearned income）**；**Thrifts 的收入增长更快**；**从 1995 年起，Thrifts 消费比 Spends 多**。结果（p41）：**到 2015 年，Thrifts 的消费比 Spends 多 12,000 美元；Thrifts 累积储蓄 385,000 美元，Spends 累积储蓄 77,000 美元。**
 
 **我复算了这一整页，而且反推出了课件没有写明的模型。** 这是本讲最重要的一次核验，因为**页面上没有任何公式**，只有输入表和四个输出数字。
 
@@ -725,7 +725,7 @@ $$\text{第 } t \text{ 年消费} = (1 - s) \times \text{总收入}$$
 
 ### 7.3 这个例子能信几分（p42）
 
-第 42 页自己给了四条 caveat，**这是全章写得最诚实的一页，考试喜欢考"课件给了哪些限定条件"**：
+课件在这里自己给了四条 caveat（p42），**这是全章写得最诚实的一页，考试喜欢考"课件给了哪些限定条件"**：
 
 **① "8% is lower than the return to mutual funds since 1980."**（8% 低于 1980 年以来共同基金的回报率。）
 **② "20% saving is higher than typical U.S. households"**——许多家庭反而有 5,000 美元以上的信用卡债务，且利率很高。
@@ -736,17 +736,23 @@ $$\text{第 } t \text{ 年消费} = (1 - s) \times \text{总收入}$$
 
 **第 ④ 条：完全对上，而且我找出了课件用的是哪种年金公式。** 普通年金（年末存入）：$A = \dfrac{25{,}000}{\left[(1+i)^5 - 1\right]/i}$，$i = 5\%$ 得 **\$4,524**、$i=10\%$ 得 **\$4,095**——**都不是课件的数**。改用**期初年金（annuity-due，年初存入）**，即分母乘 $(1+i)$：$i=5\%$ 得 **\$4,308.9 ≈ \$4,309** ✓、$i=10\%$ 得 **\$3,722.7 ≈ \$3,723** ✓。**两个数都精确命中，说明课件的模拟是"每年年初存入"。** 记法：**目标储蓄题默认用期初年金。**
 
-**第 ① 条：与课件自己的第 9 页对不上。** 我在 §2.6 量过第 9 页那张 **S&P/CPI（1974=100）** 的实际股价图：**1980 年约 68、2014 年约 388，34 年年均实际回报约 5.25%；1974→2014 四十年年均约 3.55%。** 而第 40 页的模拟用的是 **Real Interest 8%**。**8% 的实际回报明显高于课件自己那张实际股价图所能支持的水平**——所以"8% 低于共同基金回报"这句话**只在名义口径下成立**（1980 年以来美国名义股票年化回报约 10%，减去约 3% 的通胀才勉强接近 7–8%）。**结论：第 40 页那个 8% 是一个偏乐观的假设值，它同时充当"实际利率"和"股票回报"两个角色，而课件第 9 页的图不支持它。** 这一处我记进第十三节的课件问题清单。**考试里这个数字照用（它是课件设定），但写论述题时把它当 caveat 用比当事实用更安全。**
+**第 ① 条：与课件自己 p9 那张实际股价图对不上。** 我在 §2.6 量过那张 **S&P/CPI（1974=100）** 的图：**1980 年约 68、2014 年约 388，34 年年均实际回报约 5.25%；1974→2014 四十年年均约 3.55%。** 而第 40 页的模拟用的是 **Real Interest 8%**。**8% 的实际回报明显高于课件自己那张实际股价图所能支持的水平**——所以"8% 低于共同基金回报"这句话**只在名义口径下成立**（1980 年以来美国名义股票年化回报约 10%，减去约 3% 的通胀才勉强接近 7–8%）。**结论：第 40 页那个 8% 是一个偏乐观的假设值，它同时充当"实际利率"和"股票回报"两个角色，而课件 p9 那张图不支持它。** 这一处我记进第十三节的课件问题清单。**考试里这个数字照用（它是课件设定），但写论述题时把它当 caveat 用比当事实用更安全。**
 
 **第 ④ 条的真正分量：它和第十一节那条向右上倾斜的储蓄曲线直接冲突。** §7.1 说利率是储蓄的边际收益，所以 $r$ 越高储蓄越多；**目标储蓄者的行为正好相反**——利率越高，每年需要存的越少。**这不是课件自相矛盾，而是标准的"替代效应 vs 收入效应"**：利率上升让"现在消费"变贵（替代效应 → 多储蓄），同时让"未来的目标更容易达成"（收入效应 → 少储蓄）。**对目标储蓄者，收入效应占上风；对一般家庭，替代效应略占上风——所以课件最后一句"modestly"（小幅增加）是这两股力量相抵之后的净结果。**（这一段是我对课件的展开，非讲义内容。）**考试问"储蓄曲线为什么向右上倾斜"时，能补一句"目标储蓄者会给出反向反应，实证上净效应很小"，是这一节能拿高分的关键。**
 
+**两类家庭面对同一个利率变化，走的方向是相反的，图 1 把这两种反应并排摆出来。**
+
+![两类储蓄者对利率上升的相反反应](img/ECO2021-L8-fig01-two-savers.png)
+
+*图 1　同样的利率上升，两类家庭往相反方向走。左：目标储蓄者要在 5 年后攒到 \$25,000，按每年年初存入算，5% 利率下每年存 \$4,309、10% 利率下只需 \$3,723——利率越高，每年要存的越少（收入效应占上风）。右：一般家庭的两股力量方向相反，替代效应推高储蓄、收入效应压低储蓄，净效应只是小幅上升。左图曲线由期初年金公式现算，右图为示意图，仅示形状。*
+
 ### 7.4 行为经济学与制度设计（p43）
 
-第 43 页是全章唯一一处明确偏离理性人假设的地方：**心理学家认为个人的自我控制可能太弱，无法产生理性的结果（individual self-control may be too weak to produce rational outcomes）**，例子是**吸烟、肥胖、赌博与消费**（Smoking, obesity, gambling, and spending）。
+全章唯一一处明确偏离理性人假设的地方（课件 p43）：**心理学家认为个人的自我控制可能太弱，无法产生理性的结果（individual self-control may be too weak to produce rational outcomes）**，例子是**吸烟、肥胖、赌博与消费**（Smoking, obesity, gambling, and spending）。
 
 由此得出**支持储蓄的装置（Devices to support saving）**：**让储蓄自动化、让提取变得昂贵（Make saving automatic and withdrawals costly）**，例子是**个人退休账户（Individual Retirement Account, IRA）提前取款要受罚**。
 
-**这一页的经济学内容比它看起来多。** 它说的是：**如果人有时间不一致的偏好（今天想为明天储蓄、明天又想花掉），那么"提高储蓄率"的正确政策工具就不是改变价格（利率），而是改变选择架构（default 与惩罚）。** 这与 §7.3 的结论正好配套：**既然实证上利率只能小幅改变储蓄（p42 最后一句），那就别指望靠利率去推动储蓄，改规则更有效。** 第 74 页的政策清单会回到这个思路（见 §11.9）。
+**这段话的经济学内容比它看起来多。** 它说的是：**如果人有时间不一致的偏好（今天想为明天储蓄、明天又想花掉），那么"提高储蓄率"的正确政策工具就不是改变价格（利率），而是改变选择架构（default 与惩罚）。** 这与 §7.3 的结论正好配套：**既然实证上利率只能小幅改变储蓄（p42 最后一句），那就别指望靠利率去推动储蓄，改规则更有效。** 第十一节的四条政策清单会回到这个思路（课件 p74，见 §11.9）。
 
 **同一页最后一条反向机制：容易借款支持了高水平的当期消费（Easy borrowing supports high levels of current spending）**，例子是信用卡与房屋净值贷款。**这与第 37 页第②条是同一件事**（见 §6.7），课件在两处分别写了它。
 
@@ -754,7 +760,7 @@ $$\text{第 } t \text{ 年消费} = (1 - s) \times \text{总收入}$$
 
 ## 八、债券（Bonds，p44–p49）
 
-从这一节起，问题从"人为什么储蓄"转向"储蓄怎么从有钱的人手里流到需要钱的人手里"。第 44 页是一张实物照片：**一张 The Boeing Company 的债券凭证**，票面写着 **5½% CONVERTIBLE SUBORDINATED DEBENTURE DUE 1991**、面额 **\$5,000**、"REGISTERED"、受托银行 **THE CHASE MANHATTAN BANK**、两处 SPECIMEN 印章。
+从这一节起，问题从"人为什么储蓄"转向"储蓄怎么从有钱的人手里流到需要钱的人手里"。先看一张实物照片：**一张 The Boeing Company 的债券凭证**（课件 p44），票面写着 **5½% CONVERTIBLE SUBORDINATED DEBENTURE DUE 1991**、面额 **\$5,000**、"REGISTERED"、受托银行 **THE CHASE MANHATTAN BANK**、两处 SPECIMEN 印章。
 
 **这张照片比后面四页定义更有用，因为它把 §8.1 的每一个术语都变成了票面上的一个字段：**"5½%" 是票面利率（coupon rate）、"\$5,000" 是本金（principal）、"DUE 1991" 是到期日（maturation date）、"1991 减 1966"（票面内文提到 interest 从 September 14, 1966 起算）就是债券期限（term），而 "pay interest ... on the first day of **March 1 or September 1** of each year" 就是票息支付（coupon payments）——**每年两付**。"CONVERTIBLE"（可转换）与 "SUBORDINATED"（次级）是这张具体债券的额外条款，课件没有解释，但它们是真实债券市场上的标准字段：**次级意味着违约时清偿顺序靠后（对应 §8.2 的信用风险），可转换意味着持有人可以把它换成股票（介于债券与股票之间的工具）。**
 
@@ -802,13 +808,13 @@ $$\text{第 } t \text{ 年消费} = (1 - s) \times \text{总收入}$$
 
 ### 8.4 债券可以在到期前卖出：价格与利率反向（p48–p49）
 
-这是本节真正的考点。第 48 页的四句话：**债券可以在到期日前卖出**；**任何时点的市场价值就是债券的价格**；**价格取决于票面利率与金融市场利率之间的关系**（Price depends on the relationship between the coupon rate and the interest rate in financial markets）；**债券卖出时的价格取决于当时的利率水平（prevailing interest rate）**。
+这是本节真正的考点。四句话（课件 p48）：**债券可以在到期日前卖出**；**任何时点的市场价值就是债券的价格**；**价格取决于票面利率与金融市场利率之间的关系**（Price depends on the relationship between the coupon rate and the interest rate in financial markets）；**债券卖出时的价格取决于当时的利率水平（prevailing interest rate）**。
 
 **课件给的例子（p48）：** 一只**两年期**政府债券，本金 \$1,000，于 **2015 年 1 月 1 日**以 **\$1,000** 卖出，**票面利率 5%** → **2016 年 1 月 1 日付 \$50**，**2017 年 1 月 1 日付 \$1,050**。
 
 **先核对这只债券本身：** $1{,}000 \times 5\% = \$50$ ✓（票息），到期时"本金 + 最后一期票息" $= 1{,}000 + 50 = \$1{,}050$ ✓。**注意这只债券只付两笔钱（1/1/16 与 1/1/17），因为它是"每年付一次"的简化设定**——真实 T-bond 是每半年付一次（§8.3）。
 
-**第 49 页接着做定价。** 场景：你现在手上有一年陈的旧债券，**一年后应付 \$1,050**（即 1/1/17 那笔，包含本金 1,000 与票息 50；**1/1/16 那笔 \$50 已经付给你了，不再属于这只债券的价值**）。竞争对手是一只**新发行的一年期债券，本金 \$1,000、票面利率 6%，一年后付 \$1,060**。
+**定价（课件 p49）这样算。** 场景：你现在手上有一年陈的旧债券，**一年后应付 \$1,050**（即 1/1/17 那笔，包含本金 1,000 与票息 50；**1/1/16 那笔 \$50 已经付给你了，不再属于这只债券的价值**）。竞争对手是一只**新发行的一年期债券，本金 \$1,000、票面利率 6%，一年后付 \$1,060**。
 
 于是课件写：
 
@@ -830,11 +836,11 @@ $$(\text{Bond price}) \times 1.06 = \$1{,}050 \quad\Longrightarrow\quad \text{Bo
 
 ### 9.1 股票与两种回报（p50–p51）
 
-第 50 页是另一张实物照片：**The Walt Disney Company 的股票凭证**，"This Certifies that ROY A CAMPBELL ... is the record holder of **ONE** FULL-PAID AND NON-ASSESSABLE SHARES OF THE COMMON STOCK"，右上角写着 **COMMON / PAR VALUE \$0.01**、**CUSIP 254687 10 6**，日期 **AUG 07, 2008**，票面上印着 Walt Disney 的肖像与一群卡通角色。
+另一张实物照片是 **The Walt Disney Company 的股票凭证**（课件 p50），"This Certifies that ROY A CAMPBELL ... is the record holder of **ONE** FULL-PAID AND NON-ASSESSABLE SHARES OF THE COMMON STOCK"，右上角写着 **COMMON / PAR VALUE \$0.01**、**CUSIP 254687 10 6**，日期 **AUG 07, 2008**，票面上印着 Walt Disney 的肖像与一群卡通角色。
 
 **这张凭证上有一个数字特别值得注意：PAR VALUE \$0.01。** **面值（par value）是法律概念（每股 1 分钱），与市场价值毫无关系**——2008 年迪士尼股价大约 30 美元上下，是面值的三千倍。**很多初学者会把票面上印的钱当成"这张纸值多少"，第 44 页的债券票面印 \$5,000 就真的意味着本金 \$5,000（因为债券是债务凭证，本金是合同金额），而第 50 页的股票票面印 \$0.01 却完全不意味着这只股票值一分钱。这两张相邻的实物照片恰好是债券与股票最直观的区别。**（这一处对照是我的分析，非讲义内容。）
 
-第 51 页的定义：**一股股票是对一家公司的部分所有权 claim（A share of stock is a claim to partial ownership of a firm）**。持有人获得两种回报：**股息（dividends）**——由管理层决定的周期性支付（a periodic payment determined by management）；以及若股价上升则获得**资本利得（capital gains）**。
+股票的定义（课件 p51）：**一股股票是对一家公司的部分所有权 claim（A share of stock is a claim to partial ownership of a firm）**。持有人获得两种回报：**股息（dividends）**——由管理层决定的周期性支付（a periodic payment determined by management）；以及若股价上升则获得**资本利得（capital gains）**。
 
 **"claim to partial ownership" vs "legal promise to repay a debt"——这是本章第四、五个学习目标的标准答案，两者的差别全部推论如下（我的整理）：**
 
@@ -848,7 +854,7 @@ $$(\text{Bond price}) \times 1.06 = \$1{,}050 \quad\Longrightarrow\quad \text{Bo
 | 价格驱动 | 市场利率（§8.4） | 对公司前景的预期（p51） |
 | 回报来源 | 利息（+ 资本损益） | 股息 + 资本利得 |
 
-第 51 页还有一句容易被跳、但很重要：**价格由股票市场决定，反映的是二级市场（secondary market）的供需；对股票的需求取决于诸如公司前景新闻等因素（Demand for stocks depends on factors such as news about the prospects of the company）。** **"二级市场"是别人之间转手的场所<b>（纽交所、纳斯达克），</b>公司本身在二级市场卖股票筹不到钱**——那是一级市场（发行）的事。第 56 页会回到这个区分。
+同一页还有一句容易被跳、但很重要（p51）：**价格由股票市场决定，反映的是二级市场（secondary market）的供需；对股票的需求取决于诸如公司前景新闻等因素（Demand for stocks depends on factors such as news about the prospects of the company）。** **"二级市场"是别人之间转手的场所<b>（纽交所、纳斯达克），</b>公司本身在二级市场卖股票筹不到钱**——那是一级市场（发行）的事。第 56 页会回到这个区分。
 
 ### 9.2 给一只股票定价（p52）
 
@@ -870,7 +876,7 @@ $$(\text{Stock price}) \times 1.06 = \$81 \quad\Longrightarrow\quad \text{Stock 
 
 ### 9.3 一张 56 年的证据：P/E 与利率反向（p53）
 
-第 53 页是 **U.S. Stock Market Valuation and Interest Rate, 1965 - 2021**，图内标题 **S&P500 P/E Ratio vs 10Y Treasury Rates**（来源 currentmarketvaluation.com），左轴 P/E Ratio（0–40），右轴 Interest Rate（0%–18%）。页脚一句话：**PE: Price-to-Earnings Ratio（市盈率）。**
+56 年的证据由一张图给出（课件 p53）：**U.S. Stock Market Valuation and Interest Rate, 1965 - 2021**，图内标题 **S&P500 P/E Ratio vs 10Y Treasury Rates**（来源 currentmarketvaluation.com），左轴 P/E Ratio（0–40），右轴 Interest Rate（0%–18%）。页脚一句话：**PE: Price-to-Earnings Ratio（市盈率）。**
 
 我读到的走向：<b>10 年期国债利率（橙线，右轴）</b>从 1965 年约 4.2% 一路升到 **1981 年前后约 15.8% 的峰值**，之后长期单调下降，**2020 年触底约 0.5%**，2021 年回到约 1.5%。<b>S&P 500 的 P/E（蓝线，左轴）</b>从 1965 年约 18–19 跌到 **1975 年前后约 7 的谷底**（这个谷底与橙线的爬升段对应），1982 年前后约 7–8（橙线峰值处），之后一路上升，**2000 年与 2009 年前后两次冲出图表上界（>40）**，2021 年约 25–27。
 
@@ -896,7 +902,7 @@ $$(\text{Stock price}) \times 1.10 = \$81 \quad\Longrightarrow\quad \text{Stock 
 
 **这一页最容易被误读成"公司变差了"，必须掰开：公司的现金流（\$81）一点没变，变的只是投资者的心理。** 所以**股价下跌有两种完全不同的原因：基本面变差，或者要求的回报变高。** 二者在价格上无法区分，但政策含义完全相反。**这是第 55 页整页要讲的事。**
 
-第 55 页是 The Economist 的一张图，标题 **Risk Premium in the U.S.**，图内标题 "United States, equity risk premium\*"，单位 **Percentage points**，横轴 2006–2023，来源 Bloomberg 与 Federal Reserve。**脚注给出了这张图所用的定义：\*S&P 500's 12-month forward earnings yield minus ten-year Treasury yield（标普 500 未来 12 个月盈利收益率减 10 年期国债收益率）。**
+风险溢价的时间序列由 The Economist 的一张图给出（课件 p55），标题 **Risk Premium in the U.S.**，图内标题 "United States, equity risk premium\*"，单位 **Percentage points**，横轴 2006–2023，来源 Bloomberg 与 Federal Reserve。**脚注给出了这张图所用的定义：\*S&P 500's 12-month forward earnings yield minus ten-year Treasury yield（标普 500 未来 12 个月盈利收益率减 10 年期国债收益率）。**
 
 我读到的走向：2006 年约 1.8，2008–2009 年冲到约 **6.9** 的峰，2011 年再冲约 **7.1**（全期最高），2013–2019 年在 2.5–4 之间，2020 年一个小峰约 4.9，**之后一路下坠，2023 年跌到 1 以下（图上最低）。** 课件的标题词就是 **Plummeted risk premium**（暴跌的风险溢价）。
 
@@ -911,7 +917,7 @@ $$(\text{Stock price}) \times 1.10 = \$81 \quad\Longrightarrow\quad \text{Stock 
 
 ### 9.5 金融市场的三大功能（p56）
 
-第 56 页是这一大段的收束，回答学习目标四的后半句"金融市场如何改善储蓄流向生产性用途的配置"。**三条功能：**
+这一大段的收束在这里（课件 p56），回答学习目标四的后半句"金融市场如何改善储蓄流向生产性用途的配置"。**三条功能：**
 
 **① 把钱从储蓄者导向有生产性投资机会的借款者（Channel funds from savers to borrowers with productive investment opportunities）**——**新债券或新股票的发行可以为资本投资融资**（Sale of new bonds or new stock can finance capital investment）。**注意"new"这个词：只有发行市场（一级市场）才真正融资，二级市场转手不产生新投资。** 这正是 §9.1 那个"二级市场"注脚的用武之地。
 **② 与银行一样，债券与股票市场配置储蓄（Like banks, bond and stock markets allocate saving）**，具体方式是**提供关于投资项目及其风险的信息**（Provision of information on investment projects and their risks）。
@@ -968,11 +974,17 @@ $$(\text{Stock price}) \times 1.10 = \$81 \quad\Longrightarrow\quad \text{Stock 
 
 ### 10.3 使用资本的两项成本，与 VMP 的三个移动因素（p61）
 
-第 61 页把 Larry 的简化版推广成一般版：**Two important costs（两项重要成本）：① 资本品的价值折旧（Depreciation of the value of the capital goods）；② 实际利率（Real interest rates）——投资的机会成本。**
+把 Larry 的简化版推广成一般版（课件 p61）：**Two important costs（两项重要成本）：① 资本品的价值折旧（Depreciation of the value of the capital goods）；② 实际利率（Real interest rates）——投资的机会成本。**
 
 **为什么是"实际"利率而不是"名义"利率？** 因为 VMP 是用**实物产出的价值**衡量的，比较两端必须同口径：**机器产出的是真实商品，所以要用真实价格去借钱的成本与之比较。** 回到 §7.1 的 $r = i - \pi$：**如果按名义利率 $i$ 算成本，通胀率 $\pi$ 会被重复计入——你的收入随通胀上升，那部分"利息"其实是用贬值的钱还的。**
 
 **于是使用一单位资本的成本是 $P_K(r + \delta)$**（$P_K$ 为资本品价格、$r$ 为实际利率、$\delta$ 为折旧率）——**课件没有写成公式，这是我按它给的两项成本整理的记法（我的补充，非讲义内容）。** 购买判据是 $\text{VMP}_K \geq P_K(r + \delta)$。**从这个式子可以直接读出第十一节那两条曲线的斜率与位移：$r$ 上升 → 成本上升 → 投资减少 → 投资曲线向右下方倾斜 ✓。**
+
+**这条判据画出来就是一排按 VMP 排队的项目，加一条水平的使用成本线，见 图 2。**
+
+![按 VMP 排队与使用成本门槛](img/ECO2021-L8-fig02-vmp-queue.png)
+
+*图 2　投资需求为什么向右下倾斜：把投资项目按资本的边际产品价值（VMP）从高到低排队，使用成本 $P_K(r+\delta)$ 画成一条水平线，只有 VMP 高过这条线的项目才会被采纳。Larry 的割草机 VMP = \$400、成本 = \$240（$4{,}000 \times 6\%$，折旧设为零），稳稳通过；利率上升把成本线抬到 \$300（现算示意：\$4{,}000 × 7.5\%），通过的项目就从三个减到两个。柱高为示意，\$400 与 \$240 是课件原数。*
 
 **收益端，课件给了三条定义与三个移动因素：** VMP 是<b>"扣除运营与维护费用、扣除对所产生的收入征税之后的"</b>资本边际产品价值（Net of operating and maintenance expenses and of taxes on revenues generated）。**技术革新提高收益；降低税收提高收益；产出价格上升提高收益。**
 
@@ -994,13 +1006,13 @@ $$(\text{Stock price}) \times 1.10 = \$81 \quad\Longrightarrow\quad \text{Stock 
 
 ### 10.4 两条证据：计算机与 AI（p62–p63）
 
-第 62 页一句话加一张图：**计算机技术可能推动了 1995 年以来的生产率提升（Computer technology may have driven increases in productivity since 1995）**。图是 **Investment in Computers in the U.S.**，纵轴 **Share of private nonresidential investment (%)**（私人非住宅投资中的份额），横轴 1970–2013，两条线。
+一句话加一张图（课件 p62）：**计算机技术可能推动了 1995 年以来的生产率提升（Computer technology may have driven increases in productivity since 1995）**。图的标题是 **Investment in Computers in the U.S.**，纵轴 **Share of private nonresidential investment (%)**（私人非住宅投资中的份额），横轴 1970–2013，两条线。
 
 我的读数：<b>Investment in software（红线）</b>从 1970 年约 1.8% 一路上升，1995 年前后约 5%，**2003 年约 14%、2009 年峰值约 15.9%，2013 年约 14.3%**。<b>Investment in computer equipment（蓝线）</b>从约 2% 上升到 **1984 年约 5.7%**，1999–2000 年峰值约 **7.1%**，之后**下降到 2013 年约 3.7%**。
 
 **这两条线合起来讲了一个课件没有明说的故事：软件在涨、硬件在跌。** 我的读法（非讲义内容）：**计算机设备的相对价格在 1990 年代后暴跌（摩尔定律），所以同样的实物资本存量在名义投资额里占的份额下降；而软件不受摩尔定律压价（它是人力写的），份额持续上升。** **这正好是 §10.3 "技术革新提高收益"的实证：技术让同样的钱买到更多算力，于是投资的构成从硬件转向软件。**
 
-第 63 页是 **Global Private Investment in AI by Geographic Area, 2013–24**（来源 Stanford University 2025 AI Index report，hai.stanford.edu/ai-index/2025-ai-index-report/economy），纵轴 Total investment (in billions of US dollars)，三条线并在线尾标注数值：**United States 109.08、Europe 19.42、China 9.29**。
+AI 投资的国别分布由一张图给出（课件 p63）：**Global Private Investment in AI by Geographic Area, 2013–24**（来源 Stanford University 2025 AI Index report，hai.stanford.edu/ai-index/2025-ai-index-report/economy），纵轴 Total investment (in billions of US dollars)，三条线并在线尾标注数值：**United States 109.08、Europe 19.42、China 9.29**。
 
 我的读数：美国线 2013 年约 4，2020 年约 44，**2021 年冲高约 87，2022 年回落到约 61.5，2023 年约 72，2024 年 109.08**（五年翻三倍多）。中国线 2021 年峰值约 26.5，之后下降到 2024 年的 9.29（**跌约三分之二**）。欧洲线 2021 年约 15.5，2023 年约 12.5，2024 年 19.42。**2024 年美国是中国的 11.7 倍、欧洲的 5.6 倍。**
 
@@ -1021,11 +1033,11 @@ $$(\text{Stock price}) \times 1.10 = \$81 \quad\Longrightarrow\quad \text{Stock 
 
 **两条曲线的来源在前十节里已经各推了一遍（我的整理）：**
 **储蓄曲线向右上**：微观基础是 §7.1 那句"实际利率是额外储蓄的**边际收益**"——$r$ 越高，少消费的补偿越多，于是储蓄越多。**但 §7.3 第④条给出了反向的目标储蓄者机制，实证上净效应"modestly"，所以这条曲线应该画得比较陡（利率弹性小）。** 课件没画陡缓，但这是画图题的隐性得分点。
-**投资曲线向右下**：微观基础是 §10.3 那个 $\text{VMP}_K \geq P_K(r + \delta)$——$r$ 是要付的成本，成本越高、通过筛选的项目越少。**把项目按 VMP 从高到低排队，$r$ 就是那条切线，所以 $r$ 与"被采纳的项目数"反向。** 这条曲线应该画得比较平（项目很多、利率小幅变化就筛掉一批）。
+**投资曲线向右下**：微观基础是 §10.3 那个 $\text{VMP}_K \geq P_K(r + \delta)$——$r$ 是要付的成本，成本越高、通过筛选的项目越少。**把项目按 VMP 从高到低排队，$r$ 就是那条切线（图 2），所以 $r$ 与"被采纳的项目数"反向。** 这条曲线应该画得比较平（项目很多、利率小幅变化就筛掉一批）。
 
 ### 11.2 模型的四个假设（p66）
 
-第 66 页先说这个模型要干什么：**什么影响储蓄、投资、利率（What affects saving, investment, the interest rate）**，以及**金融体系如何协调储蓄与投资（How the financial system coordinates saving & investment）**。然后给出假设：
+这个模型要回答的问题是（课件 p66）：**什么影响储蓄、投资、利率（What affects saving, investment, the interest rate）**，以及**金融体系如何协调储蓄与投资（How the financial system coordinates saving & investment）**。然后给出假设：
 
 **假设只有一个可贷资金市场（Assume: Only one loanable funds market）**，具体三条：**所有储蓄者把储蓄存入这个市场；所有借款者从这个市场贷款；只有一个利率，它既是储蓄的回报、也是借款的成本**（There is one interest rate, which is both the return to saving and the cost of borrowing）。
 
@@ -1033,11 +1045,15 @@ $$(\text{Stock price}) \times 1.10 = \$81 \quad\Longrightarrow\quad \text{Stock 
 
 ### 11.3 均衡与失衡的调整（p67）
 
-第 67 页是本节的核心图，标题 **The Loanable Funds Market**：纵轴 **Real interest rate (%)**，横轴 **Saving and investment**，**向上倾斜的红线标 Saving S**、**向下倾斜的蓝线标 Investment I**，交点处用虚线引出纵轴的 $r$ 与横轴的 **S, I**（同一个点、两个名字）。
+可贷资金市场的图（**The Loanable Funds Market**，课件 p67，本笔记重画为 图 3）只有两样东西：纵轴 **Real interest rate (%)** 即实际利率 $r$，横轴 **Saving and investment** 即可贷资金量；**向上倾斜的红线标 Saving $S$**、**向下倾斜的蓝线标 Investment $I$**，交点处用虚线引出纵轴的均衡利率与横轴的均衡数量（课件把它标作 **S, I**——同一个点、两个名字，本图记作 $L^*$）。
 
-三条文字：**均衡利率使储蓄量等于所需求的投资资金量（Equilibrium interest rate equates the amount of saving with the investment funds demanded）**；**若 $r$ 高于均衡，储蓄过剩（surplus of saving）**；**若 $r$ 低于均衡，储蓄短缺（shortage of saving）**。
+![可贷资金市场均衡](img/ECO2021-L8-fig03-loanable-funds-equilibrium.png)
 
-**"surplus of saving"具体指什么？（我的展开）** 利率太高 → 家庭想存的钱多于企业想借的钱 → **可贷资金卖不出去** → 金融中介手里的资金闲置、它们为争夺存款而**压低利率** → 回到均衡。**"shortage"则是反过来：借款者排队、利率被抬高。** **这就是第 70 页说的 Equilibrium Principle（均衡原理）：可贷资金市场像任何其他市场一样通过供需与短缺来调整。**
+*图 3　可贷资金市场：向上倾斜的储蓄供给 $S$ 与向下倾斜的投资需求 $I$ 交于 $E$，交点同时决定均衡利率 $r^*$ 与均衡数量 $L^*$。利率高于 $r^*$ 时储蓄过剩、被压低；低于 $r^*$ 时储蓄短缺、被抬高。横轴刻度略去；曲线斜率与纵轴刻度均为示意、无数据依据，只示方向与相对位置。*
+
+三条文字（课件 p67）：**均衡利率使储蓄量等于所需求的投资资金量（Equilibrium interest rate equates the amount of saving with the investment funds demanded）**；**若 $r$ 高于均衡，储蓄过剩（surplus of saving）**；**若 $r$ 低于均衡，储蓄短缺（shortage of saving）**。
+
+**"surplus of saving"具体指什么？（我的展开）** 利率太高 → 家庭想存的钱多于企业想借的钱 → **可贷资金卖不出去** → 金融中介手里的资金闲置、它们为争夺存款而**压低利率** → 回到均衡。**"shortage"则是反过来：借款者排队、利率被抬高。** **这就是 Equilibrium Principle（均衡原理，课件 p70）：可贷资金市场像任何其他市场一样通过供需与短缺来调整。**
 
 **横轴上那个"S, I"的写法值得注意：均衡时储蓄与投资相等，所以横轴上只有一个点、两个标签。** 这个"一个点两个标签"就是 §11.4 那个等价关系的图形表达。
 
@@ -1067,7 +1083,7 @@ $$(\text{Stock price}) \times 1.10 = \$81 \quad\Longrightarrow\quad \text{Stock 
 
 ### 11.4 利率的特殊作用：两个均衡互相等价（p68）
 
-第 68 页标题 **The Special Role of Interest Rates**，它做了一件本章一直在暗示、但只有这一页明说的事：**证明"可贷资金市场出清"与"商品与服务市场出清"是同一件事。**
+**The Special Role of Interest Rates**（利率的特殊作用，课件 p68）做了一件本章一直在暗示、但只有这一页明说的事：**证明"可贷资金市场出清"与"商品与服务市场出清"是同一件事。**
 
 课件的推导只有三步：**利率调整使可贷资金市场均衡，令投资等于储蓄**（Interest rates adjust to equilibrate the loanable funds market, making invest equal to saving）。若可贷资金市场处于均衡：
 
@@ -1092,7 +1108,7 @@ $$Y = C + I + G \quad \text{(goods and services market)}$$
 
 ### 11.5 循环流向图：把模型放回真实经济（p69）
 
-第 69 页是一张循环流向图（circular flow diagram），**它是本章全部章节的空间索引**，值得逐个箭头读：
+本章全部章节的空间索引是一张循环流向图（circular flow diagram，课件 p69），**它值得逐个箭头读**：
 
 **三个黄色方框（主体）**：Households（左）、Government（中）、Firms（右）。**四个蓝色方框（市场）**：Markets for Factors of Production（上）、Financial Markets（中上）、Markets for Goods and Services（下）。
 
@@ -1115,7 +1131,7 @@ $$Y = C + I + G \quad \text{(goods and services market)}$$
 
 ### 11.6 移动与沿曲线移动（p70）
 
-第 70 页两句话，是后面三张图的方法论：**可贷资金市场像其他市场一样通过过剩与短缺调整，均衡原理成立（Equilibrium Principle holds）**；**实际利率以外的其他因素变化会使储蓄曲线或投资曲线移动（Changes in factors other than real interest rates will shift the saving or investment curves），产生新均衡（New equilibrium）。**
+两句话，是后面几张图的方法论（课件 p70）：**可贷资金市场像其他市场一样通过过剩与短缺调整，均衡原理成立（Equilibrium Principle holds）**；**实际利率以外的其他因素变化会使储蓄曲线或投资曲线移动（Changes in factors other than real interest rates will shift the saving or investment curves），产生新均衡（New equilibrium）。**
 
 **这张"谁移动"的对照表是画图题的判分点（我的整理，非讲义内容）：**
 
@@ -1135,19 +1151,19 @@ $$Y = C + I + G \quad \text{(goods and services market)}$$
 
 ### 11.7 案例一：技术改进（p71）
 
-第 71 页标题 **Technological Improvement**。图上：**$S$ 一条红线向右上；$I$ 与 $I'$ 两条蓝线向右下，$I'$ 在 $I$ 右边，中间一个向右的短箭头表示移动**；**$E$ 是 $S \cap I$，$F$ 是 $S \cap I'$**；从 $E$、$F$ 各引虚线到纵轴的 $r$ 与 $r'$（$r'$ 在上），横轴上有一个向右的箭头表示数量增加；纵轴旁还有一个向上的箭头表示 $r \to r'$。
+**Technological Improvement（技术改进，课件 p71，重画为 图 4 左栏）** 的图形：**$S$ 一条红线向右上；$I$ 与 $I'$ 两条蓝线向右下，$I'$ 在 $I$ 右边，中间一个向右的短箭头表示移动**；**$E$ 是 $S \cap I$，$F$ 是 $S \cap I'$**；从 $E$、$F$ 各引虚线到纵轴的 $r$ 与 $r'$（$r'$ 在上），横轴上有一个向右的箭头表示数量增加；纵轴旁还有一个向上的箭头表示 $r \to r'$。
 
 文字四条：**新技术提高资本的边际生产率（New technology raises marginal productivity of capital）→ 增加对投资资金的需求（Increases the demand for investment funds）→ 沿储蓄供给曲线上移（Movement up the saving supply curve）→ 更高的利率、更高的储蓄与投资水平。**
 
-**这四条是一条完整的因果链，而且它把第 61、63 页与这一页接上了：** 技术 → VMP↑（§10.3）→ 同样的利率下有更多项目通过筛选 → $I$ 右移 → 利率上升 → **沿 $S$ 曲线移动**（不是 $S$ 移动！）→ 储蓄量与投资量同时上升。
+**这四条是一条完整的因果链，而且它把第 61、63 页与这一页接上了：** 技术 → VMP↑（§10.3，见 图 2）→ 同样的利率下有更多项目通过筛选 → $I$ 右移 → 利率上升 → **沿 $S$ 曲线移动**（不是 $S$ 移动！）→ 储蓄量与投资量同时上升。
 
-**"沿储蓄供给曲线上移"这个措辞是本页唯一的陷阱。** 储蓄量增加了，但**储蓄曲线没有动**——是利率变高让家庭自愿多存。**"储蓄增加"（quantity 沿曲线）与"储蓄曲线右移"（供给条件变化）是两回事，这是第 6 章就考过、本章再考一次的区分。** 图上 $E \to F$ 是同一条红线上的两个点，这一点从图上读得出来。
+**"沿储蓄供给曲线上移"这个措辞是本页唯一的陷阱。** 储蓄量增加了，但**储蓄曲线没有动**——是利率变高让家庭自愿多存。**"储蓄增加"（quantity 沿曲线）与"储蓄曲线右移"（供给条件变化）是两回事，这是第 6 章就考过、本章再考一次的区分。** 图 4 左栏里 $E \to F$ 是同一条红线上的两个点，这一点从图 4 上读得出来。
 
-**这张图就是第 63 页那张 AI 投资图的模型版本（我的补充）：** 2023–2024 年全球私人 AI 投资从约 72 涨到 109（美国），正是 $I$ 右移；同期美国实际利率在 2022–2023 年大幅上升（美联储加息），方向与 $r \to r'$ 一致。**但注意：加息是名义利率政策，属于"利率变化"而不是"$I$ 曲线移动"，两者在这张图上不能混为一谈。**
+**图 4 左栏就是第 63 页那张 AI 投资图的模型版本（我的补充）：** 2023–2024 年全球私人 AI 投资从约 72 涨到 109（美国），正是 $I$ 右移；同期美国实际利率在 2022–2023 年大幅上升（美联储加息），方向与 $r \to r'$ 一致。**但注意：加息是名义利率政策，属于"利率变化"而不是"$I$ 曲线移动"，两者在这张图上不能混为一谈。**
 
 ### 11.8 案例二：政府赤字扩大与挤出（p72–p73）
 
-第 72 页标题 **Government Budget Deficit Increases**。图上：**$I$ 一条蓝线不动；$S$ 与 $S'$ 两条红线，$S'$ 在 $S$ 的左上方，中间一个向左的短箭头**；**$E$ 是 $S \cap I$，$F$ 是 $S' \cap I'$**；$r'$ 高于 $r$，横轴上有一个**向左**的箭头表示数量减少。
+**Government Budget Deficit Increases（赤字扩大，课件 p72，重画为 图 4 右栏）** 的图形：**$I$ 一条蓝线不动；$S$ 与 $S'$ 两条红线，$S'$ 在 $S$ 的左上方，中间一个向左的短箭头**；**$E$ 是 $S \cap I$，$F$ 是 $S' \cap I$**；$r'$ 高于 $r$，横轴上有一个**向左**的箭头表示数量减少。
 
 文字：**政府预算赤字增加 → 减少国民储蓄（Reduces national saving）→ 沿投资曲线上移（Movement up the investment curve）→ 更高的利率、更低的储蓄与投资水平 → 私人投资被挤出（Private investment is crowded out）。**
 
@@ -1164,6 +1180,12 @@ $$Y = C + I + G \quad \text{(goods and services market)}$$
 
 **这张对照表给出一个极其实用的判题技巧（我的补充，非讲义内容）：利率上升本身不能告诉你是谁动了。** 两个案例里 $r$ 都上升，**唯一的区别在数量方向**：**数量也上升 ⟹ 是需求（$I$）移动；数量下降 ⟹ 是供给（$S$）移动。** 反过来说，**若考题只告诉你"利率上升了"，你无法判断发生了什么——必须再问一个"储蓄/投资量往哪走"。** 这是本章画图题最常见的失分点。
 
+**两页的图形并排画出来（图 4），上面这张表就是一眼的事：两栏的 $r$ 都往上走，只有数量的箭头一个朝右、一个朝左。**
+
+![技术改进与赤字扩大的镜像对比](img/ECO2021-L8-fig04-two-shocks.png)
+
+*图 4　两次冲击的镜像。左：技术改进让投资需求从 $I$ 右移到 $I'$，利率由 $r$ 升到 $r'$，数量上升（$E \to F$）。右：赤字扩大让储蓄供给从 $S$ 左移到 $S'$，利率同样升到 $r'$，数量却下降（$E \to F$）。两栏利率同向、数量反向——所以只看到"利率上升"并不能判断是谁动了曲线。曲线的具体斜率与位移幅度为示意，仅示方向。*
+
 第 73 页把挤出效应讲成一段完整的论证，**这是全章最像论述题答案的一页，值得整段背下来**：
 
 **我们的分析：预算赤字增加导致投资下降（Our analysis: increase in budget deficit causes fall in investment）。政府为弥补赤字而借款，使更少的资金可用于投资（The government borrows to finance its deficit, leaving less funds available for investment）。这被称为挤出（This is called crowding out）。回想前一章：投资对长期经济增长很重要（Recall from the preceding chapter: Investment is important for long-run economic growth）。因此，预算赤字可能降低经济的增长率与未来的生活水平（Hence, budget deficits may reduce the economy's growth rate and future standard of living）。**
@@ -1174,7 +1196,7 @@ $$Y = C + I + G \quad \text{(goods and services market)}$$
 
 ### 11.9 政策：如何提高国民储蓄（p74）
 
-第 74 页是全章的政策收口，四条：**决策者知道提高国民储蓄率的好处——减少政府预算赤字会增加国民储蓄**；**政治困难（Political problems）**；**提高家庭的激励：联邦消费税（Federal consumption tax）、降低股息与投资收入的税收（Reduce taxes on dividends and investment income）**；**更高的国民储蓄率带来对新资本品更多的投资与更高的生活水平。**
+全章的政策收口是四条（课件 p74）：**决策者知道提高国民储蓄率的好处——减少政府预算赤字会增加国民储蓄**；**政治困难（Political problems）**；**提高家庭的激励：联邦消费税（Federal consumption tax）、降低股息与投资收入的税收（Reduce taxes on dividends and investment income）**；**更高的国民储蓄率带来对新资本品更多的投资与更高的生活水平。**
 
 **三条政策的机制各不相同，值得拆开（我的整理）：**
 
@@ -1286,7 +1308,7 @@ $$\Delta S_{\text{PRIVATE}} = -\Delta T + \text{mpc} \times \Delta T = -(1-\text
 **左下链**：Capital Gains and Losses **↑** Wealth **←** National Saving。
 **中上**：Loanable Funds Market **↔** National Saving（双向），Loanable Funds Market **↔** Investment and Capital（双向）。
 
-| 图上的连接 | 对应本章哪一节 |
+| 方框之间的连接（课件 p77） | 对应本章哪一节 |
 |---|---|
 | Household Saving → Private Saving → National Saving | 第三节（$S_{\text{PRIVATE}}$、$S_{\text{PUBLIC}}$） |
 | Government Budget → Public Saving → National Saving | 第三节 §3.7、第四节 |
@@ -1294,7 +1316,7 @@ $$\Delta S_{\text{PRIVATE}} = -\Delta T + \text{mpc} \times \Delta T = -(1-\text
 | National Saving → Wealth ← Capital Gains and Losses | 第二节（$\Delta W = S + CG - CL$） |
 | Loanable Funds Market ↔ National Saving / Investment and Capital | 第八至十一节 |
 
-**这张图上有两处读法上的坑：**
+**这张框架图上（课件 p77）有两处读法上的坑：**
 
 **其一，"National Saving → Wealth"这条箭头的方向是对的，但它是"流量→存量"而不是"因果"。** 储蓄**增加**财富（§2.4 浴缸图），所以箭头从 $S$ 指向 Wealth 合理；**但图上 Wealth 与 Saving 之间没有画"资本损益"如何反过来影响储蓄**（§2.6 那条负向关系）。**这张图只画了本章讲透的那半个环。**
 
@@ -1305,15 +1327,15 @@ $$\Delta S_{\text{PRIVATE}} = -\Delta T + \text{mpc} \times \Delta T = -(1-\text
 1. **储蓄是流量，财富是存量，而且财富有两条变动渠道。** 完整答案是 $\Delta W = S + CG - CL$。**只答"储蓄增加财富"是半分。** 判断题里凡是"财富增加必然是因为储蓄增加"，一律为假——资产重估也能做到。
 2. **国民储蓄与 $T$ 无关。** $S_{\text{PRIVATE}} + S_{\text{PUBLIC}} = (Y-T-C)+(T-G) = Y-C-G$，**$T$ 消掉了**。所以<b>"减税"本身不改变 $S$</b>，只有当它改变 $C$ 或 $G$ 时才改变。**这是第 24–26 页那三道题唯一的机关。**
 3. **$G$ 不含转移支付。** 第 18 页那 6,820 十亿美元里，Social Security、Health、Income security 全是转移支付或不在 $G$ 里。**拿到"政府支出"这个数字，先问它含不含转移支付，再往 $S = Y - C - G$ 里代。**
-4. **$G$ 与 $T$ 的口径要一致。** 第 14 页的 $T$ 是**净额**（减掉转移支付与国债利息）。用毛税配净 $G$ 会两头错。
-5. **票面利率不变，变的是价格。** 第 49 页的 \$991 不是债券违约，是折现。**"coupon rate 5%" ≠ "投资者赚 5%"。**
+4. **$G$ 与 $T$ 的口径要一致。** $T$ 的定义是**净额**（减掉转移支付与国债利息，课件 p14）。用毛税配净 $G$ 会两头错。
+5. **票面利率不变，变的是价格。** 那只一年陈债券的 \$991 不是债券违约，是折现。**"coupon rate 5%" ≠ "投资者赚 5%"。**
 6. **折现只折"这只债券还剩的现金流"。** 第 48–49 页那只两年期债券，一年陈之后 1/1/16 那笔 \$50 已经付掉了，**定价只看 \$1,050 与一年**。**把 \$1,100 拿来折现是这道题最常见的错。**
 7. **股价下跌有两种原因，价格上无法区分。** 第 54 页：现金流 \$81 一点没变，仅因要求回报从 6% 升到 10%，价格从 \$76.42 跌到 \$73.64。**"公司变差"与"投资者要求的补偿变多"是两件事**（第 55 页三个解释全属后者）。
 8. **沿曲线移动 vs 曲线移动——本章考三次。** 第 71 页"沿储蓄供给曲线上移"（$S$ 没动！）、第 72 页"沿投资曲线上移"（$I$ 没动！）。**"储蓄增加"不等于"储蓄曲线右移"。**
 9. **利率上升不能告诉你是谁动了曲线。** 第 71、72 两页 $r$ 都上升，但一页储蓄与投资同升、另一页同降。**必须再看数量方向：数量同升 ⟹ 需求移动；数量下降 ⟹ 供给移动；两者同向移动 ⟹ 数量确定、利率不定（第 76 题）。**
 10. **挤出效应有前提，而课件在第 27 页自己质疑了它。** 挤出成立要求私人储蓄**不完全**补偿公共储蓄的下降。**若李嘉图等价成立（第 25 页情形 1），$S$ 曲线不动、没有挤出。** 第 73 页把挤出当结论讲、第 27 页把它当问题问，**两页之间没有桥**——把这座桥补上就是这一讲最好的一道论述题。
 11. **$r = i - \pi$ 是近似式。** 精确式 $1+r = (1+i)/(1+\pi)$；低通胀下差十几个基点，高通胀下差几十个基点。**与第 5 章的 CPI 偏差同源：所有"用减法代替除法"的近似，误差都随通胀上升。**
-12. **经济学里的 Investment 不含买股票、买债券。** 第 58 页的定义是"新资本品与住房的创造"。**"我投资了股市"这句话在宏观里不成立**——那叫 saving 的一种形式（第 39 页把它列在"储蓄采取金融资产形式"下）。
+12. **经济学里的 Investment 不含买股票、买债券。** 定义是"新资本品与住房的创造"（课件 p58）。**"我投资了股市"这句话在宏观里不成立**——那叫 saving 的一种形式（第 39 页把它列在"储蓄采取金融资产形式"下）。
 13. **恒等式 $S \equiv I$（靠 $NX=0$）与均衡条件 $S(r) = I(r)$ 不是一回事。** 前者在任何利率下成立、是定义；后者只在 $r^*$ 成立、是模型结论。**第 68 页用同一个式子写了它们，别看混。** 而且第 30 页中国的图（储蓄长期高于投资）正是 $NX \ne 0$ 的证据。
 14. **目标储蓄者给出与储蓄曲线相反的行为。** 第 42 页：利率从 5% 升到 10%，每年需存的从 \$4,309 降到 \$3,723。**这是收入效应压过替代效应的特例，实证上净效应"modestly"——所以储蓄曲线画陡一点更贴近现实。**
 
@@ -1323,7 +1345,7 @@ $$\Delta S_{\text{PRIVATE}} = -\Delta T + \text{mpc} \times \Delta T = -(1-\text
 
 **关于本讲的输入。** 笔记内容来自**两份材料**：课件 `Saving, Capital Formation, and the Loanable Funds Market.pdf`（内部标题 `Ch08.pptx`，作者署名 Jieshuang He，**共 77 页**，PDF 元数据里的创建时间是 2026-10-20、修改时间 2026-10-22；我上一版笔记依据的旧档创建时间为 2026-10-08，已被覆盖），以及**配套读物一份**（`Ch08 Reading_What causes people to save and invest.pdf`，3 页，登记见下一条）。**本讲有配套读物，但没有练习解答**（同目录下有 `Ch5-Practice Question Notes.pdf` 与 `Ch7 - Practice Question Notes.pdf`，**但没有 Ch8 的**）。**来源说明：本笔记基于课件（PDF）与配套读物整理，不含任何课堂口述内容——所有讲解、推导、例题解答与跨国比较都是我基于这 77 页课件与那 3 页读物的展开与补充。** 课件页码（页脚数字 2–77）与我引用的 p 号一一对应，**唯一例外是新增的第 38 页：它没有页脚编号**，所以页脚序列在 37 与 39 之间断了一格（第 18、19、20 页页脚另标了 "8-18 / 8-19 / 8-20"，与 PDF 页序一致）。
 
-**配套读物登记（2026-10-26 补入）。** 篇名 **Anatomy of thrift**（副题 What causes people to save and invest?），出处 **The Economist, Special report, Sep 24th 2005**，PDF 共 3 页，文字层完好；我只把 p1 页脚那张图（chart 4，Spot the difference）渲染出来读过，其余按文字层引用。**"本讲的输入"现在是两份材料**：课件 77 页 + 读物 3 页，出处分别写作"（pN）"与"（读物 pN）"。**我引用的数字全部是读物原文、2005 年口径**：IMF 46 国 1972–2004 年研究（Terrones 与 Cardarelli）、富国 1997 年后加速下降、新兴市场 15%→30%（2004 年占全球 GDP 的 6%）、UBS 的 55%→21%、资本成本 +1% 对应投资率 −0.4 个 GDP 点。**这些都不能当成 2026 年的现状**：读物写在 2008 年金融危机与 2020 年疫情之前，而课件 p21–p22 画到 2024 年——并排时年份差就是结论差。读物的 saving glut 是 Bernanke 语境（事前意愿的过剩），不是统计上真有 $S > I$。**我没有给这份笔记加任何图片**（老笔记不补图，项目约定）。
+**配套读物登记（2026-10-26 补入）。** 篇名 **Anatomy of thrift**（副题 What causes people to save and invest?），出处 **The Economist, Special report, Sep 24th 2005**，PDF 共 3 页，文字层完好；我只把 p1 页脚那张图（chart 4，Spot the difference）渲染出来读过，其余按文字层引用。**"本讲的输入"现在是两份材料**：课件 77 页 + 读物 3 页，出处分别写作"（pN）"与"（读物 pN）"。**我引用的数字全部是读物原文、2005 年口径**：IMF 46 国 1972–2004 年研究（Terrones 与 Cardarelli）、富国 1997 年后加速下降、新兴市场 15%→30%（2004 年占全球 GDP 的 6%）、UBS 的 55%→21%、资本成本 +1% 对应投资率 −0.4 个 GDP 点。**这些都不能当成 2026 年的现状**：读物写在 2008 年金融危机与 2020 年疫情之前，而课件 p21–p22 画到 2024 年——并排时年份差就是结论差。读物的 saving glut 是 Bernanke 语境（事前意愿的过剩），不是统计上真有 $S > I$。**本笔记现在有 4 张自制配图**（2026-10-30 补，图 1–图 4，脚本留档 `_scripts/ECO2021-L8_figs.py`）：它们是把正文里本来只靠文字描述的四个机制重画出来的，**没有一张是从课件截图裁的**，也没有新增任何课件里没有的结论。课件那二十余张数据图的原始数值我仍然只能靠渲染读数，本笔记不复刻它们。
 
 **关于文字层与读图。** 这一份 PDF 的文字层**总体干净**（77 页共抽出约 21,400 字符，无重复字符），所以正文以文字层为准；**唯一的例外是新增的第 38 页，它整页没有文字层**（`get_text()` 返回空串，连页脚都没有），只能靠渲染读图，见 §6.7 末尾。**图形内容必须渲染才能读的页面共二十余页**，我把第 7、9、13、18、19、21、22、28、30、32、34、35、38、39、40、44、50、53、55、62、63、67、68、69、71、72、77 页在 140–400 dpi 下渲染成图片逐页读过。**三处文字层不可靠的地方：** ① 第 39 页的通胀符号 $\pi$ 在文字层里**丢失**（数学斜体字体缺 ToUnicode 映射），我渲染后确认是 $\pi$；② 第 30 页文字层里有**六个**图例条目而图上只有**三条线**（旧图例残留，见 §6.3 的引用块）；③ 第 9、18、19、21、22、30、32、34、35、53、55、62、63 页的图**没有配套文字数值**，正文里所有"我从图上读到的数字"都是我做坐标标定后取的近似，误差量级见下一条。
 
@@ -1382,6 +1404,7 @@ $$\Delta S_{\text{PRIVATE}} = -\Delta T + \text{mpc} \times \Delta T = -(1-\text
 
 **我补充的、课件没有的内容（课件只给题目、只给结论或完全没提的地方）：**
 
+- **图 1–图 4 四张自制配图**（2026-10-30 补，脚本 `_scripts/ECO2021-L8_figs.py`）：§7.3 的两类储蓄者对照、§10.3 的 VMP 排队与成本门槛、§11.3 的可贷资金市场均衡、§11.7–11.8 的技术改进与赤字扩大的镜像。四张图**全部是把正文已有的文字描述重画一遍**，没有一个新结论；其中图 1 左栏的曲线由期初年金公式现算，图 2 的 \$400 与 \$240 取自课件 Larry 例，图 3、图 4 的斜率与位移幅度是示意。
 - **§5.1、§5.2 两道储蓄分解题的完整解答与对照表**，以及 §5.3 对"哪个情形更现实"的回答与**李嘉图等价**这个课件未给的名字。
 - **§11.10 两道分析题的完整解答**，包括第 2 题 $\Delta S = -(1-\text{mpc})\Delta T$ 的两条独立推导、"$r$ 为何不确定"的两个极端情形，以及两题对照表。
 - **§7.2 那套反推出来的 Thrifts/Spends 模型**——课件只给了输入表和四个输出数，**没有任何公式**。这是本讲最大的一块自我补充。
