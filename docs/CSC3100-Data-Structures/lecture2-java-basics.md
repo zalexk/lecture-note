@@ -64,7 +64,7 @@ tags: [CSC3100, java, jdk, jvm, jre, class, object, method, exception, lecture-n
 | Java 与 IDE 常常免费 | OpenJDK + Eclipse / VS Code | 版本众多，装错版本是新手第一个坑（见 §2.5 与诚实备注一第 2 条） |
 | 常用于科研（Hadoop、Spark） | 大数据生态建立在 JVM 上 | —— |
 
-这里有一个看似矛盾的地方值得先解释掉：p.4 把"垃圾回收"列为优势，p.5 却把"Garbage collection"列进"本课不学"的清单。两者不冲突——**p.4 说的是"你不用自己管内存"，p.5 说的是"我们不教你 GC 内部怎么标记、怎么分代回收"**。你会用它，但不会实现它。
+这里有一个看似矛盾的地方值得先解释掉：优势清单（p.4）把"垃圾回收"列为优势，"本课不学"的清单（p.5）里也有"Garbage collection"。两者不冲突——**前者说的是"你不用自己管内存"，后者说的是"我们不教你 GC 内部怎么标记、怎么分代回收"**。你会用它，但不会实现它。
 
 ### 1.4 会学什么、不学什么（p.5）——这份清单决定了后面代码长什么样
 
@@ -84,7 +84,7 @@ tags: [CSC3100, java, jdk, jvm, jre, class, object, method, exception, lecture-n
 
 **第三，不讲 GUI / 多线程 / 网络 ⇒ 本课所有程序的输入输出只有三种：控制台（`System.out`）、文件（p.44 与 §15）、以及命令行参数（p.34 的 `args`）。** 你在作业里看到的"从文件读、往文件写"的模板，就是这条约束的产物。
 
-还有一条容易忽略的：**p.7 会把"继承""多态"列为面向对象的特征，而 p.5 说不学。** 这不是自相矛盾——p.7 是在给"面向对象"这套词汇表，p.5 是在划本课的使用范围。你会认识这些词，但不会用它们写代码。
+还有一条容易忽略的：**"面向对象"那页词汇表（p.7）把"继承""多态"列为 OOP 特征，而"不学"清单（p.5）里也有它们。** 这不是自相矛盾——前者是在给"面向对象"这套词汇表，后者是在划本课的使用范围。你会认识这些词，但不会用它们写代码。
 
 ## 2. JDK、JRE、JVM：一个程序怎么跑起来（p.6-11）
 
@@ -98,7 +98,7 @@ tags: [CSC3100, java, jdk, jvm, jre, class, object, method, exception, lecture-n
 
 叠起来就是包含关系：**JDK ⊃ JRE ⊃ JVM**，而 JRE 里除了 JVM 还有核心类库（`String`、`System`、`ArrayList` 就住在里面）。所以"装了 JDK 就一定有 JRE"成立，"只装 JRE 就不能编译"也成立——编译用的 `javac` 在 JDK 里，不在 JRE 里。
 
-课件右下角加了一句全讲最关键的注解：**"Java 是平台无关的，但 JVM 是平台相关的。"** 这是理解"跨平台"的钥匙。
+课件里有一句全讲最关键的注解（p.6）：**"Java 是平台无关的，但 JVM 是平台相关的。"** 这是理解"跨平台"的钥匙。
 
 ![JDK、JRE、JVM 的包含关系与运行回路](img/CSC3100-Lecture2-fig01-jdk-jre-jvm-pipeline.png)
 
@@ -140,17 +140,21 @@ class Welcome {                                   // 1. 声明一个名为 Welco
 
 ### 2.4 编译与运行的完整回路（p.10）
 
-p.10 是全讲信息量最大的一张图，把"写代码 → 跑起来"画成带反馈的回路，中间两个红框分别装"源码"与"字节码"。四段：
+图 2 把"写代码 → 跑起来"画成带反馈的回路（出自讲义 p.10，全讲信息量最大的一张图），中间两个框分别装"源码"与"字节码"。四段：
+
+![写代码 → 编译 → 运行 → 结果的四步回路，右侧是字节码指令流](img/CSC3100-Lecture2-fig02-compile-run-loop.png)
+
+*图 2　左列四步：改源码 → `javac Welcome.java` 编译 → `java Welcome` 运行 → 控制台输出 `Welcome to Java!`；两条橙色反馈边（编译报错、运行期出错或结果不对）都指回第 ① 步——改的永远是源码。右侧是 `main` 的四条字节码指令，起始偏移 0 → 3 → 5 → 8 由每条指令的长度累加得出；`Method Welcome()` 是编译器自动补的无参构造器。*
 
 **① 写源码、存盘。** 源码（source code）是 `.java` 文件，样例就是 §2.3 那三行。
 
-**② 编译。** `javac Welcome.java`。成功则产出 `Welcome.class`；失败则报编译错误，沿图上标"if compile errors occur"的线回到第 ① 步。
+**② 编译。** `javac Welcome.java`。成功则产出 `Welcome.class`；失败则报编译错误，沿图 2 那条"编译报错"的反馈边回到第 ① 步。
 
 **③ 运行。** `java Welcome`（**不带** `.class` 后缀）。JVM 读入字节码、逐条解释执行。
 
-**④ 看结果。** 输出 `Welcome to Java!`；图上另一条线标"if runtime errors or incorrect result"——运行期出错或结果不对，也得回去改。
+**④ 看结果。** 输出 `Welcome to Java!`；图 2 的另一条反馈边是"运行期出错或结果不对"——也得回到第 ① 步改源码。
 
-图中间夹了一段**字节码清单**，这是整页最值得看的东西（课件没解释，我逐行拆开【补】）：
+图 2 右侧画了**字节码指令流**，这是整页最值得看的东西（课件没解释，我逐行拆开【补】）：
 
 ```text
 Method Welcome()
@@ -163,7 +167,7 @@ Method void main(java.lang.String[])
   8 return
 ```
 
-第一段是 `Method Welcome()`——**课件里根本没写构造器，字节码里却有一个**，这正是 p.31 那句"It is not mandatory to write a constructor"的底层原因：你不写，编译器就自动生成一个无参构造器（default constructor）。`aload_0` 把第 0 号局部变量压栈，而实例方法与构造器的第 0 号局部变量固定是 `this`；省略号那行按惯例是 `invokespecial`，调父类 `Object` 的构造器。
+第一段是 `Method Welcome()`——**源码里根本没写构造器，字节码里却有一个**，这正是 p.31 那句"It is not mandatory to write a constructor"的底层原因：你不写，编译器就自动生成一个无参构造器（default constructor）。`aload_0` 把第 0 号局部变量压栈，而实例方法与构造器的第 0 号局部变量固定是 `this`；省略号那行按惯例是 `invokespecial`，调父类 `Object` 的构造器。
 
 第二段左边那些 0、3、5、8 不是"第几条指令"，而是**指令在字节码里的起始偏移（字节）**。偏移跳 3、2、3 是因为长度不同：`getstatic` 带 2 字节常量池下标（共 3 字节）、`ldc` 带 1 字节（共 2 字节）、`invokevirtual` 带 2 字节（共 3 字节）、`return` 不带参数（1 字节）。**读懂这几个偏移，才算把字节码当成"指令流"而不是"源码的另一种写法"。**
 
@@ -179,7 +183,7 @@ Method void main(java.lang.String[])
 
 这五页全是 Eclipse 截图，课件没有配文字，要点只有四条：
 
-**① 建工程**（p.12-13）：`File → New → Java Project`。p.13 的对话框里 JRE 选 "Use an execution environment JRE: **JavaSE-14**"（截图来自 2020 年前后，Java 14 于 2020 年 3 月发布）；底部 "Create module-info.java file" 是 Java 9 的模块系统，本课用不到，【补】自己建工程时取消勾选更省事。Eclipse 的"工程"对应磁盘上一个文件夹，源码放 `src` 里。
+**① 建工程**（p.12-13）：`File → New → Java Project`。对话框（p.13）里 JRE 选 "Use an execution environment JRE: **JavaSE-14**"（截图来自 2020 年前后，Java 14 于 2020 年 3 月发布）；底部 "Create module-info.java file" 是 Java 9 的模块系统，本课用不到，【补】自己建工程时取消勾选更省事。Eclipse 的"工程"对应磁盘上一个文件夹，源码放 `src` 里。
 
 **② 建类**（p.14-15）：右键工程 `New → Class`，Package 填 `helloworld`、Name 填 `hello`。刚填完对话框顶部就弹出警告："Type name is discouraged. By convention, Java type names usually start with an uppercase letter"——**这只是提醒，不是错误**。勾上 "public static void main(String[] args)" 让 IDE 生成 §2.3 那个壳。Superclass 一栏写着 `java.lang.Object`——**每个类默认继承 `Object`**，这正是 p.7 那句"`Object` 是根类"在 IDE 里的样子（`toString()`、`equals()` 都来自它，§5.7）。
 
@@ -216,7 +220,7 @@ Method void main(java.lang.String[])
 
 ### 4.2 循环、条件、类与对象的关键字（p.18）
 
-p.18 分三组：
+接着的三组关键字（p.18）：
 
 **循环（loops）**：`for`（创建一个 for 循环：一个变量初始化、一个布尔表达式、一个自增）；`while`（测试布尔表达式，为真就执行语句）；`continue`（跳过本轮剩下的代码，直接进入下一轮）；`break`（跳出当前循环或 switch）。课件配了两个片段：`for (int x = 0; x < 10; x = x + 1)` 与 `while (x < 10)`。
 
@@ -373,6 +377,10 @@ System.out.println(a.equals(c)); // true  —— equals 比的是内容
 
 第一行为什么是 `true`？因为源码里的字符串字面量（literal）被放进**字符串常量池（string constant pool）**，同样的字面量只存一份，`a` 与 `b` 拿到同一个地址；而 `new String("abc")` 明确要求"再造一个"，于是堆上多了一个内容相同、地址不同的对象。
 
+![字符串常量池与堆：a、b 同地址，c 指向 new 出来的另一个对象](img/CSC3100-Lecture2-fig03-string-pool-vs-heap.png)
+
+*图 3　`a`、`b`、`c` 三个引用住在栈上：`a` 与 `b` 同指常量池里的 `"abc"`（示意地址 0x2E10），`c` 指向堆上 `new String("abc")` 造出的另一个 `"abc"`（0x7A44）。所以 `a == b` 为 true、`a == c` 为 false、`a.equals(c)` 为 true。*
+
 所以 **比较字符串内容永远用 `.equals()`**。`String` 重写了从 `Object` 继承的 `equals`，改成逐字符比较；`==` 无法重写，语义在语言层面就定死了。p.57 那行是正确写法；若写成 `original == reverse`，因为 `reverse` 是循环里拼出来的新对象，结果**永远是 false**，任何输入都会输出 "isn't a palindrome"。顺带一句：`"abc".equals(x)` 比 `x.equals("abc")` 安全——前者在 `x` 为 `null` 时返回 `false`，后者抛异常。
 
 **为什么拼接要用 StringBuilder / StringBuffer。** `String` 不可变，每次 `+` 都要"新造一个字符串、把两段都抄进去"。循环里这样写：
@@ -415,7 +423,7 @@ if (n == 3)
 
 比较运算符课件列了六个：`>`、`<`、`==`、`>=`、`<=`、`!=`。注意 `=` 不在其中——它不是比较。
 
-p.26 下半页给了 if-else 的例子：
+下半页是一个 if-else 的例子（p.26）：
 
 ```java
 if (x != 0)
@@ -512,7 +520,11 @@ for (i = 1; i <= 100; i++) {
 
 课件的定义：**类（class）是一张蓝图或原型（blueprint or prototype），它定义了某一类 Java 对象共有的变量与方法**；**对象（object）是类的一个标本（specimen），即类的一个实例（instance）**。
 
-p.29 右侧的手绘图把 `DOG` 这个类分成上下两半：上半是数据成员（Breed、Size、Age、Color），下半是方法（Eat()、Sleep()、Sit()、Run()）。一个类就是这两样东西：**它知道什么**（字段）与**它能做什么**（方法）。
+图 4 把 `DOG` 这个类分成上下两半（出自讲义 p.29 的手绘）：上半是数据成员（Breed、Size、Age、Color），下半是方法（Eat()、Sleep()、Sit()、Run()）。一个类就是这两样东西：**它知道什么**（字段）与**它能做什么**（方法）。
+
+![类是蓝图：一张字段与方法的清单；对象是照清单造出来的实例](img/CSC3100-Lecture2-fig04-class-blueprint-vs-objects.png)
+
+*图 4　左边是 `DOG` 类的蓝图：上半数据成员（Breed、Size、Age、Color），下半方法（Eat()、Sleep()、Sit()、Run()）；右边是 `new DOG(...)` 造出的两个对象，字段各存一份，方法共用类里那一份；类本身只是源码里的清单，不占对象内存。*
 
 【补】这里要把上一讲的 ADT 接上，否则两讲是断开的：**L1 的 ADT 是"能做什么"的清单，本讲的 `class` 就是它在 Java 里的落地形式**——字段对应状态、方法对应操作、`private` 对应信息隐藏（p.33 那句"属性一般应保持 private"就是 L1 的封装）。课件从 p.29 起只讲 Java，没做这个连接。
 
@@ -582,7 +594,7 @@ public Turtle(int initX, int initY) {
 
 ### 7.6 main 为什么是 static（p.34）
 
-p.34 说了两件事：**Java 里语句只能写在类的方法里**，所以必须有一个"系统在程序开始时调用的方法"，这就是 `main`；两条注解是 **`static`**（调用 `main` 时它不与对象关联，而与类关联）与 **参数 `args`**（解释器拿到的、比类名多出来的信息从这里传进来）。
+声明 main 的那页（p.34）说了两件事：**Java 里语句只能写在类的方法里**，所以必须有一个"系统在程序开始时调用的方法"，这就是 `main`；两条注解是 **`static`**（调用 `main` 时它不与对象关联，而与类关联）与 **参数 `args`**（解释器拿到的、比类名多出来的信息从这里传进来）。
 
 【补】第 1 条常被误解成"Java 不允许全局变量"，其实它说的是**语句**不能裸写在类体里：`class A { x = 3; }` 编译不过，`class A { int x = 3; }` 可以（后者是声明）。第 2 条是理解 `static` 的入口。**`static` 方法没有 `this`**，不依附任何对象，因此它**不能**直接读写实例字段、**不能**直接调用实例方法，但**能**直接读写静态字段、调用静态方法。这条规则直接解释了 p.60 那个怪例子（§14.8）：`main` 是 static、`show()` 是实例方法，所以在 `main` 里不能写 `show();`，必须先 `new` 一个对象。
 
@@ -639,15 +651,19 @@ class Person{
 
 这与 L3 的内存模型是同一套：局部变量住在栈（stack）上的栈帧里，`new` 出来的对象住在堆里，栈帧里只放一个地址。L3 §1.5–§1.6 用 `Rational a = new Rational(...)` 把这条链走到了地址级别（`a` 在 FFB4、对象在 1000），这里只搬结论。
 
-![引用变量与对象本体分别住在栈和堆](img/CSC3100-Lecture2-fig02-reference-stack-heap.png)
+![引用变量与对象本体分别住在栈和堆](img/CSC3100-Lecture2-fig05-reference-stack-heap.png)
 
-*图 2　`Turtle t = new Turtle(100, 100);` 之后的内存状态（对应 p.32、p.35 的代码；地址 0x1A2B 是示意值，栈/堆的分工见 L3 §1.5）。`t` 里存的是地址，对象本体在堆里；`a` 是基本类型，值直接存在栈上。*
+*图 5　`Turtle t = new Turtle(100, 100);` 之后的内存状态（对应 p.32、p.35 的代码；地址 0x1A2B 是示意值，栈/堆的分工见 L3 §1.5）。`t` 里存的是地址，对象本体在堆里；`a` 是基本类型，值直接存在栈上。*
 
 由此推出三条后面会反复用到的结论：
 
 1. **`Turtle t;` 之后、`new` 之前，`t` 的值是 `null`**（局部变量甚至不能用，§5.2）。此时 `t.getX()` 抛 `NullPointerException`——这就是 p.36 说的"用 null 引用调用方法"。
 2. **两个引用可以指向同一个对象**：`Turtle t2 = t;` 之后两者存同一个地址，`t2.jumpTo(0,0)` 改的字段 `t` 也看得见；而 `t = new Turtle(0,0);` 是"换指向"，旧对象没人指就等着被回收。
 3. **对象数组里存的是引用**：p.41 的 `new Turtle[100]` 造出 100 个空格子，每格初始都是 `null`，必须逐个 `= new Turtle(...)`。
+
+![引用的四种动作：新建、别名、换指向、对象数组](img/CSC3100-Lecture2-fig06-alias-reseat-array.png)
+
+*图 6　四个面板对应引用的四种动作：① `new Turtle(100, 100)` 之后一个引用指向一个对象；② `Turtle t2 = t;` 是别名，两个名字、同一个对象（同指 0x1A2B）；③ `t = new Turtle(0, 0);` 只改 `t` 这一格，旧对象仍被 `t2` 指着、不会被回收；④ `new Turtle[3]` 只造三个 null 格子，必须逐个 `new`。*
 
 ### 7.9 Java 只有值传递（p.32 的延伸）【补】
 
@@ -749,7 +765,7 @@ System.out.println("6 * 7 = " + a);
 - **单行注释**：`//` 到行尾；
 - **块注释**：`/* xxx */`，可以跨行；`/** ... */` 是文档注释（javadoc），能被工具抽出来生成 API 文档。
 
-p.40 的截图来自教材 *Big Java*，三处红框分别是类上方的 javadoc、方法里的单行注释、以及一段完整程序。程序里出现了**对象数组**与**增强 for**：先 `Employee[] staff = new Employee[3]`，再逐个 `staff[i] = new Employee(...)`（三个构造器参数不同，是重载），最后 `for (Employee e : staff)` 遍历。
+p.40 的截图（出自教材 *Big Java*）同时展示了三种注释的真实用法：类上方的 javadoc、方法里的单行注释、以及一段完整程序。程序里出现了**对象数组**与**增强 for**：先 `Employee[] staff = new Employee[3]`，再逐个 `staff[i] = new Employee(...)`（三个构造器参数不同，是重载），最后 `for (Employee e : staff)` 遍历。
 
 【补】`for (Employee e : staff)` 叫增强 for（enhanced for / for-each），读作"对 staff 里的每一个元素，把它叫作 e，执行一次循环体"。它比 `for (int i = 0; i < staff.length; i++)` 短，但**拿不到下标**，也不能在遍历时删元素。p.76 与 p.77 也用了这种写法。
 
@@ -784,7 +800,7 @@ for (i = 0; i < someInts.length; i = i + 1) {
 | 字符串 `String` | `s.length()` | 方法 |
 | 动态数组 `ArrayList` | `list.size()` | 方法 |
 
-p.41 右上角还有一个思考气泡："**数组的最大长度是多少？**"课件没有回答，我补在这里【补】：
+讲义在这里留了一个思考题（p.41）："**数组的最大长度是多少？**"课件没有回答，我补在这里【补】：
 
 数组的长度是 `int` 类型，所以长度最大是 $2^{31}-1 = 2147483647$，最大下标是 $2^{31}-2 = 2147483646$。实际能开多大还受两个限制：**一是 JVM 的实现上限**（数组对象除了元素还要存对象头，所以真正的上限比 $2^{31}-1$ 略小几个元素），**二是可用内存**（`new int[2147483647]` 需要 $2147483647 \times 4$ 字节 $\approx 8.59\times 10^{9}$ 字节 $\approx 8$ GB，默认堆大小下必然抛 `OutOfMemoryError`）。所以实用结论是：**数组长度受内存限制，不受"类型"限制；想要更大的结构得用分块或文件。**
 
@@ -822,7 +838,7 @@ public Person(String name, int age) {
 
 ## 12. 一个完整的文件读写模板（p.44）
 
-p.44 是一整页的 Eclipse 截图，代码四十来行。它是**本课作业与实验的标准输入输出模板**（读文件 → 逐行处理 → 写文件），所以值得逐行转写：
+p.44 是一段四十来行的完整程序（本课作业与实验的标准输入输出模板：读文件 → 逐行处理 → 写文件），值得逐行转写：
 
 ```java
 package javaIO;
@@ -895,7 +911,7 @@ public class MyIOClass {
 
 ## 13. 快捷键与自学材料（p.45-46）
 
-p.45 给了一条快捷键（`Shift + Ctrl + O` 自动导入包）与三个自学入口（guru99 教程、Lund 的 Java 21 讲义、教材 *Thinking in Java*）；p.46 是"自学材料"分隔页，后面 p.47-71 那十二个程序就是这份材料。
+这一节只有一条快捷键与三个自学入口（p.45）：`Shift + Ctrl + O` 自动导入包；guru99 教程、Lund 的 Java 21 讲义、教材 *Thinking in Java*。p.46 是"自学材料"分隔页，后面 p.47-71 那十二个程序就是这份材料。
 
 ## 14. 十二个迷你程序（p.47-71）
 
@@ -1549,7 +1565,7 @@ int main(void) {
 
 这句话的分量在于：**`File` 对象不代表"一个打开的文件"，只代表"一个路径"**。`new File("a.txt")` 不会创建文件、也不检查它存不存在，只是把字符串包成对象，好让你调 `exists()`、`createNewFile()`。
 
-p.73 的方法表挑常用的列在这里：
+方法表（p.73）挑常用的列在这里：
 
 | 方法 | 返回 | 作用 |
 | --- | --- | --- |
@@ -1580,7 +1596,7 @@ else System.out.println("File already exists.");
 
 原文的顺序是：`new File("testFile1.txt")` → `createNewFile()` → 打印 `file`（得到 `testFile1.txt`）→ `getCanonicalFile()` → 打印（得到 `/home/Work/Project/File/testFile1.txt`）→ `exists()`（`true`）→ `getAbsolutePath()`，整个外层套 `try/catch`。三种"路径"的差别是这一页的重点：直接打印 `file` 得到**相对路径**（写什么打印什么）；`getCanonicalFile()` 给出**规范化的绝对路径**；`getAbsolutePath()` 也是绝对路径但**不清除 `..`**。
 
-**例三：列目录**（p.76-77）：`File f = new File("/Users/sonoojaiswal/Documents"); String filenames[] = f.list();` 再 `for (String filename : filenames)` 逐个打印；p.77 换成 `listFiles()`，并打印每一项的 `getName()`、`canWrite()`、`isHidden()`、`length()`，输出形如 `"info.properties" Can Write: true Is Hidden: false Length: 15 bytes`。
+**例三：列目录**（p.76-77）：`File f = new File("/Users/sonoojaiswal/Documents"); String filenames[] = f.list();` 再 `for (String filename : filenames)` 逐个打印；第二个例子（p.77）改用 `listFiles()`，并打印每一项的 `getName()`、`canWrite()`、`isHidden()`、`length()`，输出形如 `"info.properties" Can Write: true Is Hidden: false Length: 15 bytes`。
 
 【补】`list()` / `listFiles()` 在目录不存在或无权限时返回 `null`，直接遍历会抛 `NullPointerException`，应先判 `!= null`。另外 p.76 与 p.77 的**类名完全相同**（都叫 `FileExample`）而代码不同，同一个工程放不下两个同名 public 类（诚实备注一第 11 条）。
 
@@ -1663,7 +1679,7 @@ fw.close();
 
 **这是一门工具课，不是考点课。** p.1 明说本讲不进入期中与期末考，但后面每一讲的算法都要用这套语法写成 Java，所以投入的重点是"能读能改"，而不是背定义。
 
-**跨平台的是字节码，不是 JVM。** JDK ⊃ JRE ⊃ JVM + 核心类库；`javac` 把 `.java` 编译成 `.class`，`java` 命令启动 JVM 解释执行。p.10 那张图里的字节码清单值得再看一遍：`Method Welcome()` 是编译器自动补的构造器，偏移 0/3/5/8 是不同长度指令的起始位置。
+**跨平台的是字节码，不是 JVM。** JDK ⊃ JRE ⊃ JVM + 核心类库；`javac` 把 `.java` 编译成 `.class`，`java` 命令启动 JVM 解释执行。图 2 右侧的字节码指令流值得再看一遍：`Method Welcome()` 是编译器自动补的构造器，偏移 0/3/5/8 是不同长度指令的起始位置。
 
 **八种基本类型 + 一条除法规则。** `int / int` 是整数除法（`1/3 == 0`），要小数必须让一边是浮点——这决定了 p.27 的 `term/k` 与 p.28 的 `1.0/i` 两处写法。
 
@@ -1764,9 +1780,9 @@ fw.close();
 - **`Object` 与 ADT 的连接**（§7.1）；**基本类型的取值范围、溢出、字面量后缀**（§4.1）；**局部变量必须先赋值、字段有默认值**（§5.2）；**取模对负数的语义**（§5.3）；**`(int)` 是截断**（§5.5）。
 - **`String` 不可变、字符串常量池、`==` 与 `.equals()`、`StringBuilder` 为什么快**（§5.7）：课件 p.57 直接用了 `.equals`、p.69 直接用了 `StringBuffer`，都没解释。
 - **`&&` / `||` 的短路语义**（§6.2）；**p.27 循环的精度**（§6.3：9 次、`sum = 2.71827876984127`、误差 $3.06\times 10^{-6}$）；**调和级数的值与渐近式**（§6.4）。
-- **默认构造器与 `new` 的对应关系**（§7.3、§2.4）；**引用与对象的内存模型**（§7.8 + 图 2）；**Java 只有值传递**（§7.9）。
+- **默认构造器与 `new` 的对应关系**（§7.3、§2.4）；**引用与对象的内存模型**（§7.8 + 图 5、图 6）；**Java 只有值传递**（§7.9）。
 - **受检/非受检异常的分类、`finally`、`catch` 接不住哪些异常**（§8.2）；**数组最大长度**（§10.1，p.41 的气泡提问没答）；**`ArrayList` 不能存基本类型**（§10.2）；**`length` / `length()` / `size()` 的区别**（§10.1）。
-- **p.44 模板的坑**（§12 末）；**`read()` 为什么返回 `int`**、**`write(int)` 只写低 8 位**（§15.3）；**`FileWriter` 不 close 会丢数据**（§15.4）；**增强 for 的语法**（§9.3）；**图 1 与图 2**（都是我按课件重画的）。
+- **p.44 模板的坑**（§12 末）；**`read()` 为什么返回 `int`**、**`write(int)` 只写低 8 位**（§15.3）；**`FileWriter` 不 close 会丢数据**（§15.4）；**增强 for 的语法**（§9.3）；**图 1 至图 6**（都是我按课件重画的）。
 
 ### 三、数值核验说明
 
@@ -1795,4 +1811,4 @@ fw.close();
 
 **不够的部分**：① **泛型**完全没讲，而 p.42 的 `ArrayList` 实际用法是 `ArrayList<Integer>`；② **继承与接口**被明确排除，可真实 Java 代码到处都是 `extends` / `implements`；③ **异常**只有一个 `IOException` 例子，没有 `finally` 写法与 try-with-resources；④ **`static`** 只给了"与类关联"一句；⑤ **没讲数组越界异常**，而它是后面写链表、栈、队列时最高频的运行时错误；⑥ **`String` 的 API 只出现了六个**（`charAt`、`length`、`concat`、`equals`、`indexOf`、`split`），`substring`、`compareTo`、`trim` 都没出现；⑦ **没讲输入的性能问题**（`Scanner` 读 $10^6$ 个数会明显变慢）。
 
-**建议的下一步**：① **把 p.44 的模板敲一遍并跑通**（`1 3` / `2 4` / `5 6` → 4/6/11），再故意加一行只有一个数字的输入，观察 `catch(IOException)` **接不住** `ArrayIndexOutOfBoundsException`——这次崩溃比读十遍 §8.2 都管用。② **写两个 `swap`**（`swap(int a, int b)` 与 `swap(int[] a)`），亲手确认第一个无效、第二个有效，这是理解值传递最快的实验。③ **遮住答案重做三个程序**：p.52 的欧几里得（先手推 `gcd(20,15)`）、p.56 的回文数（手推 454）、p.71 的旋转判定。④ **把 p.57 的反转改成 `StringBuilder` 版**，用 `System.nanoTime()` 比一次耗时。⑤ **去 L3 的 §1.5–§1.6 读一遍栈/堆与引用的地址级追踪**，再回来看 §7.8 的图 2。
+**建议的下一步**：① **把 p.44 的模板敲一遍并跑通**（`1 3` / `2 4` / `5 6` → 4/6/11），再故意加一行只有一个数字的输入，观察 `catch(IOException)` **接不住** `ArrayIndexOutOfBoundsException`——这次崩溃比读十遍 §8.2 都管用。② **写两个 `swap`**（`swap(int a, int b)` 与 `swap(int[] a)`），亲手确认第一个无效、第二个有效，这是理解值传递最快的实验。③ **遮住答案重做三个程序**：p.52 的欧几里得（先手推 `gcd(20,15)`）、p.56 的回文数（手推 454）、p.71 的旋转判定。④ **把 p.57 的反转改成 `StringBuilder` 版**，用 `System.nanoTime()` 比一次耗时。⑤ **去 L3 的 §1.5–§1.6 读一遍栈/堆与引用的地址级追踪**，再回来看 §7.8 的图 5。

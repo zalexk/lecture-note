@@ -25,6 +25,8 @@
 | [Lecture 10 队列](/CSC3100-Data-Structures/lecture10-queue) | Queue | Lecture 10（共 32 页） |
 | [Lecture 11 快速排序](/CSC3100-Data-Structures/lecture11-quicksort) | QuickSort | Lecture 11（共 35 页） |
 | [Lecture 12 更多排序算法](/CSC3100-Data-Structures/lecture12-more-sorting-algorithms) | More Sorting Algorithms | Lecture 12（共 30 页） |
+| [Lecture 13 树与二叉树](/CSC3100-Data-Structures/lecture13-tree-and-binary-tree) | Tree and Binary Tree | Lecture 13（共 30 页） |
+| [Lecture 14 二叉搜索树](/CSC3100-Data-Structures/lecture14-binary-search-tree) | Binary Search Tree | Lecture 14（共 30 页） |
 
 ::: tip 阅读顺序建议
 每篇笔记开头都有一节「一句话概括本讲在讲什么」，先把上一讲留下了什么、本讲怎么接上交代清楚；各节标题后都标了课件页码（如 `（p.6-11）`），方便对回原课件。文末的「诚实备注」会逐条列出课件笔误、由我补充的内容，以及数值复算的结果。

@@ -1,5 +1,5 @@
 ---
-title: Lecture 14 二叉搜索树（Binary Search Tree）
+title: Lecture 14 Binary Search Tree（二叉搜索树）
 course: CSC3100 Data Structures
 lecture: Lecture 14 - Binary Search Tree
 date: 2026-10-29
