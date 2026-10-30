@@ -191,6 +191,10 @@ export const courses: CourseEntry[] = [
     summary: '宏观经济学原理 —— 从 GDP 核算、通胀与物价水平，到劳动市场与失业。',
     notes: [
       {
+        text: 'Ch4 支出、收入与 GDP（Spending, Income and GDP）',
+        file: 'ch4-spending-income-gdp',
+      },
+      {
         text: 'Ch5 通货膨胀与价格水平（Inflation and the Price Level）',
         file: 'ch5-inflation-and-the-price-level',
       },
@@ -209,10 +213,6 @@ export const courses: CourseEntry[] = [
       {
         text: 'Ch9 货币、物价与金融中介（Money, Prices, and Financial Intermediaries）',
         file: 'ch9-money-prices-and-financial-intermediaries',
-      },
-      {
-        text: 'Ch4 支出、收入与 GDP（Spending, Income and GDP）',
-        file: 'ch4-spending-income-gdp',
       },
     ],
   },
