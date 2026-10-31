@@ -20,6 +20,27 @@
 | [Ch5 组合逻辑设计](/ECE2050-Digital-Logic-and-Systems/chap5-combinational-logic-design) | Combinational Logic Design | Chapter 5（共 33 页） |
 | [Ch6 组合逻辑标准构件](/ECE2050-Digital-Logic-and-Systems/chap6-combinational-building-blocks) | Combinational Building Blocks | Chapter 6（共 56 页） |
 
+## 期中题型大全
+
+把四套历届期中卷（2024、2025 春、2025 秋、2026）与 HW1–HW3 拆成 12 个课题、67 个题型。每个题型按「识别特征 → 原题 → 官方答案 → 解题步骤 → 答案复盘 → 易错点 → 变体」写，重点是复盘官方答案每一步依据的规则。
+
+| 篇 | 主题 | 题型数 |
+| --- | --- | --- |
+| [00 总纲](/ECE2050-Digital-Logic-and-Systems/midterm-00-overview) | 使用说明、考试信息、按卷索引 | — |
+| [01 数制与转换](/ECE2050-Digital-Logic-and-Systems/midterm-01-number-systems-and-conversion) | Number Systems and Conversion | 6 |
+| [02 补码与有符号算术](/ECE2050-Digital-Logic-and-Systems/midterm-02-twos-complement-and-signed-arithmetic) | Two's Complement and Signed Arithmetic | 7 |
+| [03 编码、校验与浮点](/ECE2050-Digital-Logic-and-Systems/midterm-03-codes-error-detection-and-floating-point) | Codes, Error Detection and Floating Point | 5 |
+| [04 逻辑门与电特性](/ECE2050-Digital-Logic-and-Systems/midterm-04-logic-gates-and-electrical-characteristics) | Logic Gates and Electrical Characteristics | 5 |
+| [05 布尔代数化简](/ECE2050-Digital-Logic-and-Systems/midterm-05-boolean-algebra-simplification) | Boolean Algebra Simplification | 4 |
+| [06 标准形式与逻辑互转](/ECE2050-Digital-Logic-and-Systems/midterm-06-canonical-forms-and-logic-conversion) | Canonical Forms and Logic Conversion | 7 |
+| [07 卡诺图与最小化](/ECE2050-Digital-Logic-and-Systems/midterm-07-karnaugh-maps-and-minimization) | Karnaugh Maps and Minimization | 8 |
+| [08 通用门实现](/ECE2050-Digital-Logic-and-Systems/midterm-08-universal-gate-implementation) | Universal Gate Implementation | 5 |
+| [09 加法器与运算电路](/ECE2050-Digital-Logic-and-Systems/midterm-09-adders-and-arithmetic-circuits) | Adders and Arithmetic Circuits | 6 |
+| [10 多路选择器与译码器](/ECE2050-Digital-Logic-and-Systems/midterm-10-multiplexers-and-decoders) | Multiplexers and Decoders | 9 |
+| [11 延迟、时序与毛刺](/ECE2050-Digital-Logic-and-Systems/midterm-11-delay-timing-and-glitches) | Delay, Timing and Glitches | 4 |
+| [12 概念判断题](/ECE2050-Digital-Logic-and-Systems/midterm-12-concept-judgement) | Concept Judgement | 40 句 |
+| [99 考前速查](/ECE2050-Digital-Logic-and-Systems/midterm-99-cheatsheet) | 一页速查 | — |
+
 ::: tip 阅读顺序建议
 Chapter 1 是一张「全课程导览图」——它不教具体电路，只把后面十几章的地图先摊开。先读它建立全局视野，再按 Ch2（数制）→ Ch3（逻辑门）→ Ch4（化简）→ Ch5（门级实现）→ Ch6（标准构件）往下走，之后各章才有落点。
 

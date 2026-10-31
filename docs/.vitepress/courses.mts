@@ -16,6 +16,8 @@ export interface NoteEntry {
   text: string
   /** 不含 .md 后缀的文件名 */
   file: string
+  /** 可选：同一分组的笔记在侧边栏合成一个可折叠小节 */
+  group?: string
 }
 
 export interface CourseEntry {
@@ -182,6 +184,20 @@ export const courses: CourseEntry[] = [
         text: 'Ch6 组合逻辑标准构件（Combinational Building Blocks）',
         file: 'chap6-combinational-building-blocks',
       },
+      { text: '00 总纲', file: 'midterm-00-overview', group: '期中题型大全（Midterm Question Types）' },
+      { text: '01 数制与转换', file: 'midterm-01-number-systems-and-conversion', group: '期中题型大全（Midterm Question Types）' },
+      { text: '02 补码与有符号算术', file: 'midterm-02-twos-complement-and-signed-arithmetic', group: '期中题型大全（Midterm Question Types）' },
+      { text: '03 编码、校验与浮点', file: 'midterm-03-codes-error-detection-and-floating-point', group: '期中题型大全（Midterm Question Types）' },
+      { text: '04 逻辑门与电特性', file: 'midterm-04-logic-gates-and-electrical-characteristics', group: '期中题型大全（Midterm Question Types）' },
+      { text: '05 布尔代数化简', file: 'midterm-05-boolean-algebra-simplification', group: '期中题型大全（Midterm Question Types）' },
+      { text: '06 标准形式与逻辑互转', file: 'midterm-06-canonical-forms-and-logic-conversion', group: '期中题型大全（Midterm Question Types）' },
+      { text: '07 卡诺图与最小化', file: 'midterm-07-karnaugh-maps-and-minimization', group: '期中题型大全（Midterm Question Types）' },
+      { text: '08 通用门实现', file: 'midterm-08-universal-gate-implementation', group: '期中题型大全（Midterm Question Types）' },
+      { text: '09 加法器与运算电路', file: 'midterm-09-adders-and-arithmetic-circuits', group: '期中题型大全（Midterm Question Types）' },
+      { text: '10 多路选择器与译码器', file: 'midterm-10-multiplexers-and-decoders', group: '期中题型大全（Midterm Question Types）' },
+      { text: '11 延迟、时序与毛刺', file: 'midterm-11-delay-timing-and-glitches', group: '期中题型大全（Midterm Question Types）' },
+      { text: '12 概念判断题', file: 'midterm-12-concept-judgement', group: '期中题型大全（Midterm Question Types）' },
+      { text: '99 考前速查', file: 'midterm-99-cheatsheet', group: '期中题型大全（Midterm Question Types）' },
     ],
   },
   {
@@ -265,19 +281,27 @@ export const courses: CourseEntry[] = [
 /** 由 dir 拼出站点内的路径前缀（带首尾斜杠） */
 export const courseBase = (c: CourseEntry) => `/${c.dir}/`
 
-/** 某节课的侧边栏配置 */
-export const courseSidebar = (c: CourseEntry) => [
-  {
-    text: `${c.code} ${c.name}`,
-    items: [
-      { text: '课程概览', link: `${courseBase(c)}` },
-      ...c.notes.map((n) => ({
-        text: n.text,
-        link: `${courseBase(c)}${n.file}`,
-      })),
-    ],
-  },
-]
+/** 某节课的侧边栏配置；带 group 的笔记合成一个可折叠小节 */
+export const courseSidebar = (c: CourseEntry) => {
+  const items: any[] = [{ text: '课程概览', link: `${courseBase(c)}` }]
+  const groups = new Map<string, any[]>()
+
+  for (const n of c.notes) {
+    const link = `${courseBase(c)}${n.file}`
+    if (!n.group) {
+      items.push({ text: n.text, link })
+      continue
+    }
+    if (!groups.has(n.group)) {
+      const children: any[] = []
+      groups.set(n.group, children)
+      items.push({ text: n.group, collapsed: false, items: children })
+    }
+    groups.get(n.group)!.push({ text: n.text, link })
+  }
+
+  return [{ text: `${c.code} ${c.name}`, items }]
+}
 
 /** 全站 sidebar：按目录前缀匹配 */
 export const sidebar = Object.fromEntries(
