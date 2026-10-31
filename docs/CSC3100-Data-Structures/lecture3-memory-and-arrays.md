@@ -1,5 +1,5 @@
 ---
-title: Lecture 3 Memory 与 Array
+title: Lecture 3 内存与数组（Memory and Arrays）
 course: CSC3100 Data Structures
 lecture: Lecture 3 - Memory, Arrays, and Sorting
 date: 2026-09-14
@@ -11,7 +11,7 @@ tags: [CSC3100, data-structures, array, memory-model, sorting, lecture-notes]
 
 # CSC3100 Lecture 3 课堂笔记：Memory 与 Array
 
-> 本讲内容完全来自课件 `lec3_array.pdf`（共 83 页），不含教师口述内容。课件分四块：内存基础（p.3-19）、数组（p.22-47）、例子（p.48-61）、四种排序（p.62-83）。课件有两处笔误（p.40 下标、p.70 循环上界），文末「诚实备注」逐条列出。正文标 **【补】** 的段落是课件没写、由我补充或复算的内容。
+> 本讲内容完全来自课件 `lec3_array.pdf`（共 83 页），不含教师口述内容。课件分四块：内存基础（p.3-19）、数组（p.22-47）、例子（p.48-61）、四种排序（p.62-83）。课件有两处笔误（p.40 下标、p.70 循环上界），文末「诚实备注」逐条列出。正文以补充类 alert（NOTE / TIP / IMPORTANT）呈现的内容是课件没写、由我补充或复算的内容。
 >
 > **关于课件版本**：本讲在课程目录里有两份 PDF。`lec3_array.pdf`（Tianshu Yu，83 页）是完整版，**本文所有页码都指它**；`lecture 3 (arrays).pdf`（Li Jiang，31 页）是同一讲的精简版，其中 p.20-29 十页在导出时内容丢失（只剩页码），因此不能作为依据。对页码时请认准 83 页那一份。
 
@@ -682,7 +682,7 @@ public static int[] insertX(int n, int arr[], int x, int pos) {
         else if (i == pos - 1)
             newarr[i] = x;                   // 在 pos 处放入 x
         else
-            newarr[i] = arr[i - 1];          // pos 之后的元素往后挪一格
+            newarr[i] = arr[i - 1];          // pos 之后的元素往后挪一格 // [!code warning]
     }
     return newarr;
 }
@@ -690,11 +690,14 @@ public static int[] insertX(int n, int arr[], int x, int pos) {
 
 功能是：把 `x` 放到从 1 开始计数的第 `pos` 位（判据是 `i == pos - 1`）。`i < pos - 1` 时照抄，`i == pos - 1` 时写 `x`，之后从 `arr[i-1]` 取值，相当于把原数组后半段整体右移一格。
 
-"这个方法安全吗？"答案是：不安全。【补】课件没有展开，但至少有三类问题：
+“这个方法安全吗？”答案是：不安全。
 
-- 参数 `n` 与 `arr.length` 可能不一致。若传进来的 `n` 比实际长度大，循环里 `arr[i]` 或 `arr[i-1]` 就会越界（`ArrayIndexOutOfBoundsException`）。
-- `pos` 没有做范围校验。`pos = 0` 时 `pos - 1 = -1`，所有 `i` 都走 `else` 分支去读 `arr[i-1]`，其中 `i = 0` 时读 `arr[-1]`，直接抛异常；`pos > n+1` 时永远进不了第二个分支，`x` 会被**静默丢弃**。
-- **长度信息丢失**。返回的数组长度是 `n+1`，调用者再拿别的 `n` 来调用就彻底错位。
+> [!CAUTION] 注意：三类潜在问题
+> 课件没有展开，但至少有三类问题：
+>
+> - 参数 `n` 与 `arr.length` 可能不一致。若传进来的 `n` 比实际长度大，循环里 `arr[i]` 或 `arr[i-1]` 就会越界（`ArrayIndexOutOfBoundsException`）。
+> - `pos` 没有做范围校验。`pos = 0` 时 `pos - 1 = -1`，所有 `i` 都走 `else` 分支去读 `arr[i-1]`，其中 `i = 0` 时读 `arr[-1]`，直接抛异常；`pos > n+1` 时永远进不了第二个分支，`x` 会被**静默丢弃**。
+> - **长度信息丢失**。返回的数组长度是 `n+1`，调用者再拿别的 `n` 来调用就彻底错位。
 
 更稳妥的写法是用 `arr.length` 取代 `n`，并对 `pos` 做检查或直接用 `Math.min/Math.max` 夹住。
 
@@ -758,7 +761,8 @@ public static boolean equals(int[] a, int[] b) {
 
 课件那句"适用于基本类型"是个提醒：元素是**对象**时必须用 `a[i].equals(b[i])`，因为 `!=` 对引用比的又是地址。这正好呼应 §5.1——对象数组里存的是引用。
 
-【补】另一个未覆盖的边界：代码直接访问 `a.length` 和 `b.length`，任一为 `null` 会抛 `NullPointerException`。
+> [!CAUTION] 注意：null 数组未覆盖
+> 另一个未覆盖的边界：代码直接访问 `a.length` 和 `b.length`，任一为 `null` 会抛 `NullPointerException`。
 
 ### 9.2 返回数组：`vowels()`（p.50）
 
@@ -802,7 +806,7 @@ for (int number : numbers) {
     sum += number;
 }
 int arrayLength = numbers.length;
-average = ((double) sum / (double) arrayLength);
+average = ((double) sum / (double) arrayLength);   // [!code warning] 不转就是整数除法
 ```
 
 输出 `Sum = 36`、`Average = 3.6`。
@@ -955,19 +959,20 @@ System.out.println(Arrays.toString(int_Array));
 
 现在前两位已就位。课件在这一页末尾抛出一个问题："**需要多少轮迭代？**"（How many iterations are needed?）
 
-【补】自己接着往下推作为核对：
-
-| 轮次 | 在 a[k..9] 中的最小值（下标） | 交换后 |
-| --- | --- | --- |
-| 第 3 轮 | 6（下标 6） | 3 5 6 17 7 15 11 19 30 14 |
-| 第 4 轮 | 7（下标 4） | 3 5 6 7 17 15 11 19 30 14 |
-| 第 5 轮 | 11（下标 6） | 3 5 6 7 11 15 17 19 30 14 |
-| 第 6 轮 | 14（下标 9） | 3 5 6 7 11 14 17 19 30 15 |
-| 第 7 轮 | 15（下标 9） | 3 5 6 7 11 14 15 19 30 17 |
-| 第 8 轮 | 17（下标 9） | 3 5 6 7 11 14 15 17 30 19 |
-| 第 9 轮 | 19（下标 9） | 3 5 6 7 11 14 15 17 19 30 |
-
-**答案是 9 轮**（下标 0 到 8）。第 10 个位置不用管——当 9 个位置都对时，最后一个必然就位。这就是代码里 `index < a.length - 1` 这个上界（而不是 `a.length`）的来历。
+> [!NOTE] 补充：后续轮次推演
+> 自己接着往下推作为核对：
+>
+> | 轮次 | 在 a[k..9] 中的最小值（下标） | 交换后 |
+> | --- | --- | --- |
+> | 第 3 轮 | 6（下标 6） | 3 5 6 17 7 15 11 19 30 14 |
+> | 第 4 轮 | 7（下标 4） | 3 5 6 7 17 15 11 19 30 14 |
+> | 第 5 轮 | 11（下标 6） | 3 5 6 7 11 15 17 19 30 14 |
+> | 第 6 轮 | 14（下标 9） | 3 5 6 7 11 14 17 19 30 15 |
+> | 第 7 轮 | 15（下标 9） | 3 5 6 7 11 14 15 19 30 17 |
+> | 第 8 轮 | 17（下标 9） | 3 5 6 7 11 14 15 17 30 19 |
+> | 第 9 轮 | 19（下标 9） | 3 5 6 7 11 14 15 17 19 30 |
+>
+> **答案是 9 轮**（下标 0 到 8）。第 10 个位置不用管——当 9 个位置都对时，最后一个必然就位。这就是代码里 `index < a.length - 1` 这个上界（而不是 `a.length`）的来历。
 
 **代码**（p.66）。课件先给了前置条件注释，这是一份很规范的文档：
 
@@ -982,7 +987,7 @@ System.out.println(Arrays.toString(int_Array));
  **************************************************/
 public static void sort(int[] a) {
     int index, indexOfNextSmallest;
-    for (index = 0; index < a.length - 1; index++) {
+    for (index = 0; index < a.length - 1; index++) {   // [!code highlight] 为什么是 -1
         // Place the correct value in a[index]:
         indexOfNextSmallest = indexOfSmallest(index, a);
         interchange(index, indexOfNextSmallest, a);
@@ -998,7 +1003,7 @@ public static void sort(int[] a) {
 # 前置条件：a 的每个下标都有值
 # 结果：a[0] <= a[1] <= ... <= a[len(a) - 1]
 def sort(a):
-    for index in range(len(a) - 1):
+    for index in range(len(a) - 1):                    # [!code highlight] 为什么是 -1
         # 把正确的值放到 a[index]
         index_of_next_smallest = index_of_smallest(index, a)
         interchange(index, index_of_next_smallest, a)
@@ -1011,7 +1016,7 @@ def sort(a):
 // 结果：a[0] <= a[1] <= ... <= a[a.size() - 1]
 void sort(std::vector<int>& a) {
     int index, indexOfNextSmallest;
-    for (index = 0; index < (int)a.size() - 1; index++) {
+    for (index = 0; index < (int)a.size() - 1; index++) {   // [!code highlight] 为什么是 -1
         // 把正确的值放到 a[index]
         indexOfNextSmallest = indexOfSmallest(index, a);
         interchange(index, indexOfNextSmallest, a);
@@ -1026,7 +1031,7 @@ void sort(std::vector<int>& a) {
 // 结果：a[0] <= a[1] <= ... <= a[n - 1]
 void sort(int* a, int n) {
     int index, indexOfNextSmallest;
-    for (index = 0; index < n - 1; index++) {
+    for (index = 0; index < n - 1; index++) {          // [!code highlight] 为什么是 -1
         // 把正确的值放到 a[index]
         indexOfNextSmallest = indexOfSmallest(index, a, n);
         interchange(index, indexOfNextSmallest, a);
@@ -1048,7 +1053,8 @@ void sort(int* a, int n) {
 
 实现被留作练习（p.67）："为 `indexOfSmallest` 和 `interchange` 写 Java 代码"，并提问"**大 O 复杂度是多少？**"
 
-【补】课件未给这两段实现，以下是补充：
+> [!NOTE] 补充
+> 课件未给这两段实现，以下是补充：
 
 ::: code-group
 
@@ -1188,7 +1194,7 @@ $$
 public static int[] insertX(int n, int arr[], int x, int pos) {
     int i;
     int newarr[] = new int[n + 1];
-    for (i = 0; i < n - 1; i++) {
+    for (i = 0; i < n - 1; i++) {      // [!code warning] 课件笔误：应为 i < n + 1
         if (i < pos - 1)
             newarr[i] = arr[i];
         else if (i == pos - 1)
@@ -1202,7 +1208,8 @@ public static int[] insertX(int n, int arr[], int x, int pos) {
 
 **先指出一个问题**：这个变体的循环上界 `i < n - 1` 是错的。§8.2 的原版是 `i < n + 1`，而 `newarr` 的长度是 `n + 1`；改成 `i < n - 1` 之后只能填到下标 `n - 2`，`newarr` 的**最后两个格子永远填不上**（保持默认值 0），同时 `arr` 的末尾元素也漏掉了。这应该是课件编辑时的笔误（见诚实备注第 3 条）。
 
-"不创建新实例"怎么实现？这正是插入排序的实现要点：既然仍要在**同一个数组**里插入，就必须从**末位开始**搬（从右往左），否则会覆盖还没处理的数据。核心片段【补】：
+> [!NOTE] 补充：就地插入的核心片段
+> “不创建新实例”怎么实现？这正是插入排序的实现要点：既然仍要在**同一个数组**里插入，就必须从**末位开始**搬（从右往左），否则会覆盖还没处理的数据。核心片段：
 
 ::: code-group
 
@@ -1340,7 +1347,10 @@ $$
 
 "合"这一步不需要做事，是快排最漂亮的地方。对比归并排序（merge sort）：归并排序把数组劈成两半分别排好之后，还要**逐段归并**才能得到整体有序（多一趟 $O(N)$ 的工作）；快排因为划分时就保证了"左边全 $\le v$、右边全 $\ge v$"，所以左右各自排好后直接首尾相接即可。这就是分治里"合"最省的一种形态。
 
-课件在这一页加了一句限定："为简化起见，我们可以假设没有重复元素，从而**忽略'相等'的情况**。" 真实实现里必须处理——【补】三种常见做法是"等于的归左边"、"等于的归右边"、"分成三段（小于/等于/大于）"，第三种就是著名的**荷兰国旗划分**（Dutch national flag partition），也是应对"大量重复元素导致退化为 $O(N^2)$"的关键。
+课件在这一页加了一句限定：“为简化起见，我们可以假设没有重复元素，从而**忽略‘相等’的情况**。” 真实实现里必须处理——
+
+> [!NOTE] 补充：相等元素怎么分
+> 三种常见做法是“等于的归左边”、“等于的归右边”、“分成三段（小于/等于/大于）”，第三种就是著名的**荷兰国旗划分**（Dutch national flag partition），也是应对“大量重复元素导致退化为 $O(N^2)$”的关键。
 
 ### 14.2 两个关键问题（p.76-77）
 
@@ -1361,7 +1371,8 @@ $$
 
 这就解释了 p.73 "最坏情况 $O(N^2)$" 的来源，以及为什么一个"看起来最规矩的输入"（已经排好序）反而是快排的死穴。而随机选 pivot 能避免"输入顺序恰好和 pivot 策略对抗"，把它变成一个概率问题——只要随机化，最坏情况出现的概率极低。
 
-【补】第三条路线（也是工业界最常用的）是**三数取中**（median-of-three）：取首、中、尾三个元素的中位数当 pivot，既不贵也能有效避开预排序输入。课件没有提。
+> [!TIP] 技巧：三数取中
+> 第三条路线（也是工业界最常用的）是**三数取中**（median-of-three）：取首、中、尾三个元素的中位数当 pivot，既不贵也能有效避开预排序输入。课件没有提。
 
 ### 14.3 划分难在哪（p.78-79）
 
@@ -1393,7 +1404,7 @@ static int partition(int[] arr, int left, int right, int pivotIndex) {
     // 把所有比 pivotValue 小的移到开头
     int storeIndex = left;
     for (int i = left; i < right; i++) {    // 扫 left..right-1，arr[right] 被 pivot 占着
-        if (arr[i] < pivotValue) {
+        if (arr[i] < pivotValue) {              // [!code warning] 写成 <= 可能失衡
             swap(arr, storeIndex, i);
             storeIndex = storeIndex + 1;
         }
@@ -1416,7 +1427,7 @@ def partition(arr, left, right, pivot_index):
     # 把所有比 pivot_value 小的移到开头
     store_index = left
     for i in range(left, right):           # 扫 left..right-1，arr[right] 被 pivot 占着
-        if arr[i] < pivot_value:
+        if arr[i] < pivot_value:               # [!code warning] 写成 <= 可能失衡
             swap(arr, store_index, i)
             store_index = store_index + 1
     swap(arr, right, store_index)          # 把 pivot 移到它最终的位置
@@ -1437,7 +1448,7 @@ int partition(std::vector<int>& arr, int left, int right, int pivotIndex) {
     // 把所有比 pivotValue 小的移到开头
     int storeIndex = left;
     for (int i = left; i < right; i++) {    // 扫 left..right-1，arr[right] 被 pivot 占着
-        if (arr[i] < pivotValue) {
+        if (arr[i] < pivotValue) {              // [!code warning] 写成 <= 可能失衡
             swap(arr, storeIndex, i);
             storeIndex = storeIndex + 1;
         }
@@ -1461,7 +1472,7 @@ int partition(int* arr, int left, int right, int pivotIndex) {
     // 把所有比 pivotValue 小的移到开头
     int storeIndex = left;
     for (int i = left; i < right; i++) {    // 扫 left..right-1，arr[right] 被 pivot 占着
-        if (arr[i] < pivotValue) {
+        if (arr[i] < pivotValue) {              // [!code warning] 写成 <= 可能失衡
             swap(arr, storeIndex, i);
             storeIndex = storeIndex + 1;
         }
@@ -1473,11 +1484,12 @@ int partition(int* arr, int left, int right, int pivotIndex) {
 
 :::
 
-【补】逐步过一遍：
-
-- **第一步**先把 pivot 与 `arr[right]` 交换，等于把 pivot **挪出战场**存到末尾，剩下 `arr[left..right-1]` 就是要划分的区域。
-- **第二步**用 `storeIndex` 当"下一个比 pivot 小的元素该放的位置"，`i` 从左到右扫：遇到 `a[i] < pivotValue` 就把它换到 `storeIndex`，然后把 `storeIndex` 加一。扫描结束时，`arr[left..storeIndex-1]` 全是小于 pivot 的，`arr[storeIndex..right-1]` 全是大于等于 pivot 的。
-- **第三步**把末尾的 pivot 换到 `storeIndex`——这个位置正好是"小于区"和"大于等于区"的分界点，所以 pivot 落在这里就已经是它最终的位置了。
+> [!NOTE] 补充：partition 逐步过一遍
+> 逐步过一遍：
+>
+> - **第一步**先把 pivot 与 `arr[right]` 交换，等于把 pivot **挪出战场**存到末尾，剩下 `arr[left..right-1]` 就是要划分的区域。
+> - **第二步**用 `storeIndex` 当“下一个比 pivot 小的元素该放的位置”，`i` 从左到右扫：遇到 `a[i] < pivotValue` 就把它换到 `storeIndex`，然后把 `storeIndex` 加一。扫描结束时，`arr[left..storeIndex-1]` 全是小于 pivot 的，`arr[storeIndex..right-1]` 全是大于等于 pivot 的。
+> - **第三步**把末尾的 pivot 换到 `storeIndex`——这个位置正好是“小于区”和“大于等于区”的分界点，所以 pivot 落在这里就已经是它最终的位置了。
 
 课件那句"**哪怕最微小的偏差都可能造成令人惊讶的糟糕结果**"就是针对这段代码的：把 `a[i] < pivotValue` 写成 `a[i] <= pivotValue`，在某些输入上就可能让划分严重失衡；漏掉 `storeIndex` 的自增会让交换全乱；`i` 的上界写成 `right + 1` 会越界。**快排的正确性对边界极其敏感**，这就是为什么它同时是"实践最快"和"最难写对"的算法。
 

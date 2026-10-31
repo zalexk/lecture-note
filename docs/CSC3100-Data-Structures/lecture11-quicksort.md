@@ -1,5 +1,5 @@
 ---
-title: Lecture 11 QuickSort（快速排序）
+title: Lecture 11 快速排序（QuickSort）
 course: CSC3100 Data Structures
 lecture: Lecture 11 - QuickSort
 date: 2026-10-21
@@ -16,7 +16,7 @@ tags: [CSC3100, quicksort, partition, pivot, median-of-three, randomized-algorit
 >
 > **已知课件问题**：p.14 与 p.15 的文字说"跳过比 pivot 小/大的元素"，而 p.20 的代码用的是 `a[i] <= pivot` 与 `a[j] > pivot`，相等元素的实际归属与文字不符；p.15 自己提出了"相等元素怎么办"却没有回答。p.3 说最坏情况 "very unlikely"，可是对全相等的输入，本讲 p.20 的代码必然退化到约 $n^2/4$，与随机化无关。p.29 把快排的额外空间记作 $O(1)$，漏掉了递归栈。其余几条（p.24 的下界写法、p.35 的 $+1$、p.13 缺少前置条件）都在文末「附：诚实备注」里逐条列出，并注明我凭什么这么判。
 >
-> **来源标注约定**：正文里凡标 **【补】** 的段落，都是课件没有、由我补充或推导的内容（包括七张配图与全部复算）；没有标注的，都是课件上写着的。页码一律指课件页码（与 PDF 阅读器页码一致）。
+> **来源标注约定**：正文里凡以补充类 alert（NOTE / TIP / IMPORTANT）呈现的内容，都是课件没有、由我补充或推导的内容（包括七张配图与全部复算）；没有标注的，都是课件上写着的。页码一律指课件页码（与 PDF 阅读器页码一致）。
 
 ## 0. 一句话概括本讲在讲什么
 
@@ -708,7 +708,7 @@ private static int median3(int[] a, int left, int right) {
         swap(a, center, right);
 
     // Place pivot at position right - 1
-    swap(a, center, right - 1);
+    swap(a, center, right - 1);   // [!code highlight]
     return a[right - 1];
 }
 ```
@@ -726,7 +726,7 @@ def median3(a, left, right):
     if a[right] < a[center]:
         swap(a, center, right)
     # Place pivot at position right - 1
-    swap(a, center, right - 1)
+    swap(a, center, right - 1)  # [!code highlight]
     return a[right - 1]
 ```
 
@@ -743,7 +743,7 @@ int median3(std::vector<int>& a, int left, int right) {
     if (a[right] < a[center])
         swap(a, center, right);
     // Place pivot at position right - 1
-    swap(a, center, right - 1);
+    swap(a, center, right - 1);   // [!code highlight]
     return a[right - 1];
 }
 ```
@@ -761,7 +761,7 @@ int median3(int* a, int left, int right) {
     if (a[right] < a[center])
         swap(a, center, right);
     /* Place pivot at position right - 1 */
-    swap(a, center, right - 1);
+    swap(a, center, right - 1);   /* [!code highlight] */
     return a[right - 1];
 }
 ```
@@ -808,8 +808,8 @@ private static void quicksort(int[] a, int left, int right) {
         // Begin partitioning
         int i = left + 1, j = right - 2;
         while (true) {
-            while (i <= j && a[i] <= pivot) { i++; }
-            while (i <= j && a[j] > pivot) { j--; }
+            while (i <= j && a[i] <= pivot) { i++; }  // [!code highlight]
+            while (i <= j && a[j] > pivot) { j--; }   // [!code highlight]
             if (i > j) break;   // i meets j
             swap(a, i, j);
         }
@@ -848,8 +848,8 @@ def quicksort(a, left, right):
         # Begin partitioning
         i, j = left + 1, right - 2
         while True:
-            while i <= j and a[i] <= pivot: i += 1
-            while i <= j and a[j] > pivot: j -= 1
+            while i <= j and a[i] <= pivot: i += 1  # [!code highlight]
+            while i <= j and a[j] > pivot: j -= 1   # [!code highlight]
             if i > j: break                # i meets j
             swap(a, i, j)
         swap(a, i, right - 1)              # Restore pivot
@@ -887,8 +887,8 @@ void quicksort(std::vector<int>& a, int left, int right) {
         // Begin partitioning
         int i = left + 1, j = right - 2;
         while (true) {
-            while (i <= j && a[i] <= pivot) { i++; }
-            while (i <= j && a[j] > pivot) { j--; }
+            while (i <= j && a[i] <= pivot) { i++; }  // [!code highlight]
+            while (i <= j && a[j] > pivot) { j--; }   // [!code highlight]
             if (i > j) break;   // i meets j
             swap(a, i, j);
         }
@@ -928,8 +928,8 @@ void quicksort(int* a, int left, int right) {
         /* Begin partitioning */
         int i = left + 1, j = right - 2;
         while (1) {
-            while (i <= j && a[i] <= pivot) { i++; }
-            while (i <= j && a[j] > pivot) { j--; }
+            while (i <= j && a[i] <= pivot) { i++; }  /* [!code highlight] */
+            while (i <= j && a[j] > pivot) { j--; }   /* [!code highlight] */
             if (i > j) break;   /* i meets j */
             swap(a, i, j);
         }
@@ -985,7 +985,10 @@ void quicksort(int* a, int left, int right) {
 3. **p.15 的结论过强。** "左边都小于、右边都大于"应为"左边都小于等于、右边都大于"。
 4. **`CUTOFF` 没有给值。** p.20 直接用了这个常量，全讲没有说它等于几。本文在 §10 走 p.21 的练习时取 `CUTOFF = 3`，理由是：只有取 3，长度为 4 的区间才会继续递归，练习里那几个中间状态才对得上；取更大的值会让练习提前进入插入排序。**课件本身没有给这个数，这是我的取值**，换一个值不改变练习的最终结果，只改变中间步骤。
 
-## 10. 练习：把 $5,7,4,1,0,2,9$ 完整走一遍（p.21）【补】
+## 10. 练习：把 $5,7,4,1,0,2,9$ 完整走一遍（p.21）
+
+> [!NOTE] 补充
+> 本节整节是课件没有的补充：课件只给两行提示，这里把整条路走完。
 
 练习只给两行提示（p.21）：数组是 $[5,7,4,1,0,2,9]$，中间状态显示为 $1,7,4,5,0,2,9$，并注明 "5 will be selected as the pivot"，然后写 "Finish it by yourself"。课件没有给后续步骤，这一节我把整条路走完，取 `CUTOFF = 3`（理由见 §9.4 第 4 条）。
 
@@ -1175,7 +1178,10 @@ $$
 Q(n) \le n\left(6.58\log_2 n + 1\right)
 $$
 
-即 $c_2 \approx 7.6$。这个界很松：它假设"最长路径上的每一层都花 $n$"，但实际上深层很多子问题已经缩到 1、不再参与，所以真实总量要小得多。**【补】按精确递推算**：设 $Q(n) = c\,n\ln n$，代入得
+即 $c_2 \approx 7.6$。这个界很松：它假设"最长路径上的每一层都花 $n$"，但实际上深层很多子问题已经缩到 1、不再参与，所以真实总量要小得多。
+
+> [!NOTE] 补充：按精确递推算
+> 设 $Q(n) = c\,n\ln n$，代入得
 
 $$
 c\,n\ln n = n + 0.9c\,n\ln(0.9n) + 0.1c\,n\ln(0.1n)
@@ -1203,7 +1209,10 @@ $$
 Q(n) \ge n\sum_{i=0}^{\log_{10} n} 1 = n\left(\log_{10} n + 1\right)
 $$
 
-这个写法是**启发式**的：它把"最短路径有 $\log_{10} n$ 层"直接乘上"每层 $n$"，但沿最短路径的节点规模其实是 $n, 0.9n, 0.81n,\dots$，加起来只有约 $10n$，并不是 $n\log_{10} n$。结论 $Q(n) = \Theta(n\log n)$ 是对的，但严格的下界要用归纳法。**【补】归纳版本**：设 $Q(n) \ge c\,n\ln n$，则
+这个写法是**启发式**的：它把"最短路径有 $\log_{10} n$ 层"直接乘上"每层 $n$"，但沿最短路径的节点规模其实是 $n, 0.9n, 0.81n,\dots$，加起来只有约 $10n$，并不是 $n\log_{10} n$。结论 $Q(n) = \Theta(n\log n)$ 是对的，但严格的下界要用归纳法。
+
+> [!NOTE] 补充：归纳版本
+> 设 $Q(n) \ge c\,n\ln n$，则
 
 $$
 Q(n) \ge c\left(0.9n\ln(0.9n) + 0.1n\ln(0.1n)\right) + n = c\,n\ln n + n\left(1 - 0.3251c\right)
@@ -1661,7 +1670,7 @@ $$
 
 ### 二、课件未给、由我补充的内容
 
-以下内容课件没有给，是我推的、算的或画的，正文里都标了 **【补】** 或"我绘制"：
+以下内容课件没有给，是我推的、算的或画的，在正文里以补充类 alert 呈现，或标注"我绘制"：
 
 1. **p.21 练习的完整走法**（§10）。课件只给两行提示，我把两次递归、两次 `median3`、两次划分、三次插入排序全部列出。
 2. **p.20 代码的复刻与测试**（§9.3）。用 Python 逐行翻译，跑了 3000 组随机数组（含负数与重复值），与内置排序对比，0 处不一致；全相等输入的比较次数表也是我跑的。

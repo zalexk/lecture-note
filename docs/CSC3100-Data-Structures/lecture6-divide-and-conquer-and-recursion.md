@@ -1,5 +1,5 @@
 ---
-title: Lecture 6 Complexity of Divide-and-Conquer and Recursion（分治与递归的复杂度分析）
+title: Lecture 6 分治与递归的复杂度（Complexity of Divide-and-Conquer and Recursion）
 course: CSC3100 Data Structures
 lecture: Lecture 6 - Complexity of Divide-and-Conquer and Recursion
 date: 2026-09-26
@@ -11,7 +11,7 @@ tags: [CSC3100, data-structures, complexity, recursion, recurrence, divide-and-c
 
 # CSC3100 Lecture 6 课堂笔记：Complexity of Divide-and-Conquer and Recursion（分治与递归的复杂度分析）
 
-> 本讲内容完全来自课件 `lecture 6 (complexity of divide-and-conquer and recursion).pdf`（共 40 页），不含教师口述内容。课件顺序是：复习渐进记号与最坏情况两步流程（p.2-5）→ 递归的复杂度怎么数，以二分搜索为例（p.6-11）→ 选择排序的递归复杂度（p.12-15）→ 两道练习（p.16-17）→ 主定理（p.18-21）→ 最大子数组（p.22-30）→ 课堂练习（p.31）→ 阅读作业（p.32）→ 标为"不考"的附页主定理证明（p.33-40）。课件里的**公式全部是图片**，纯文本抽取会把 `n(n-1)/2` 抽成 `𝑛𝑛(𝑛𝑛−1)/2` 这类重字符，所以全文的公式我都逐页渲染成图核对过；可疑的几处按 420 dpi 放大复核（见文末「诚实备注」）。正文里标 **【补】** 的地方，是课件没写、由我推导或独立验证的内容。
+> 本讲内容完全来自课件 `lecture 6 (complexity of divide-and-conquer and recursion).pdf`（共 40 页），不含教师口述内容。课件顺序是：复习渐进记号与最坏情况两步流程（p.2-5）→ 递归的复杂度怎么数，以二分搜索为例（p.6-11）→ 选择排序的递归复杂度（p.12-15）→ 两道练习（p.16-17）→ 主定理（p.18-21）→ 最大子数组（p.22-30）→ 课堂练习（p.31）→ 阅读作业（p.32）→ 标为"不考"的附页主定理证明（p.33-40）。课件里的**公式全部是图片**，纯文本抽取会把 `n(n-1)/2` 抽成 `𝑛𝑛(𝑛𝑛−1)/2` 这类重字符，所以全文的公式我都逐页渲染成图核对过；可疑的几处按 420 dpi 放大复核（见文末「诚实备注」）。正文里以补充类 alert（NOTE / TIP / IMPORTANT）呈现的内容，是课件没写、由我推导或独立验证的内容。
 
 ## 0. 一句话概括本讲在讲什么
 
@@ -170,7 +170,7 @@ int binarySearch(int[] arr, int searchnum, int left, int right) {
         else                                                 // 4  O(1)
             return -1;                                       // 5  O(1)
     }
-    int middle = (left + right) / 2;                         // 6  O(1)
+    int middle = (left + right) / 2;                         // 6  O(1)  // [!code warning]
     if (arr[middle] == searchnum)                            // 7  O(1)
         return middle;                                       // 8  O(1)
     else if (arr[middle] < searchnum)                        // 9  O(1)
@@ -187,7 +187,7 @@ def binarySearch(arr, searchnum, left, right):
             return left                                  # 3  O(1)
         else:                                            # 4  O(1)
             return -1                                    # 5  O(1)
-    middle = (left + right) // 2                         # 6  O(1)
+    middle = (left + right) // 2                         # 6  O(1)  # [!code warning]
     if arr[middle] == searchnum:                         # 7  O(1)
         return middle                                    # 8  O(1)
     elif arr[middle] < searchnum:                        # 9  O(1)
@@ -204,7 +204,7 @@ int binarySearch(const std::vector<int>& arr, int searchnum, int left, int right
         else                                                 // 4  O(1)
             return -1;                                       // 5  O(1)
     }
-    int middle = (left + right) / 2;                         // 6  O(1)
+    int middle = (left + right) / 2;                         // 6  O(1)  // [!code warning]
     if (arr[middle] == searchnum)                            // 7  O(1)
         return middle;                                       // 8  O(1)
     else if (arr[middle] < searchnum)                        // 9  O(1)
@@ -222,7 +222,7 @@ int binarySearch(const int* arr, int searchnum, int left, int right) {
         else                                                 /* 4  O(1) */
             return -1;                                       /* 5  O(1) */
     }
-    int middle = (left + right) / 2;                         /* 6  O(1) */
+    int middle = (left + right) / 2;                         /* 6  O(1) */ // [!code warning]
     if (arr[middle] == searchnum)                            /* 7  O(1) */
         return middle;                                       /* 8  O(1) */
     else if (arr[middle] < searchnum)                        /* 9  O(1) */
@@ -326,7 +326,8 @@ $$g(n) = a\cdot\log_2 n + b$$
 
 这张图把等式 $g(n)=a\cdot\log_2 n+b$ 的每一项都落到了具体位置上：**层数**是 $\lfloor\log_2 16\rfloor=4$，**每层的 $a$** 是 9，**基例的 $b$** 是 4。换成字母就是 $a\cdot 4+b$，即 $a\log_2 n+b$。
 
-**【补】精确常数。** 我按上一讲 §1.2 的计数约定（循环头 = 初始化 1 + 自增 $k$ + 比较 $k+1$；数组下标访问、赋值、算术、比较、方法调用、返回各计 1）把这段代码逐行实现成计数器，两条递归分支都走一遍取最大值，实测得到
+> [!NOTE] 补充：精确常数
+> 我按上一讲 §1.2 的计数约定（循环头 = 初始化 1 + 自增 $k$ + 比较 $k+1$；数组下标访问、赋值、算术、比较、方法调用、返回各计 1）把这段代码逐行实现成计数器，两条递归分支都走一遍取最大值，实测得到
 
 $$g(n) = 9\cdot\lfloor \log_2 n\rfloor + 4$$
 
@@ -354,7 +355,8 @@ $$g(n) = O(\log n)$$
 
 于是 $O(\log n)$ 的结论对**所有** $n$ 都拿到了，不只是 2 的幂。
 
-**【补】一个比课件更紧的结果。** 实测的精确式是
+> [!NOTE] 补充：更紧的结果
+> 实测的精确式是
 
 $$g(n) = a\cdot\lfloor\log_2 n\rfloor + b$$
 
@@ -544,7 +546,8 @@ $$g(n) = O(n^2)$$
 1. 累加的是 $c\cdot n + c(n-1) + \cdots + c\cdot 2$，也就是从 $n$ 加到 $2$（**不含 $c\cdot 1$**，因为到 $g(1)$ 就停了），所以严格说是 $c\left(\frac{n(n+1)}{2} - 1\right)$；课件写成 $c\cdot\frac{n(n+1)}{2}$ 是把它放宽成上界，对一个 $O(\cdot)$ 结论来说没有影响。
 2. 最后那个 $\frac{n(n+1)}{2}$ 是 $\Theta(n^2)$ 的量级，与常数因子 $c$ 合并后不影响量级判断。
 
-**【补】精确计数。** 按上一讲的计数约定，第 1 到 10 行的精确操作数是 $7n + 4$（$n \ge 2$；具体拆解是第 3 行 2 次、第 4 行 1 次、第 5 行 $2n$ 次、第 6 行 $2(n-1)$ 次、第 7 行 $2(n-1)$ 次、第 8 行 $n-1$ 次、第 9 行 3 次、第 10 行 2 次、第 1 行 1 次）。于是 $g(n) = \sum_{k=2}^{n}(7k+4) + 2 = 3.5n^2 + 7.5n - 9$，确实是二次的，且满足 $g(n) \le g(n-1) + cn$ 的最小整数 $c$ 是 $9$（因为 $7n + 4 \le 9n$ 对 $n \ge 2$ 成立）。$n = 20$ 时累计 $g = 1541$，与 $3.5\times 400 + 150 - 9 = 1541$ 逐项吻合。
+> [!NOTE] 补充：精确计数
+> 按上一讲的计数约定，第 1 到 10 行的精确操作数是 $7n + 4$（$n \ge 2$；具体拆解是第 3 行 2 次、第 4 行 1 次、第 5 行 $2n$ 次、第 6 行 $2(n-1)$ 次、第 7 行 $2(n-1)$ 次、第 8 行 $n-1$ 次、第 9 行 3 次、第 10 行 2 次、第 1 行 1 次）。于是 $g(n) = \sum_{k=2}^{n}(7k+4) + 2 = 3.5n^2 + 7.5n - 9$，确实是二次的，且满足 $g(n) \le g(n-1) + cn$ 的最小整数 $c$ 是 $9$（因为 $7n + 4 \le 9n$ 对 $n \ge 2$ 成立）。$n = 20$ 时累计 $g = 1541$，与 $3.5\times 400 + 150 - 9 = 1541$ 逐项吻合。
 
 **这一页最重要的是那个蓝色方框**，里面写着一句本讲后面反复用到的话：
 
@@ -692,7 +695,8 @@ $$2^x g(1) + c\left(1 + 2 + \cdots + 2^{x-1}\right) = bn + c\cdot(2^x - 1) = bn 
 
 **另外还有一处变量名不一致**：第 4 行定义的是 `mid`，但第 5、6 行用的是 `middle`。这两个名字在代码里是同一个东西，照抄会编译不过。
 
-**【补】满二叉树观察。** maxInArray2 的递归树是一棵**满二叉树**（full binary tree）——每个内部结点的两个子区间正好把父区间**不重不漏地**分成两段。所以无论 $n$ 是不是 2 的幂，**叶子数恒等于 $n$、内部结点数恒等于 $n-1$**。于是
+> [!TIP] 技巧：满二叉树观察
+> maxInArray2 的递归树是一棵**满二叉树**（full binary tree）——每个内部结点的两个子区间正好把父区间**不重不漏地**分成两段。所以无论 $n$ 是不是 2 的幂，**叶子数恒等于 $n$、内部结点数恒等于 $n-1$**。于是
 
 $$g(n) = b\cdot n + c\cdot(n-1) = (b+c)n - c$$
 
@@ -743,7 +747,8 @@ $$
 - **缩小因子**（shrinking factor，$b$）：输入规模缩小的倍数。
 - **本地工作指数**（$d$）：为"创造子问题 + 合并它们的解"所需要的 $O(n^d)$ 工作量。
 
-**【补】把树按层看。** 课件只给了 p.35-40 的递归树证明，没有把"三个分支为什么长这样"说成人话。其实只需要一行：
+> [!NOTE] 补充：把树按层看
+> 课件只给了 p.35-40 的递归树证明，没有把"三个分支为什么长这样"说成人话。其实只需要一行：
 
 第 $t$ 层有 $a^t$ 个结点，每个结点处理规模 $n/b^t$ 的问题，本地工作 $c\cdot(n/b^t)^d$。所以**第 $t$ 层的总工作量**是
 
@@ -892,7 +897,7 @@ int maxSubarray2(int[] A, int n) {                    // MaxSubarray-2：前缀�
         R[i] = R[i - 1] + A[i - 1];
     int best = Integer.MIN_VALUE;
     for (int i = 1; i <= n; i++)
-        for (int j = i + 1; j <= n; j++) {            // for j = i+1..n（课件原文如此）
+        for (int j = i + 1; j <= n; j++) {            // for j = i+1..n（课件原文如此） // [!code warning]
             int Sij = R[j] - R[i - 1];                // S[i][j] = R[j] - R[i-1]
             if (Sij > best) best = Sij;               // Champion(S)
         }
@@ -907,7 +912,7 @@ def maxSubarray2(A, n):                          # MaxSubarray-2：前缀和，O
         R[i] = R[i - 1] + A[i - 1]
     best = float("-inf")
     for i in range(1, n + 1):
-        for j in range(i + 1, n + 1):            # for j = i+1..n（课件原文如此）
+        for j in range(i + 1, n + 1):            # for j = i+1..n（课件原文如此）  # [!code warning]
             Sij = R[j] - R[i - 1]                # S[i][j] = R[j] - R[i-1]
             if Sij > best: best = Sij            # Champion(S)
     return best
@@ -920,7 +925,7 @@ int maxSubarray2(const std::vector<int>& A, int n) {   // MaxSubarray-2：前缀
         R[i] = R[i - 1] + A[i - 1];
     int best = INT_MIN;
     for (int i = 1; i <= n; i++)
-        for (int j = i + 1; j <= n; j++) {             // for j = i+1..n（课件原文如此）
+        for (int j = i + 1; j <= n; j++) {             // for j = i+1..n（课件原文如此） // [!code warning]
             int Sij = R[j] - R[i - 1];                 // S[i][j] = R[j] - R[i-1]
             if (Sij > best) best = Sij;                // Champion(S)
         }
@@ -938,7 +943,7 @@ int maxSubarray2(const int* A, int n) {              /* MaxSubarray-2：前缀�
         R[i] = R[i - 1] + A[i - 1];
     int best = INT_MIN;
     for (int i = 1; i <= n; i++)
-        for (int j = i + 1; j <= n; j++) {           /* for j = i+1..n（课件原文如此） */
+        for (int j = i + 1; j <= n; j++) {           /* for j = i+1..n（课件原文如此） */ // [!code warning]
             int Sij = R[j] - R[i - 1];               /* S[i][j] = R[j] - R[i-1] */
             if (Sij > best) best = Sij;              /* Champion(S) */
         }
@@ -1009,7 +1014,8 @@ $$\sum_{p=x}^{k} A[p] \;+\; \sum_{q=k+1}^{y} A[q]$$
 > **右边**：$A[k+1..y]$ 的和必须是 $A[k+1..j]$ 所有前缀中**最大**的那个。
 > 可以在线性时间内解决 → $\Theta(n)$。
 
-**【补】为什么这个观察成立**（课件只给结论）：上面那个和式里，左边的 $\sum_{p=x}^{k}A[p]$ 只依赖于 $x$，右边的 $\sum_{q=k+1}^{y}A[q]$ 只依赖于 $y$，**两者互相独立**——$x$ 取什么都不影响右边那截的和，反之亦然。要让两个独立项的和最大，就分别让每一项各自最大。所以，先在左半部分里找"以 $k$ 结尾、和最大的那一段"，再在右半部分里找"以 $k+1$ 开头、和最大的那一段"，把两者拼起来就是 Case 3 的答案。
+> [!NOTE] 补充：为什么观察成立
+> （课件只给结论）：上面那个和式里，左边的 $\sum_{p=x}^{k}A[p]$ 只依赖于 $x$，右边的 $\sum_{q=k+1}^{y}A[q]$ 只依赖于 $y$，**两者互相独立**——$x$ 取什么都不影响右边那截的和，反之亦然。要让两个独立项的和最大，就分别让每一项各自最大。所以，先在左半部分里找"以 $k$ 结尾、和最大的那一段"，再在右半部分里找"以 $k+1$ 开头、和最大的那一段"，把两者拼起来就是 Case 3 的答案。
 
 这一句"互相独立、分别取最大"是把 $O(n^2)$（枚举所有 $x,y$ 组合）砍成 $O(n)$（两次单向扫描）的全部理由。图 5 里那两个箭头画的正是这两次单向扫描——"从中点往左找最大后缀"和"从中点往右找最大前缀"；Case 3 的解就是这两段的组合。
 
@@ -1125,7 +1131,7 @@ int[] maxSubarray(int[] A, int i, int j) {
     int k = (i + j) / 2;                                   // floor((i+j)/2)
     int[] l = maxSubarray(A, i, k);                         // Divide / Conquer
     int[] r = maxSubarray(A, k + 1, j);
-    int[] c = maxCrossSubarray(A, i, k, j);                 // 跨中点：递归本身拿不到
+    int[] c = maxCrossSubarray(A, i, k, j);                 // 跨中点：递归本身拿不到  // [!code highlight]
     if (l[2] >= r[2] && l[2] >= c[2]) return l;             // case 1
     else if (r[2] >= l[2] && r[2] >= c[2]) return r;        // case 2
     else return c;                                          // case 3
@@ -1151,7 +1157,7 @@ def maxSubarray(A, i, j):
     k = (i + j) // 2                              # floor((i+j)/2)
     l = maxSubarray(A, i, k)                      # Divide / Conquer
     r = maxSubarray(A, k + 1, j)
-    c = maxCrossSubarray(A, i, k, j)              # 跨中点：递归本身拿不到
+    c = maxCrossSubarray(A, i, k, j)              # 跨中点：递归本身拿不到  # [!code highlight]
     if l[2] >= r[2] and l[2] >= c[2]: return l    # case 1
     elif r[2] >= l[2] and r[2] >= c[2]: return r  # case 2
     else: return c                                # case 3
@@ -1178,7 +1184,7 @@ std::array<int, 3> maxSubarray(const std::vector<int>& A, int i, int j) {
     int k = (i + j) / 2;                                        // floor((i+j)/2)
     auto l = maxSubarray(A, i, k);                              // Divide / Conquer
     auto r = maxSubarray(A, k + 1, j);
-    auto c = maxCrossSubarray(A, i, k, j);                      // 跨中点：递归本身拿不到
+    auto c = maxCrossSubarray(A, i, k, j);                      // 跨中点：递归本身拿不到  // [!code highlight]
     if (l[2] >= r[2] && l[2] >= c[2]) return l;                  // case 1
     else if (r[2] >= l[2] && r[2] >= c[2]) return r;             // case 2
     else return c;                                               // case 3
@@ -1211,7 +1217,7 @@ Triple maxSubarray(const int* A, int i, int j) {
     int k = (i + j) / 2;                                        /* floor((i+j)/2) */
     Triple l = maxSubarray(A, i, k);                            /* Divide / Conquer */
     Triple r = maxSubarray(A, k + 1, j);
-    Triple c = maxCrossSubarray(A, i, k, j);                    /* 跨中点：递归本身拿不到 */
+    Triple c = maxCrossSubarray(A, i, k, j);                    /* 跨中点：递归本身拿不到 */ // [!code highlight]
     if (l.sum >= r.sum && l.sum >= c.sum) return l;              /* case 1 */
     else if (r.sum >= l.sum && r.sum >= c.sum) return r;         /* case 2 */
     else return c;                                               /* case 3 */
@@ -1268,11 +1274,10 @@ $$
 
 **这一页是本讲的技术高点**，因为它把整条路走完了：同一个问题，从 $O(n^3)$ 到 $O(n^2)$（前缀和）再到 $O(n\log n)$（分治）。
 
-**【补】两项复算。**
-
-第一，**正确性**。我用分治版和暴力枚举在 5000 组随机短数组（长度 1 到 13、取值 $-20$ 到 $20$）上逐组比对，**0 处不一致**。这也顺带说明 §6.4 里那些"看起来危险"的写法（$-\infty$ 初值、未初始化的 `max_left`）实际是安全的。
-
-第二，**复杂度**。我统计了 MaxCrossSubarray 在所有递归层里累计扫描的元素总数，得到
+> [!NOTE] 补充：两项复算
+> 第一，**正确性**。我用分治版和暴力枚举在 5000 组随机短数组（长度 1 到 13、取值 $-20$ 到 $20$）上逐组比对，**0 处不一致**。这也顺带说明 §6.4 里那些"看起来危险"的写法（$-\infty$ 初值、未初始化的 `max_left`）实际是安全的。
+>
+> 第二，**复杂度**。我统计了 MaxCrossSubarray 在所有递归层里累计扫描的元素总数，得到
 
 | $n$ | 累计扫描量 | $n\log_2 n$ | 比值 |
 | --- | --- | --- | --- |
@@ -1331,7 +1336,8 @@ $$T(n) \le a^{n-1}T(1) + c\left(1 + a + a^2 + \cdots + a^{n-2}\right)$$
 
 （这道题是算法课里的经典例子，因为它长得像快排的平均情况分析：一个不平衡的划分。判据是 $\frac15 + \frac{7}{10} = 0.9 < 1$。）
 
-**【补】解法**（课件只提问、没给答案）：画递归树。第 $t$ 层所有子问题的**规模之和**是
+> [!NOTE] 补充：解法
+> （课件只提问、没给答案）：画递归树。第 $t$ 层所有子问题的**规模之和**是
 
 $$n\left(\frac15 + \frac{7}{10}\right)^t = n\cdot 0.9^t$$
 
@@ -1343,7 +1349,8 @@ $$n\sum_{t \ge 0} 0.9^t = n\cdot\frac{1}{1-0.9} = 10n$$
 
 **判据的推广**：这类递推式 $T(n) = T(\alpha n) + T(\beta n) + n$（$\alpha, \beta < 1$）的答案完全由 $\alpha + \beta$ 与 1 的关系决定。$\alpha + \beta < 1$ 时每层规模之和逐层递减，总代价被 $\frac{n}{1-(\alpha+\beta)}$ 这个常数倍界住，得 $O(n)$；$\alpha + \beta = 1$ 时每层规模之和恒为 $n$，于是多出一个 $\log n$ 因子，得 $O(n\log n)$（归并排序与最大子数组的分治都是这种，$\alpha = \beta = \frac12$）；$\alpha + \beta > 1$ 时每层规模之和在膨胀，最重的一层落到叶子上，界会比 $O(n\log n)$ 更差（一般不再是线性，而是某个幂次）。
 
-**【补】复算**：直接按定义迭代计算 $T(n)$，得到 $T(n)/n$ 从 $3.62$（$n=100$）单调升到 $8.97$（$n = 10^7$），确实朝 $10$ 收敛，与 $O(n)$ 一致；而且数值一直**小于** 10，说明 $10n$ 这个界是实在的（不是放得太松的估计）。
+> [!NOTE] 补充：复算
+> 直接按定义迭代计算 $T(n)$，得到 $T(n)/n$ 从 $3.62$（$n=100$）单调升到 $8.97$（$n = 10^7$），确实朝 $10$ 收敛，与 $O(n)$ 一致；而且数值一直**小于** 10，说明 $10n$ 这个界是实在的（不是放得太松的估计）。
 
 ## 8. 阅读作业与考试范围（p.32-33）
 
@@ -1410,13 +1417,15 @@ $$n\sum_{t \ge 0} 0.9^t = n\cdot\frac{1}{1-0.9} = 10n$$
 
 $$T(n) \le c\cdot n^d\cdot\sum_{t=0}^{\log_b n}\left(\frac{a}{b^d}\right)^t$$
 
-**【补】这一步的代数过程**（课件跳过了）：
+> [!NOTE] 补充：代数过程
+> **这一步的代数过程**（课件跳过了）：
 
 $$a^t\cdot c\cdot\left(\frac{n}{b^t}\right)^d = a^t\cdot c\cdot\frac{n^d}{b^{td}} = c\cdot n^d\cdot\left(\frac{a}{b^d}\right)^t$$
 
 也就是说把 $n^d$ 提出来之后，剩下的变化部分就是公比 $\frac{a}{b^d}$ 的 $t$ 次方。
 
-**【补】复算**：我按"第 $t$ 层工作 = （该层结点数）$\times$（每个结点的本地工作）"逐层精确求和（$c = 1$），拿 $a = 2, b = 2, d = 1$ 试了一遍，$n = 64$ 到 $16384$ 得到的结果**精确等于** $n\log_2 n$——与这个求和式完全吻合。
+> [!NOTE] 补充：复算
+> 我按"第 $t$ 层工作 = （该层结点数）$\times$（每个结点的本地工作）"逐层精确求和（$c = 1$），拿 $a = 2, b = 2, d = 1$ 试了一遍，$n = 64$ 到 $16384$ 得到的结果**精确等于** $n\log_2 n$——与这个求和式完全吻合。
 
 ### 9.3 三个分支（p.38-40）
 
@@ -1468,7 +1477,8 @@ $$n^d\cdot\frac{a^{\log_b n}}{b^{d\log_b n}} = n^d\cdot\frac{a^{\log_b n}}{(b^{\
 
 关键的两步：$(b^d)^{\log_b n} = b^{d\log_b n} = (b^{\log_b n})^d = n^d$（预备公式 2 的特例），以及 $a^{\log_b n} = n^{\log_b a}$（预备公式 2）。所以 $n^d$ 与分母上的 $n^d$ **正好抵消**，剩下的就是 $n^{\log_b a}$。指数位置从 $\log_b a$ 挪到了底数位置，这就是为什么答案里会出现 $\log_b a$ 当指数这种看着别扭的写法。
 
-**【补】数值验证**：我用三种参数各跑一遍逐层求和，把结果与主定理给出的参照值相除：
+> [!NOTE] 补充：数值验证
+> 我用三种参数各跑一遍逐层求和，把结果与主定理给出的参照值相除：
 
 | 参数 | 分支 | 参照值 | 总量 ÷ 参照值 |
 | --- | --- | --- | --- |

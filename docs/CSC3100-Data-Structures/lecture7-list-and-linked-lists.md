@@ -1,5 +1,5 @@
 ---
-title: Lecture 7 List（表 ADT 与四种链表）
+title: Lecture 7 表 ADT 与链表（List ADT and Linked Lists）
 course: CSC3100 Data Structures
 lecture: Lecture 7 - List
 date: 2026-09-28
@@ -16,7 +16,7 @@ tags: [CSC3100, list, adt, linked-list, singly-linked, doubly-linked, circular, 
 >
 > **已知课件问题**：p.16 的 `delete()` 少写了一对花括号，导致这个函数对任何 `p > 0` 都删不掉东西；p.28 说循环链表"可以朝任何方向遍历"，而它只有 `next` 一个指针。其余几条（字段名不统一、四张操作表粒度不一致、p.6 与 p.7 的口径冲突等）都在文末「附：诚实备注」里逐条列出，并注明我凭什么这么判。
 >
-> **来源标注约定**：正文里凡标 **【补】** 的段落，都是课件没有、由我补充或推导的内容（包括五张配图与一张流程图）；没有标注的，都是课件上写着的。页码一律指课件页码，不是 PDF 阅读器的页码（两者在本讲恰好一致）。
+> **来源标注约定**：正文里凡以补充类 alert（NOTE / TIP / IMPORTANT）呈现的内容，都是课件没有、由我补充或推导的内容（包括五张配图与一张流程图）；没有标注的，都是课件上写着的。页码一律指课件页码，不是 PDF 阅读器的页码（两者在本讲恰好一致）。
 
 ## 0. 一句话概括本讲在讲什么
 
@@ -88,7 +88,8 @@ $$a_1,\ a_2,\ a_3,\ \ldots,\ a_N$$
 
 `insert(X, 3)`、`delete(52)`、`find(52)` 三行例子放在一起看，"按位置还是按值"是混着的：`insert(X, 3)` 的第二个参数是**位置**；`delete(52)` 的参数是**值**（按 `find` 的语义，删的是"值为 52 的那个"，不是"第 52 个"）；`find(52)` 返回**位置**且从 1 数起。这在教学上不算错（Java 的 `List` 也同时有 `remove(int index)` 与 `remove(Object o)`），但课件没点明，读代码时就容易问"`delete(52)` 到底删哪个"。我在文末记为一条不一致，并建议按"位置用 `p`、值用 `x`"自己统一。
 
-**【补】** 顺带补一件课件没说的：`delete` 按值删必须先 `find` 一次，所以"按值删"在链表上是 $O(n)$ 的两遍（找 + 删），"按位置删"是一遍。这个区别在 §7.3 会再用到。
+> [!NOTE] 补充
+> 顺带补一件课件没说的：`delete` 按值删必须先 `find` 一次，所以"按值删"在链表上是 $O(n)$ 的两遍（找 + 删），"按位置删"是一遍。这个区别在 §7.3 会再用到。
 
 ## 2. 为什么要链表：数组的三条限制与链表的四点账（p.5-8）
 
@@ -104,13 +105,15 @@ $$\text{id}[\ ] = [1000,\ 1010,\ 1050,\ 2000,\ 2040]$$
 
 要插一个 1005 并保持有序，它得排在 1000 后面，于是 1010、1050、2000、2040 这**四个**都要往后挪一格；要删 1010，则它后面的 1050、2000、2040 这**三个**都要往前挪一格。
 
-**【补】** 课件只说"要搬"，没给搬几个。上数这两个数字是我按 p.5 的例子数出来的：插入搬 4 个、删除搬 3 个。这两个数字很能说明问题——插入点的位置越靠前，搬得越多；插在末尾（追加）则一个都不用搬。所以数组的"插入 $O(n)$"其实是**最坏**情形，末尾追加是 $O(1)$。这个"最好/最坏不一样"的结构，链表也有，只是分界点不同（链表是"表头 $O(1)$、表尾 $O(n)$"）。
+> [!NOTE] 补充：搬几个是我数出来的
+> 课件只说"要搬"，没给搬几个。上数这两个数字是我按 p.5 的例子数出来的：插入搬 4 个、删除搬 3 个。这两个数字很能说明问题——插入点的位置越靠前，搬得越多；插在末尾（追加）则一个都不用搬。所以数组的"插入 $O(n)$"其实是**最坏**情形，末尾追加是 $O(1)$。这个"最好/最坏不一样"的结构，链表也有，只是分界点不同（链表是"表头 $O(1)$、表尾 $O(n)$"）。
 
 ### 2.2 课件漏列的第三条：删除也要搬
 
 这两条限制的标题是"The size of the array is fixed"与"Inserting a new element is expensive"，**删除**只出现在例子的第二行（"If we want to delete 1010, everything after 1010 has to be moved"），没有被列成第三条限制。
 
-**【补】** 我认为这是排版省略而非有意为之：L3 §3.2 与 §3.3 已经把数组的插入与删除都完整讲过（都要新建数组 + 复制），两件事的代价对称，没理由只列一条。所以本文把"删除要搬"当作第三条限制。"insertion and deletion are easier"那句（p.6）也是把两者合起来说的。
+> [!NOTE] 补充：第三条是排版省略
+> 我认为这是排版省略而非有意为之：L3 §3.2 与 §3.3 已经把数组的插入与删除都完整讲过（都要新建数组 + 复制），两件事的代价对称，没理由只列一条。所以本文把"删除要搬"当作第三条限制。"insertion and deletion are easier"那句（p.6）也是把两者合起来说的。
 
 ### 2.3 链表的优点（p.6）与账本
 
@@ -133,7 +136,8 @@ $$\text{id}[\ ] = [1000,\ 1010,\ 1050,\ 2000,\ 2040]$$
 
 *图 1　同一张表 $34,12,52,16,12$ 的两种存法。上：数组占一块连续内存，地址由"首址 $+\,4i$"算出，所以下标访问 $O(1)$；下：链表是五个散落的结点，每个结点 = 4 字节 data + 4 字节 next，只能从 head 顺着 next 走。数据取自课件 p.4 的例子。*
 
-**【补】** 把这张账算到底：$n$ 个 `int`，数组占 $4n$ 字节（外加十几字节的数组头），链表占 $8n$ 字节再加一个 `head` 引用。按课件 p.7 自己给的"指针 4 字节"假设，**每个元素的成本正好翻倍**；$n = 10^6$ 时是 4 MB 对 8 MB。若计入预留浪费（假设数组按 2 倍扩容、平均半满），数组的有效成本回到约 $8n$，两者的差距就被抹平了——这也是为什么"链表省内存"这句话在工程上经常不成立。
+> [!NOTE] 补充：把内存账算到底
+> 把这张账算到底：$n$ 个 `int`，数组占 $4n$ 字节（外加十几字节的数组头），链表占 $8n$ 字节再加一个 `head` 引用。按课件 p.7 自己给的"指针 4 字节"假设，**每个元素的成本正好翻倍**；$n = 10^6$ 时是 4 MB 对 8 MB。若计入预留浪费（假设数组按 2 倍扩容、平均半满），数组的有效成本回到约 $8n$，两者的差距就被抹平了——这也是为什么"链表省内存"这句话在工程上经常不成立。
 
 还要补一句课件没提、但在 Java 里非常要紧的事：**上面这个 8 字节只是"字段"的大小，不是"对象"的大小。** Java 的每个对象在堆上还有对象头（object header），64 位 HotSpot 默认（开启压缩指针）是 12 字节：8 字节 mark word + 4 字节类型指针；加上 `int` 4 字节与引用 4 字节，一个 `Node` 对象是 20 字节，再按 8 字节对齐补到 **24 字节**。而 `int[]` 里一个元素只占 4 字节。也就是说在真实的 JVM 上，链表的单位成本不是 2 倍，而是**约 6 倍**。这与 L3 §1.5 讲的"对象从堆里分配、比基本类型重"是同一件事的另一面。
 
@@ -147,7 +151,8 @@ $$\text{id}[\ ] = [1000,\ 1010,\ 1050,\ 2000,\ 2040]$$
 
 **反向遍历（reverse traversing）**：单链表里往回走很难。课件在这里埋了一句预告："双链表里容易些，但要多花内存"——这就是 §12 的主题。
 
-**【补】** 三条缺点可以归成一句后面反复用的话：**链表放弃了"地址可计算"，换来了"结构可改写"。** 凡需"算地址"的操作（按下标取、二分、随机洗牌）在链表上都变贵；凡需"改结构"的操作（插入、删除、拼接、拆分）都变便宜。四种链表的差别，全是在这个交换里调参数。
+> [!IMPORTANT] 重要：贯穿全篇的一笔交换
+> 三条缺点可以归成一句后面反复用的话：**链表放弃了"地址可计算"，换来了"结构可改写"。** 凡需"算地址"的操作（按下标取、二分、随机洗牌）在链表上都变贵；凡需"改结构"的操作（插入、删除、拼接、拆分）都变便宜。四种链表的差别，全是在这个交换里调参数。
 
 ### 2.5 四种链表的路线图（p.8）
 
@@ -169,7 +174,8 @@ $$\text{id}[\ ] = [1000,\ 1010,\ 1050,\ 2000,\ 2040]$$
 
 ## 3. 进单链表之前：Java 的"引用"到底是什么（p.8-9）
 
-> 本节是 **【补】**。课件从 p.9 直接开始画"head → Node → Node → null"，默认读者已经知道箭头代表什么。但 L2 只说过一句"Java 没有指针、更安全"，L3 §1.6-1.7 才把"引用就是地址"这件事讲清楚。这一节把 L3 那套内存模型接到链表上，不重讲 L3 的推导。
+> [!NOTE] 补充：链表的内存模型
+> 课件从 p.9 直接开始画"head → Node → Node → null"，默认读者已经知道箭头代表什么。但 L2 只说过一句"Java 没有指针、更安全"，L3 §1.6-1.7 才把"引用就是地址"这件事讲清楚。这一节把 L3 那套内存模型接到链表上，不重讲 L3 的推导。
 
 ### 3.1 Java 的引用就是"受限的指针"
 
@@ -207,7 +213,8 @@ p.next = q;        // ② 改 p 所指对象的 next 域：把那个对象的箭
 
 这个区别之所以致命，是因为两者在代码里只差一个 `.next`。§7.2 那个 `delete()` 里的一行 `head = head.next;` 属于 ①（改变量），而 `prevNode.next = targetNode.next;` 属于 ②（改对象）。前者让 `head` 这个变量跳到下一个结点，后者让某个结点的箭头绕过目标结点——两者配合才完成"删掉第一个结点"。
 
-**【补】** 还有一个相关的概念叫**别名（aliasing）**：两个变量指向同一个对象时，通过其中一个改对象，另一个立刻看得见。L3 §1.7 里 `this` 与 `a` 指向同一个 `Rational` 就是这种情况。链表里删结点时，"被删的结点"与"某个还在用的变量"很容易变成别名，于是删完之后那个变量还指着一个已经不在链上的结点——这在 Java 里不会崩（对象还在，只是没人从 `head` 能走到它），但逻辑上已经是"幽灵"了。§7 会看到这个现象。
+> [!NOTE] 补充：别名（aliasing）
+> 还有一个相关的概念叫**别名（aliasing）**：两个变量指向同一个对象时，通过其中一个改对象，另一个立刻看得见。L3 §1.7 里 `this` 与 `a` 指向同一个 `Rational` 就是这种情况。链表里删结点时，"被删的结点"与"某个还在用的变量"很容易变成别名，于是删完之后那个变量还指着一个已经不在链上的结点——这在 Java 里不会崩（对象还在，只是没人从 `head` 能走到它），但逻辑上已经是"幽灵"了。§7 会看到这个现象。
 
 ## 4. 单链表的结构与 Node 类（p.9）
 
@@ -337,8 +344,9 @@ Node* makeNode(int x) {
 
 第三条是方法建议：链表代码的正确性几乎完全依赖"脑子里那张图对不对"，因为指针错误不会在编译期暴露，也不会在写的时候报错，只会在运行时以 `NullPointerException` 或"输出少了一个元素"的形式出现。
 
-**【补】** 我可以把第一条写成一条可操作的规则，比"小心"更有用：
-
+> [!TIP] 技巧：先接新的，再断旧的
+> 我可以把第一条写成一条可操作的规则，比"小心"更有用：
+>
 > **先接新的，再断旧的。** 任何一次插入，都先用新结点指好它的后继（`newNode.next = 旧的后继`），再去改前驱的指针（`prev.next = newNode`）。任何一次删除，都先把"要保留的那一头"接好（`prev.next = target.next`），再处理被删结点。
 
 这条规则的原理是：**在改动任何一个指针之前，先把还会用到的地址存到某个变量或某个域里**。顺序错了不是"结果不对"，而是"地址永久丢失"。
@@ -383,8 +391,8 @@ void insert(int x, int p) {
     }
     if (prevNode == null) return;       // p 超出表长：什么也不做
 
-    tmpNode.next = prevNode.next;       // 先接新的
-    prevNode.next = tmpNode;            // 再断旧的
+    tmpNode.next = prevNode.next;       // 先接新的 [!code highlight]
+    prevNode.next = tmpNode;            // 再断旧的 [!code highlight]
 }
 ```
 
@@ -409,8 +417,8 @@ class SinglyLinkedList:
         if prev_node is None:           # p 超出表长：什么也不做
             return
 
-        tmp_node.next = prev_node.next  # 先接新的
-        prev_node.next = tmp_node       # 再断旧的
+        tmp_node.next = prev_node.next  # 先接新的 [!code highlight]
+        prev_node.next = tmp_node       # 再断旧的 [!code highlight]
 ```
 
 ```cpp [C++]
@@ -437,8 +445,8 @@ struct SinglyLinkedList {
             return;
         }
 
-        tmpNode->next = prevNode->next;     // 先接新的
-        prevNode->next = tmpNode;           // 再断旧的
+        tmpNode->next = prevNode->next;     // 先接新的 [!code highlight]
+        prevNode->next = tmpNode;           // 再断旧的 [!code highlight]
 
         // 这里没有 delete：新结点挂到链上，最后由析构函数统一 delete
     }
@@ -467,8 +475,8 @@ void insert(Node** head, int x, int p) {
         return;
     }
 
-    tmpNode->next = prevNode->next;       /* 先接新的 */
-    prevNode->next = tmpNode;             /* 再断旧的 */
+    tmpNode->next = prevNode->next;       /* 先接新的 [!code highlight] */
+    prevNode->next = tmpNode;             /* 再断旧的 [!code highlight] */
 }
 ```
 
@@ -494,7 +502,10 @@ void insert(Node** head, int x, int p) {
 
 **注意这段代码对"表尾插入"是自然处理的**：`p` 等于表长时，`prevNode` 走到最后一个结点，`prevNode.next` 是 `null`，于是 `tmpNode.next = null`，正确。
 
-### 6.3 这段代码里的两处可以商量的地方【补】
+### 6.3 这段代码里的两处可以商量的地方
+
+> [!NOTE] 补充
+> 本节两处商榷是课件没有、由我补充的观察。
 
 **第一，`if (p == 0)` 这个特判可以消掉**——引入哨兵结点即可（§10.3，本讲最实用的技巧）。
 
@@ -525,7 +536,8 @@ void insert(Node** head, int x, int p) {
 
 这句话解释了工程上好几件事。为什么 Java 的 `LinkedList` 有 `ListIterator`？因为迭代器**就是那个"引用"**——它持有当前结点的引用，所以迭代中 `add` / `remove` 是 $O(1)$；而 `list.add(500000, x)` 这种按下标的调用要 $O(n)$ 地走过去。为什么"链表适合频繁在中间插入"经常被误用？因为若插入位置是"第 $k$ 个"，链表并不比数组快（数组的搬移是连续内存的顺序写，实测常常比指针追逐还快）；只有你**已经在那个位置**时，链表才真正赢。
 
-**【补】** 把这件事整理成一张对照表，后面 §7.3、§16 都会用到：
+> [!NOTE] 补充：接口形状对照表
+> 把这件事整理成一张对照表，后面 §7.3、§16 都会用到：
 
 | 接口形状 | 要不要先"找" | 找的代价 | 总代价 |
 | --- | --- | --- | --- |
@@ -561,7 +573,7 @@ void insert(Node** head, int x, int p) {
 void delete(int p) {
     if(p == 0 && head != null)
         head = head.next;
-        return;
+        return;                     // [!code warning]
 
     Node prevNode = head;
     for(int i=0; i<p-1; i++)
@@ -584,7 +596,7 @@ void delete(int p) {
 ```java
 if (p == 0 && head != null)
     head = head.next;   // 只有这一句在 if 里面
-return;                 // 这一句永远执行！
+return;                 // 这一句永远执行！ [!code warning]
 ```
 
 后果是：`delete(p)` 对任何 `p > 0` 的调用都会在第二行就返回，**一个结点也删不掉**。而 `p == 0` 时能正确删掉表头——所以这段代码"看起来有一半是对的"，测的时候如果只测了 `delete(0)`，会以为它没问题。
@@ -624,13 +636,14 @@ if (p == 0 && head != null) {
 
 `p = 1` 也算最好，是因为循环只跑 0 次、`prevNode` 就是 `head`。
 
-**【补】单链表"删除给定结点"为什么是个难题。** 假设你手里拿的是那个结点的引用 `target`（不是下标）——直觉上该 $O(1)$，但做不到：要绕过 `target`，必须改它**前一个**结点的 `next`，而单链表没有 `prev`，你回不去。只有三种出路：
-
-1. **从头找前驱**：$O(n)$。这是最常见的写法，也是 `deleteAfter(data)`（p.21）为什么按"值"设计的原因——反正都要走一遍。
-2. **双游标**：遍历时同时拿着 `prev` 与 `curr`，"走到哪删到哪"，整体仍 $O(n)$ 但只走一遍。Java 的 `Iterator.remove()` 就是这样（迭代器内部持有 `lastReturned` 与 `next`）。
-3. **偷梁换柱**：把 `target.next` 的数据复制进 `target`，再删掉 `target.next`（此时前驱就是 `target` 自己）。$O(1)$，但删不了尾结点，且所有指向原 `target.next` 的外部引用会指向一个"逻辑上已被删掉"的位置。面试常考，工程上不该用。
-
-第 3 条恰好说明双链表存在的理由：**有了 `prev`，三条全都不需要，直接 $O(1)$。**
+> [!NOTE] 补充：按结点删除为什么是难题
+> 假设你手里拿的是那个结点的引用 `target`（不是下标）——直觉上该 $O(1)$，但做不到：要绕过 `target`，必须改它**前一个**结点的 `next`，而单链表没有 `prev`，你回不去。只有三种出路：
+>
+> 1. **从头找前驱**：$O(n)$。这是最常见的写法，也是 `deleteAfter(data)`（p.21）为什么按"值"设计的原因——反正都要走一遍。
+> 2. **双游标**：遍历时同时拿着 `prev` 与 `curr`，"走到哪删到哪"，整体仍 $O(n)$ 但只走一遍。Java 的 `Iterator.remove()` 就是这样（迭代器内部持有 `lastReturned` 与 `next`）。
+> 3. **偷梁换柱**：把 `target.next` 的数据复制进 `target`，再删掉 `target.next`（此时前驱就是 `target` 自己）。$O(1)$，但删不了尾结点，且所有指向原 `target.next` 的外部引用会指向一个"逻辑上已被删掉"的位置。面试常考，工程上不该用。
+>
+> 第 3 条恰好说明双链表存在的理由：**有了 `prev`，三条全都不需要，直接 $O(1)$。**
 
 ## 8. 回到数组：p.17 的两道复习题
 
@@ -662,7 +675,8 @@ if (p == 0 && head != null) {
 
 "More detailed examples will be given in next lecture"（p.18）加上"Next lecture: Applications of list"（p.34），两句话说明**本讲只讲结构，应用留给第 8 讲**。这个分工值得记住：本讲到 p.33 为止，一个"用链表解决某个问题"的完整例子都没有（p.23、p.24 那两道练习是操作题，不是应用题）。
 
-**【补】这三个用途为什么都挑单链表？** 因为它们都只在一端增删、从不回头：栈在一端压/弹；队列一端进另一端出（维护 `head` 与 `tail` 就够）；哈希桶几乎总是"头插"（$O(1)$）；undo/redo 本质是两条栈。反过来，一旦需要往回走（浏览器后退、上一首），单链表就不够了——那正是双链表的应用场景（p.27）。**用途与结构是配对的。**
+> [!NOTE] 补充：为何都挑单链表
+> 因为它们都只在一端增删、从不回头：栈在一端压/弹；队列一端进另一端出（维护 `head` 与 `tail` 就够）；哈希桶几乎总是"头插"（$O(1)$）；undo/redo 本质是两条栈。反过来，一旦需要往回走（浏览器后退、上一首），单链表就不够了——那正是双链表的应用场景（p.27）。**用途与结构是配对的。**
 
 ## 10. 用链表实现 List ADT：一份完整的类（p.19-22）
 
@@ -981,7 +995,10 @@ void freeList(SinglyLinkedList* L) {
 
 **`printLinkedList()`**：先打表头一行，再 `while(current != null)` 逐个打印。空表时只打出表头——不是 bug，但用的人会以为"输出为空"。
 
-### 10.3 空表怎么表示：`head == null` 还是哨兵？这是第一个坑【补】
+### 10.3 空表怎么表示：`head == null` 还是哨兵？这是第一个坑
+
+> [!NOTE] 补充
+> 本节整节是课件没有的补充：空表的两种表示法及其取舍。
 
 课件（p.20）用的是 `head == null`。这是最省内存的表示法，代价是**每个方法都要为"表头"单独写一段**：`insertFirst` 要单独一个方法、`deleteFirst` 要单独一个方法、`insert(x, 0)` 要单独一个分支（§6.2）、`delete(0)` 也要单独一个分支（§7.2）。
 
@@ -999,7 +1016,8 @@ void freeList(SinglyLinkedList* L) {
 
 代价是：多一个结点（4 字节，无关紧要）；以及**遍历时要跳过它**（从 `head.next` 开始），这一点很容易忘，忘了就会把哨兵的数据（通常是 0 或无关值）当成第一个元素打出来。
 
-**【补】** 三者的取舍可以列成一张表：
+> [!NOTE] 补充：三种表示法对照
+> 三者的取舍可以列成一张表：
 
 | 表示法 | 空表长什么样 | 表头插入 | 表头删除 | 遍历起点 | 典型用途 |
 | --- | --- | --- | --- | --- | --- |
@@ -1114,7 +1132,10 @@ Printing LinkedList (head --> last)
 
 与我手推的一致。**注意这五行里没有 `{ 7 }`**——这就是"删除生效"的证据；它也说明 `deleteAfter(1)` 删的是"1 后面那个"，不是"1"。
 
-### 10.5 这份实现缺什么【补】
+### 10.5 这份实现缺什么
+
+> [!NOTE] 补充
+> 本节是课件没有的补充：对照 List ADT 逐项检查这份实现的缺口。
 
 把它当 List ADT 的实现看，缺口正好是作业与考试爱考的地方。**最要紧的是泛型**：课件把数据定成 `int`，而 p.3 的 ADT 说的是"任意值"，正确写法是 `class Node<T> { T data; Node<T> next; }`。不用 Java 5 之前的 `Object`，因为取出时要强转 `(String) node.data`，而强转**在运行时才检查**——写错编译能过、跑起来才抛 `ClassCastException`；泛型在编译期就查出来（擦除后运行时没有类型信息，所以它只保编译期）。顺带一个坑：泛型**不能**直接 `new T[10]`，擦除后 JVM 不知道造什么类型的数组。
 
@@ -1198,7 +1219,8 @@ Node* findMiddleNode(Node* head) {
 
 **三个循环条件各有分工**（课件没解释，但这是最容易写错的地方）：前两条 `fastPointer != null` 与 `fastPointer.next != null` 只是防止下一步取 `.next` 时抛异常；**第三条 `fastPointer.next.next != null` 决定了偶数长度返回哪一个**——没有它 `fast` 会多走一步、返回上中位数（第 $n/2+1$ 个），有它返回下中位数（第 $n/2$ 个）。验一下：$n=4$ 时第一轮后 `fast` 到 3、`slow` 到 2，第二轮 `fast.next.next = null` 立即停，返回 2；$n=5$ 时第二轮还能走（`fast` 到 5、`slow` 到 3），第三轮才停，返回 3。所以这版对奇数返回正中、对偶数返回下中位。
 
-**【补】为什么不用"先数长度再走一半"**：那要两遍（$2n$ 步），快慢指针一遍（$n$ 步）；更关键的是快慢指针**不需要预先知道 $n$**，所以能在数据还在产生时用。
+> [!NOTE] 补充：为何不先数长度
+> 为什么不用"先数长度再走一半"：那要两遍（$2n$ 步），快慢指针一遍（$n$ 步）；更关键的是快慢指针**不需要预先知道 $n$**，所以能在数据还在产生时用。
 
 ### 11.2 练习二：反转链表（p.24）
 
@@ -1214,7 +1236,7 @@ public void reversedLinkedList() {
     Node previousNode = null;
     Node nextNode;
     while(currentNode != null) {
-        nextNode = currentNode.next;      // 先存住下一个，否则改完就丢了
+        nextNode = currentNode.next;      // 先存住下一个，否则改完就丢了 [!code highlight]
         // reverse the link
         currentNode.next = previousNode;  // 把当前结点的箭头掉头
         // move current node and previous node by 1 node
@@ -1232,7 +1254,7 @@ class SinglyLinkedList:
         current_node = self.head
         previous_node = None          # 原第一个结点反转后成为新尾巴
         while current_node is not None:
-            next_node = current_node.next      # 先存住下一个，否则改完就丢了
+            next_node = current_node.next      # 先存住下一个，否则改完就丢了 [!code highlight]
             current_node.next = previous_node  # 箭头掉头
             previous_node = current_node
             current_node = next_node
@@ -1249,7 +1271,7 @@ struct SinglyLinkedList {
         Node* previousNode = nullptr;
         Node* nextNode;
         while (currentNode != nullptr) {
-            nextNode = currentNode->next;      // 先存住下一个
+            nextNode = currentNode->next;      // 先存住下一个 [!code highlight]
             currentNode->next = previousNode;  // 箭头掉头
             previousNode = currentNode;
             currentNode = nextNode;
@@ -1267,7 +1289,7 @@ Node* reversedLinkedList(Node* head) {
     Node* previousNode = NULL;
     Node* nextNode;
     while (currentNode != NULL) {
-        nextNode = currentNode->next;      /* 先存住下一个 */
+        nextNode = currentNode->next;      /* 先存住下一个 [!code highlight] */
         currentNode->next = previousNode;  /* 箭头掉头 */
         previousNode = currentNode;
         currentNode = nextNode;
@@ -1286,11 +1308,13 @@ Node* reversedLinkedList(Node* head) {
 
 循环结束时 `currentNode` 是 `null`、`previousNode` 停在原尾巴上，所以最后 `head = previousNode;` 不能忘——忘了的话链已经反转好，但 `head` 还指着原第一个结点，看起来像"链只剩一个"。
 
-**【补】用不变式记比背四行可靠。** 每轮开始时：`previousNode` 是已反转段的头、`currentNode` 是未反转段的头、两段之间没有连线。四行正好做两件事——把 `currentNode` 接到已反转段头上（第 1、2 行）、边界各前移一格（第 3、4 行）。这是 L6 那套循环不变式思想的直接应用，也是检查指针代码最省力的办法。
+> [!TIP] 技巧：用不变式记反转四行
+> 每轮开始时：`previousNode` 是已反转段的头、`currentNode` 是未反转段的头、两段之间没有连线。四行正好做两件事——把 `currentNode` 接到已反转段头上（第 1、2 行）、边界各前移一格（第 3、4 行）。这是 L6 那套循环不变式思想的直接应用，也是检查指针代码最省力的办法。
 
 用 p.24 的数据验一遍：$1 \to 7 \to 6 \to 5 \to 2$ 逐轮走，`prev` 依次为 null、1、7、6、5，最后 `prev = 2`、`curr = null`，得 $2 \to 5 \to 6 \to 7 \to 1$，与课件注释 `// 2->5->6->7->1` 及输出块一致。
 
-**【补】递归版**三行就说完了：空表或单结点直接返回；递归反转 `node.next` 之后的部分；再让 `node.next.next = node`、`node.next = null`。思路是"先反转后面全部，再处理这一条边"，代价是递归深度 $n$，$n$ 大会栈溢出（L6 §4 的同类问题），所以工程上用迭代。
+> [!NOTE] 补充：递归版
+> 递归版三行就说完了：空表或单结点直接返回；递归反转 `node.next` 之后的部分；再让 `node.next.next = node`、`node.next = null`。思路是"先反转后面全部，再处理这一条边"，代价是递归深度 $n$，$n$ 大会栈溢出（L6 §4 的同类问题），所以工程上用迭代。
 
 ## 12. 双链表（p.25-27）
 
@@ -1385,7 +1409,10 @@ $$\text{head} = 100,\quad [\text{Null} \mid 1 \mid 200] \to [100 \mid 2 \mid 300
 
 第 5 条是双链表真正的价值所在：**单链表删末尾是 $O(n)$**（要走到倒数第二个），而双链表只要手里有最后一个结点的引用，`last.prev.next = null` 就完事——$O(1)$。这也是为什么"双链表 + 尾巴指针"能同时做到 $O(1)$ 的两端增删。
 
-### 12.3 删除给定结点：指针维护顺序到底要不要紧【补】
+### 12.3 删除给定结点：指针维护顺序到底要不要紧
+
+> [!NOTE] 补充
+> 本节整节是课件没有的补充：双链表增删的指针维护顺序分析。
 
 这一小节回应一个几乎每本教材都会提、但常被说糊涂的问题。删除双链表中一个**已知引用** `p`（假设它既不是表头也不是表尾），标准写法是两行：
 
@@ -1438,8 +1465,8 @@ void insertAfter(Node p, int x) {
     Node newNode = new Node(x);
     newNode.next = p.next;        // ① 先让新结点认识后继
     newNode.prev = p;             // ② 再让新结点认识前驱
-    p.next.prev = newNode;        // ③ 让后继认识新结点（此时 p.next 还没被改，必须先用它）
-    p.next = newNode;             // ④ 最后才改 p.next
+    p.next.prev = newNode;        // ③ 让后继认识新结点（此时 p.next 还没被改，必须先用它） [!code highlight]
+    p.next = newNode;             // ④ 最后才改 p.next [!code highlight]
 }
 ```
 
@@ -1448,8 +1475,8 @@ def insert_after(p, x):
     new_node = Node(x)
     new_node.next = p.next        # ① 先让新结点认识后继
     new_node.prev = p             # ② 再让新结点认识前驱
-    p.next.prev = new_node        # ③ 让后继认识新结点（此时 p.next 还没被改）
-    p.next = new_node             # ④ 最后才改 p.next
+    p.next.prev = new_node        # ③ 让后继认识新结点（此时 p.next 还没被改） [!code highlight]
+    p.next = new_node             # ④ 最后才改 p.next [!code highlight]
 ```
 
 ```cpp [C++]
@@ -1457,8 +1484,8 @@ void insertAfter(Node* p, int x) {
     Node* newNode = new Node(x);
     newNode->next = p->next;      // ① 先让新结点认识后继
     newNode->prev = p;            // ② 再让新结点认识前驱
-    p->next->prev = newNode;      // ③ 让后继认识新结点（此时 p->next 还没被改）
-    p->next = newNode;            // ④ 最后才改 p->next
+    p->next->prev = newNode;      // ③ 让后继认识新结点（此时 p->next 还没被改） [!code highlight]
+    p->next = newNode;            // ④ 最后才改 p->next [!code highlight]
 }
 ```
 
@@ -1467,8 +1494,8 @@ void insertAfter(DNode* p, int x) {
     DNode* newNode = makeDNode(x);   /* malloc 出来的结点，删的时候要 free */
     newNode->next = p->next;         /* ① 先让新结点认识后继 */
     newNode->prev = p;               /* ② 再让新结点认识前驱 */
-    p->next->prev = newNode;         /* ③ 让后继认识新结点（此时 p->next 还没被改） */
-    p->next = newNode;               /* ④ 最后才改 p->next */
+    p->next->prev = newNode;         /* ③ 让后继认识新结点（此时 p->next 还没被改） [!code highlight] */
+    p->next = newNode;               /* ④ 最后才改 p->next [!code highlight] */
 }
 ```
 
@@ -1493,7 +1520,8 @@ void insertAfter(DNode* p, int x) {
 
 第四条最能说明双链表的价值：**"摘下来再挂上去"这个动作，在双链表上是 $O(1)$，而且不需要知道它前面是谁**。单链表要做到同样的事，必须从队头走一遍找到前驱——一个调度器每秒钟要做几万次这种操作，$O(n)$ 是不可接受的。
 
-**【补】** 这也解释了为什么 JDK 的 `LinkedList` 同时实现了 `Deque`（双端队列）：它的底层是**双向链表 + 哨兵**，所以 `addFirst` / `addLast` / `removeFirst` / `removeLast` / `remove(Object)` 全是 $O(1)$（最后那个靠遍历找，$O(n)$ 找 + $O(1)$ 摘）。"实现其它数据结构"这条（p.27）说的就是这个意思。
+> [!NOTE] 补充：JDK LinkedList 的底层
+> 这也解释了为什么 JDK 的 `LinkedList` 同时实现了 `Deque`（双端队列）：它的底层是**双向链表 + 哨兵**，所以 `addFirst` / `addLast` / `removeFirst` / `removeLast` / `remove(Object)` 全是 $O(1)$（最后那个靠遍历找，$O(n)$ 找 + $O(1)$ 摘）。"实现其它数据结构"这条（p.27）说的就是这个意思。
 
 ## 13. 循环链表（p.28-30）
 
@@ -1509,7 +1537,10 @@ void insertAfter(DNode* p, int x) {
 
 结构上只改了一个指针，但后果不小。**好处**：从任何结点出发都能走遍全表；没有 `null` 要特判（比如"删末尾"不必判断"是不是最后一个"）；天然适合轮转类问题（p.30）。**坏处**：**遍历没有天然的终止条件**——单链表靠 `while (p != null)` 停，循环链表里 `p` 永远不为 `null`，照抄就是死循环。
 
-### 13.2 遍历怎么写【补】
+### 13.2 遍历怎么写
+
+> [!NOTE] 补充
+> 本节整节是课件没有的补充：循环链表遍历的三种终止写法。
 
 三种写法，各有适用场合：
 
@@ -1656,16 +1687,20 @@ flowchart TD
 
 这句"类似"是对的，但**少说了一半**：双向循环链表的遍历可以**两个方向**做（顺着 `next` 或顺着 `prev`），而循环单链表只能一个方向（§13.4）。所以"类似"只适用于"顺着 next 走一圈"这一种。
 
-**【补】为什么说它是"最实用"的一种。** 把 §10.3 的哨兵技巧叠上去，就得到工业界的标准做法：**一个哨兵结点，它的 `next` 指向第一个元素、`prev` 指向最后一个元素，第一个元素的 `prev` 与最后一个元素的 `next` 都指向哨兵**。于是：
+> [!NOTE] 补充：为何说它最实用
+> 把 §10.3 的哨兵技巧叠上去，就得到工业界的标准做法：**一个哨兵结点，它的 `next` 指向第一个元素、`prev` 指向最后一个元素，第一个元素的 `prev` 与最后一个元素的 `next` 都指向哨兵**。于是：
+>
+> - 空表：哨兵的 `next` 与 `prev` 都指向自己（一个自环）；
+> - 表头插入 = 在哨兵之后插入；表尾插入 = 在哨兵之前插入——**同一段代码，只是参数不同**；
+> - 删除任何结点（包括表头、表尾）都是 `p.prev.next = p.next; p.next.prev = p.prev;`，**不需要任何特判**（因为 `p.prev` 与 `p.next` 永远非空）；
+> - 遍历的终止条件统一成"回到哨兵"。
+>
+> 这正是 JDK `java.util.LinkedList` 的内部结构（它的 `header` 字段就是那个哨兵），也是"为什么标准库不用最简单的单链表"的答案。课件没有讲哨兵，所以这一层联系是我补的。
 
-- 空表：哨兵的 `next` 与 `prev` 都指向自己（一个自环）；
-- 表头插入 = 在哨兵之后插入；表尾插入 = 在哨兵之前插入——**同一段代码，只是参数不同**；
-- 删除任何结点（包括表头、表尾）都是 `p.prev.next = p.next; p.next.prev = p.prev;`，**不需要任何特判**（因为 `p.prev` 与 `p.next` 永远非空）；
-- 遍历的终止条件统一成"回到哨兵"。
+## 16. 四种链表的对比与选型
 
-这正是 JDK `java.util.LinkedList` 的内部结构（它的 `header` 字段就是那个哨兵），也是"为什么标准库不用最简单的单链表"的答案。课件没有讲哨兵，所以这一层联系是我补的。
-
-## 16. 四种链表的对比与选型【补】
+> [!NOTE] 补充
+> 本节整节是课件没有的整理：四种链表与数组的并排比较及选型建议。
 
 课件**没有这样一张表**——它对复杂度的交代只有 p.14 与 p.16 两个"best/worst/average?"的提问框，四种链表的操作清单是四张粒度不一的表（p.10、p.11、p.26、p.29、p.33），从来没有并排比较过。这张表是我按前面各节的结论整理的，所有数字都能从 §6.4、§7.3、§12、§13 的推导里查回去。
 

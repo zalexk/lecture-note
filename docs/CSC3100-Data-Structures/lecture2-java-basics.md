@@ -1,5 +1,5 @@
 ---
-title: Lecture 2 Java Basics（Java 基础）
+title: Lecture 2 Java 基础（Java Basics）
 course: CSC3100 Data Structures
 lecture: Lecture 2 - Java Basics
 date: 2026-09-09
@@ -16,7 +16,7 @@ tags: [CSC3100, java, jdk, jvm, jre, class, object, method, exception, lecture-n
 >
 > 课件有若干笔误与前后不一致（p.61 声称"两种方式"但两个例子其实是同一种、p.66 的标点清单与 p.67 的代码对不上、p.58 的一句断言被 p.62 自己的例子推翻等），已逐条列在文末「诚实备注」一，每条都写明我是怎么判出来的。
 >
-> 来源标注约定：正文里凡标 **【补】** 的段落，都是课件没有写、由我补充、推导或复算出来的内容；没有标注的叙述以课件页码为准。
+> 来源标注约定：正文里凡以补充类 alert（NOTE / TIP / IMPORTANT）呈现的内容，都是课件没有写、由我补充、推导或复算出来的内容；没有标注的叙述以课件页码为准。
 
 ## 0. 一句话概括本讲在讲什么
 
@@ -108,7 +108,8 @@ tags: [CSC3100, java, jdk, jvm, jre, class, object, method, exception, lecture-n
 
 课件把 Java 与 C/C++ 对照着说：C/C++ 被编译成**某个平台特有的机器码**，换个 CPU 架构或操作系统就得重新编译；Java 被编译成**字节码（bytecode）**——一种不属于任何真实 CPU 的指令集，由 JVM 在执行时翻译成本机指令，所以同一份 `.class` 能在 Windows、Linux、macOS 上跑。课件还给了一句更抽象的说法："Java 是一个跑在硬件平台之上的**软件平台**"，由运行时环境（runtime environment）与应用程序接口（API）两部分构成。
 
-【补】别把"跨平台"想得太神奇：**它把移植工作从应用开发者转移到了 JVM 实现者身上。** 每个平台都要有人写一个符合规范的 JVM，只要两个 JVM 都守规范，同一份字节码的行为就该一致。反过来说，依赖平台的地方（默认字符编码、换行符、路径分隔符）照样会"在我机器上能跑"——p.44 写死 `/Users/yxfang/...`、p.80 写死 `D:\\testout.txt`，就是在演示这个坑：**字节码跨平台，路径不跨平台。**
+> [!NOTE] 补充：跨平台的另一面
+> 别把“跨平台”想得太神奇：**它把移植工作从应用开发者转移到了 JVM 实现者身上。** 每个平台都要有人写一个符合规范的 JVM，只要两个 JVM 都守规范，同一份字节码的行为就该一致。反过来说，依赖平台的地方（默认字符编码、换行符、路径分隔符）照样会“在我机器上能跑”——p.44 写死 `/Users/yxfang/...`、p.80 写死 `D:\\testout.txt`，就是在演示这个坑：**字节码跨平台，路径不跨平台。**
 
 ### 2.3 第一个程序的三行骨架（p.9）
 
@@ -154,7 +155,7 @@ class Welcome {                                   // 1. 声明一个名为 Welco
 
 **④ 看结果。** 输出 `Welcome to Java!`；图 2 的另一条反馈边是"运行期出错或结果不对"——也得回到第 ① 步改源码。
 
-图 2 右侧画了**字节码指令流**，这是整页最值得看的东西（课件没解释，我逐行拆开【补】）：
+图 2 右侧画了**字节码指令流**，这是整页最值得看的东西（课件没解释，我逐行拆开）：
 
 ```text
 Method Welcome()
@@ -167,17 +168,19 @@ Method void main(java.lang.String[])
   8 return
 ```
 
-第一段是 `Method Welcome()`——**源码里根本没写构造器，字节码里却有一个**，这正是 p.31 那句"It is not mandatory to write a constructor"的底层原因：你不写，编译器就自动生成一个无参构造器（default constructor）。`aload_0` 把第 0 号局部变量压栈，而实例方法与构造器的第 0 号局部变量固定是 `this`；省略号那行按惯例是 `invokespecial`，调父类 `Object` 的构造器。
-
-第二段左边那些 0、3、5、8 不是"第几条指令"，而是**指令在字节码里的起始偏移（字节）**。偏移跳 3、2、3 是因为长度不同：`getstatic` 带 2 字节常量池下标（共 3 字节）、`ldc` 带 1 字节（共 2 字节）、`invokevirtual` 带 2 字节（共 3 字节）、`return` 不带参数（1 字节）。**读懂这几个偏移，才算把字节码当成"指令流"而不是"源码的另一种写法"。**
-
-三条指令做的事：`getstatic #2` 取静态字段（`System.out`）；`ldc #3` 把常量池第 3 项（字符串）压栈；`invokevirtual #4` 调用实例方法（`println`）；`return` 结束方法。
+> [!NOTE] 补充：字节码指令流逐行拆解
+> 第一段是 `Method Welcome()`——**源码里根本没写构造器，字节码里却有一个**，这正是 p.31 那句“It is not mandatory to write a constructor”的底层原因：你不写，编译器就自动生成一个无参构造器（default constructor）。`aload_0` 把第 0 号局部变量压栈，而实例方法与构造器的第 0 号局部变量固定是 `this`；省略号那行按惯例是 `invokespecial`，调父类 `Object` 的构造器。
+>
+> 第二段左边那些 0、3、5、8 不是“第几条指令”，而是**指令在字节码里的起始偏移（字节）**。偏移跳 3、2、3 是因为长度不同：`getstatic` 带 2 字节常量池下标（共 3 字节）、`ldc` 带 1 字节（共 2 字节）、`invokevirtual` 带 2 字节（共 3 字节）、`return` 不带参数（1 字节）。**读懂这几个偏移，才算把字节码当成“指令流”而不是“源码的另一种写法”。**
+>
+> 三条指令做的事：`getstatic #2` 取静态字段（`System.out`）；`ldc #3` 把常量池第 3 项（字符串）压栈；`invokevirtual #4` 调用实例方法（`println`）；`return` 结束方法。
 
 ### 2.5 装环境（p.11）
 
 四步：装一个 JDK（推荐 OpenJDK，课件举例 "Java SE DK 26"，原文如此，见诚实备注）；设 `JAVA_HOME` 指向 JDK 安装根目录（形如 `C:\Program Files\Java\jdk___VERSION`）；把 `%JAVA_HOME%\bin` 加进 `PATH`；验证安装（课件写的是"e.g., on Mac"）。然后装 IDE：Eclipse（作者原话"my personal choice"）、VS Code、甚至记事本。
 
-【补】三步里最容易出问题的是第 3 步：`JAVA_HOME` 本身对 `javac` 没用（它只是给 Maven、Gradle 看的），真正让命令行找得到 `javac` 的是 `PATH` 里那一项——这就是"设了 JAVA_HOME 还是 command not found"的原因。
+> [!TIP] 技巧：装环境最容易错的一步
+> 三步里最容易出问题的是第 3 步：`JAVA_HOME` 本身对 `javac` 没用（它只是给 Maven、Gradle 看的），真正让命令行找得到 `javac` 的是 `PATH` 里那一项——这就是“设了 JAVA_HOME 还是 command not found”的原因。
 
 ## 3. 在 IDE 里跑通第一个程序（p.12-16）
 
@@ -212,11 +215,12 @@ Method void main(java.lang.String[])
 
 这 8 个就是 Java 全部的**基本类型**（primitive types）。它们不是对象，没有方法，也不住在堆里——这一点与 p.7 的"一切都是对象"直接冲突，见诚实备注一第 1 条。
 
-【补】表里有三处课件没写但很实用的细节：
-
-- **`int` 是默认整数类型**：`3` 是 `int`、`3L` 才是 `long`；`3.14` 是 `double`（不是 `float`），要 `float` 必须写 `3.14f`——所以 `float f = 3.14;` 编译报错（窄化可能丢精度）。
-- **`char` 是无符号的**，所以 `char c = -1;` 不合法；而 `short s = -1;` 合法。
-- **整数溢出不会报错，会静默回绕**。`int x = 2147483647; x = x + 1;` 得到 $-2147483648$。这个坑在后面讲"数组下标上界"和"二分搜索的 `mid = (lo+hi)/2` 会溢出"时会反复出现。
+> [!NOTE] 补充：三个实用细节
+> 表里有三处课件没写但很实用的细节：
+>
+> - **`int` 是默认整数类型**：`3` 是 `int`、`3L` 才是 `long`；`3.14` 是 `double`（不是 `float`），要 `float` 必须写 `3.14f`——所以 `float f = 3.14;` 编译报错（窄化可能丢精度）。
+> - **`char` 是无符号的**，所以 `char c = -1;` 不合法；而 `short s = -1;` 合法。
+> - **整数溢出不会报错，会静默回绕**。`int x = 2147483647; x = x + 1;` 得到 $-2147483648$。这个坑在后面讲“数组下标上界”和“二分搜索的 `mid = (lo+hi)/2` 会溢出”时会反复出现。
 
 ### 4.2 循环、条件、类与对象的关键字（p.18）
 
@@ -228,7 +232,8 @@ Method void main(java.lang.String[])
 
 **类与对象**：`class`（声明一个类）；`new`（创建新对象）。
 
-【补】两点：`break` 只跳出**最内层**循环、`continue` 只跳过**当前这一轮**（p.54 的素数判定里就有 `break`）；`for` 的第三部分课件写成完整赋值 `x = x + 1`，与惯用的 `x++` 等价（p.27 注释过"Shortcut for `k = k + 1`"）。
+> [!NOTE] 补充：break / continue 与 for 写法
+> 两点：`break` 只跳出**最内层**循环、`continue` 只跳过**当前这一轮**（p.54 的素数判定里就有 `break`）；`for` 的第三部分课件写成完整赋值 `x = x + 1`，与惯用的 `x++` 等价（p.27 注释过“Shortcut for `k = k + 1`”）。
 
 ### 4.3 异常与"其它"（p.19）
 
@@ -238,7 +243,10 @@ Method void main(java.lang.String[])
 
 这里有一处需要更正：**`null` 不是关键字，是字面量（literal）**——详见诚实备注一第 3 条。`true`、`false` 同理（p.22 用到了 `b = true;`，p.19 却没有把它们列进来）。
 
-### 4.4 这张表没列全（p.17-19 的整体判断）【补】
+### 4.4 这张表没列全（p.17-19 的整体判断）
+
+> [!NOTE] 补充
+> 本节整节为补充内容。
 
 三页加起来大约列了 25 个词，而 Java 语言规范（Java Language Specification, JLS §3.9）的关键字表有 50 个上下（不同版本略有增减）。缺的那些并不是不重要，而是**在本课用不到**或者**在后面几页才出现**：
 
@@ -269,7 +277,8 @@ char ch;           // A character, such as 'P' or '@'
 
 课件用三个红框分别指向 `char ch;` 里的**类型**、**变量名**、**分号**。一行可以声明多个同类型变量，用逗号隔开。
 
-【补】三点：① **声明只是占位，不给值**；局部变量在赋值前**不能读**，`int x; System.out.println(x);` 编译报错 "might not have been initialized"（这与 C 的"随机值"不同，Java 直接用编译器挡掉）。② **字段（类里、方法外的变量）有默认值**：数字是 `0`、`boolean` 是 `false`、引用是 `null`；所以 p.35 的 `Person` 即使不写构造器，`name` 也会是 `null`。③ **`double x, Y;` 里的 `Y` 是大写**——Java 区分大小写，所以这是两个不同的名字，能编译但一看就像笔误，后文一律按 `x`、`y` 讲。
+> [!NOTE] 补充：声明的三点细节
+> 三点：① **声明只是占位，不给值**；局部变量在赋值前**不能读**，`int x; System.out.println(x);` 编译报错 “might not have been initialized”（这与 C 的“随机值”不同，Java 直接用编译器挡掉）。② **字段（类里、方法外的变量）有默认值**：数字是 `0`、`boolean` 是 `false`、引用是 `null`；所以 p.35 的 `Person` 即使不写构造器，`name` 也会是 `null`。③ **`double x, Y;` 里的 `Y` 是大写**——Java 区分大小写，所以这是两个不同的名字，能编译但一看就像笔误，后文一律按 `x`、`y` 讲。
 
 ### 5.3 数值表达式与整数除法（p.22）
 
@@ -287,7 +296,7 @@ ch = 'x';
 
 ```java
 double f;
-f = 1 / 3;        // f is now 0.0
+f = 1 / 3;        // f is now 0.0 // [!code warning]
 f = 1.0 / 3.0;    // f is now 0.333333333...
 ```
 
@@ -295,7 +304,8 @@ f = 1.0 / 3.0;    // f is now 0.333333333...
 
 这条规则解释了后面两处代码为什么那样写：p.28 写 `sum + 1.0 / i`（写 `1 / i` 的话 $i \ge 2$ 时全是 0，和恒等于 1）；p.27 的 `term / k` 没问题，因为 `term` 本身是 `double`，`double / int` 会自动把 `int` 提升为 `double`。
 
-【补】取模也有符号问题：`-7 % 8` 在 Java 里是 `-7`（结果符号跟被除数走），不是数学上的 `1`；哈希函数里要保证非负得写 `(key % M + M) % M`。
+> [!CAUTION] 注意：取模的符号
+> 取模也有符号问题：`-7 % 8` 在 Java 里是 `-7`（结果符号跟被除数走），不是数学上的 `1`；哈希函数里要保证非负得写 `(key % M + M) % M`。
 
 ### 5.4 三种变量：局部、实例、静态（p.23）
 
@@ -317,7 +327,8 @@ class Guru99 {
 
 课件对静态变量还加了一句："这些变量应该最先初始化，在任何实例变量之前"——意思是**加载顺序**：类先被加载、静态变量先初始化，然后才谈得上创建对象。
 
-【补】假设有三个对象 `o1`、`o2`、`o3`：`o1.data`、`o2.data`、`o3.data` 是**三块不同的内存**；`Guru99.a` 只有**一块**，改一处三处都变；`b` 只在 `method()` 执行期间存在，方法一返回就没了。这也解释了 p.49 的 `n1`、`n2`、`n3` 为什么是 `static`——它们要跨方法调用共享状态。
+> [!NOTE] 补充：三种变量的内存
+> 假设有三个对象 `o1`、`o2`、`o3`：`o1.data`、`o2.data`、`o3.data` 是**三块不同的内存**；`Guru99.a` 只有**一块**，改一处三处都变；`b` 只在 `method()` 执行期间存在，方法一返回就没了。这也解释了 p.49 的 `n1`、`n2`、`n3` 为什么是 `static`——它们要跨方法调用共享状态。
 
 ### 5.5 类型转换（p.24）
 
@@ -335,7 +346,8 @@ degrees = (int) (radians * 180 / 3.14159265);       // OK
 
 **规则二：把整数赋给实数变量不需要转换**（`double d = 3;` 合法）。因为 `int → double` 不丢信息，`double` 的整数范围远大于 `int`。
 
-【补】① **`(int)` 是截断，不是四舍五入**：`(int) 3.9` 得 `3`，`(int) -3.9` 得 `-3`（向零取整）；要四舍五入用 `Math.round(3.9)`，它返回 `long`。② **转换的是"值"不是"变量类型"**：`(int) x` 不改变 `x` 的类型。③ **`char` 与 `int` 可以互转**，这就是 §14.9 那两个 ASCII 例子能工作的原因：`int ch1 = 'a';` 得 97（隐式拓宽），`(char) 87` 得 `'W'`（显式窄化）。
+> [!NOTE] 补充：类型转换的三点细节
+> ① **`(int)` 是截断，不是四舍五入**：`(int) 3.9` 得 `3`，`(int) -3.9` 得 `-3`（向零取整）；要四舍五入用 `Math.round(3.9)`，它返回 `long`。② **转换的是“值”不是“变量类型”**：`(int) x` 不改变 `x` 的类型。③ **`char` 与 `int` 可以互转**，这就是 §14.9 那两个 ASCII 例子能工作的原因：`int ch1 = 'a';` 得 97（隐式拓宽），`(char) 87` 得 `'W'`（显式窄化）。
 
 ### 5.6 字符串（p.25）
 
@@ -357,9 +369,13 @@ System.out.println(str1.concat(str2));  // SoftwareTesting
 
 两种写法结果一样：`+` 是编译器给的语法糖（一边是 `String` 时，`+` 变成拼接，另一边自动转字符串），`concat` 是 `String` 的方法。
 
-【补】三点：① **`String` 不是基本类型，是类**，所以 `String s = "abc"` 里的 `s` 是引用（§7.8）。② **`String` 不可变**：`str1.concat(str2)` **不改** `str1`，它返回新字符串；想让 `str1` 变得写 `str1 = str1.concat(str2);`——这是 p.71 那行的前提。③ **`+` 的优先级陷阱**：`"sum = " + 1 + 2` 输出 `sum = 12`（从左到右先拼成字符串），`"sum = " + (1 + 2)` 才输出 `sum = 3`。
+> [!NOTE] 补充：String 的三点
+> 三点：① **`String` 不是基本类型，是类**，所以 `String s = "abc"` 里的 `s` 是引用（§7.8）。② **`String` 不可变**：`str1.concat(str2)` **不改** `str1`，它返回新字符串；想让 `str1` 变得写 `str1 = str1.concat(str2);`——这是 p.71 那行的前提。③ **`+` 的优先级陷阱**：`"sum = " + 1 + 2` 输出 `sum = 12`（从左到右先拼成字符串），`"sum = " + (1 + 2)` 才输出 `sum = 3`。
 
-### 5.7 String 与 StringBuilder，`==` 与 `.equals()`（p.25、p.57、p.69 的延伸）【补】
+### 5.7 String 与 StringBuilder，`==` 与 `.equals()`（p.25、p.57、p.69 的延伸）
+
+> [!NOTE] 补充
+> 本节整节为补充内容。
 
 这一小节课件没有系统讲，但它是初学者第一大坑，也直接关系到后面哈希与查找的正确性。触发点是两处课件代码：p.57 用 `original.equals(reverse)` 判断内容是否相同，p.69 用 `StringBuffer` 逐字符改。**课件直接用了这两样东西，却没解释为什么不能写 `==`、为什么要用 `StringBuffer`。**
 
@@ -434,10 +450,11 @@ else
 
 这个例子的用途是**防除零**：`x` 为 0 时走 `else`，避免 `3.0 / 0`（对 `double` 来说 `3.0/0` 不抛异常，结果是 `Infinity`；对 `int` 来说 `3/0` 会抛 `ArithmeticException`——见 §8）。另外 `y = 1;` 把一个 `int` 赋给（推测是 `double` 的）`y`，不报错，因为这是 §5.5 的"整数赋给实数不需要转换"。
 
-【补】两条初学者最容易踩的：
-
-- **不加花括号时，`if` 只管下一行。** `if (x > 0) x = 1; y = 2;` 里的 `y = 2` 与条件无关，永远执行。这就是为什么本书后面所有代码都老老实实写花括号。
-- **`else` 与最近的 `if` 配对**（dangling else）。多层嵌套时靠缩进看不出来，靠花括号才靠得住。
+> [!CAUTION] 注意：if 的两个坑
+> 两条初学者最容易踩的：
+>
+> - **不加花括号时，`if` 只管下一行。** `if (x > 0) x = 1; y = 2;` 里的 `y = 2` 与条件无关，永远执行。这就是为什么本书后面所有代码都老老实实写花括号。
+> - **`else` 与最近的 `if` 配对**（dangling else）。多层嵌套时靠缩进看不出来，靠花括号才靠得住。
 
 ### 6.2 布尔表达式（p.27）
 
@@ -456,10 +473,11 @@ if ((x <= 9 || y > 3) && !b) {
 
 这一行把三种运算叠在一起。读法是：先算括号里的 `x <= 9 || y > 3`（`||` 的优先级低于比较），再算 `!b`，最后 `&&`。`!b` 的意思是"b 为 false 时，`!b` 为 true"，所以整个条件读作"（x 不大于 9 或 y 大于 3）**且** b 还是 false"。
 
-【补】两点：
-
-- **`&&` 与 `||` 是短路的（short-circuit）**：`a && b` 在 `a` 为 false 时根本不看 `b`；`a || b` 在 `a` 为 true 时根本不看 `b`。这不是优化，而是语义——`if (p != null && p.x > 0)` 之所以安全，就是因为左边为 false 时右边不会执行。如果写成 `&`（非短路版），`p` 为 `null` 时会直接抛 `NullPointerException`。
-- 布尔变量不要与 `true` 比较：`if (b == true)` 就是 `if (b)`，`if (!b)` 就是"b 为假"。
+> [!NOTE] 补充：短路求值与布尔写法
+> 两点：
+>
+> - **`&&` 与 `||` 是短路的（short-circuit）**：`a && b` 在 `a` 为 false 时根本不看 `b`；`a || b` 在 `a` 为 true 时根本不看 `b`。这不是优化，而是语义——`if (p != null && p.x > 0)` 之所以安全，就是因为左边为 false 时右边不会执行。如果写成 `&`（非短路版），`p` 为 `null` 时会直接抛 `NullPointerException`。
+> - 布尔变量不要与 `true` 比较：`if (b == true)` 就是 `if (b)`，`if (!b)` 就是“b 为假”。
 
 ### 6.3 while 循环：算 $e$（p.27）
 
@@ -472,7 +490,7 @@ double term = 1.0;
 int k = 1;
 while (term >= 0.00001) {
     sum = sum + term;
-    term = term / k;
+    term = term / k;          // [!code highlight]
     k++;                      // Shortcut for 'k = k + 1'
 }
 ```
@@ -487,9 +505,10 @@ $$
 
 关键是 `term` 与 `k` 的关系：初始 `term = 1.0`（即 $1/0!$），循环体先把它加进 `sum`，再执行 `term = term / k`。第一轮 `k = 1` 得 $1/1!$，第二轮 `k = 2` 得 $1/2!$……所以**第 $m$ 轮加进去的项是 $1/(m-1)!$**。
 
-【补】课件只给了"什么时候停"，没给"停在哪里、结果多准"。我按同一份代码逐轮算了一遍：循环体执行 **9 次**，退出时 `term = 1/9! ≈ 2.76e-6 < 1e-5`，`sum = 2.71827876984127`。与 $e = 2.718281828459045$ 相比，绝对误差 $3.06\times 10^{-6}$。
-
-这个误差不是巧合：被丢掉的第一项就是 $1/9! \approx 2.76\times 10^{-6}$，后面所有项加起来约 $3.1\times 10^{-7}$，合计约 $3.06\times 10^{-6}$。**所以"截断阈值取 $10^{-5}$"实际给出的是 $10^{-6}$ 量级的精度——阈值管的是"最小的那一项有多大"，不是"总误差有多大"。** 这个观察在后面讲数值算法时还会用到。
+> [!NOTE] 补充：停在哪里、结果多准
+> 课件只给了“什么时候停”，没给“停在哪里、结果多准”。我按同一份代码逐轮算了一遍：循环体执行 **9 次**，退出时 `term = 1/9! ≈ 2.76e-6 < 1e-5`，`sum = 2.71827876984127`。与 $e = 2.718281828459045$ 相比，绝对误差 $3.06\times 10^{-6}$。
+>
+> 这个误差不是巧合：被丢掉的第一项就是 $1/9! \approx 2.76\times 10^{-6}$，后面所有项加起来约 $3.1\times 10^{-7}$，合计约 $3.06\times 10^{-6}$。**所以“截断阈值取 $10^{-5}$”实际给出的是 $10^{-6}$ 量级的精度——阈值管的是“最小的那一项有多大”，不是“总误差有多大”。** 这个观察在后面讲数值算法时还会用到。
 
 还有一个细节：`term / k` 是 `double` 除以 `int`，`k` 会被提升为 `double`（§5.3），不会退化成整数除法；若写成 `term = 1 / k;`，$k \ge 2$ 时结果永远是 0，循环第二轮就结束——这是这段代码最容易被"改坏"的地方。
 
@@ -502,7 +521,7 @@ $$
 int i;
 double sum = 0.0;
 for (i = 1; i <= 100; i++) {
-    sum = sum + 1.0 / i;
+    sum = sum + 1.0 / i;      // [!code highlight]
 }
 ```
 
@@ -510,9 +529,11 @@ for (i = 1; i <= 100; i++) {
 
 `sum = sum + 1.0 / i;` 里的 `1.0` 是这一页的灵魂：写成 `1 / i` 的话，$i \ge 2$ 时整数除法得 0，`sum` 会恒等于 1.0。课件没有解释这一点，但它与 p.22 的"整数除法"是同一件事。
 
-【补】这个和叫**调和级数（harmonic series）**，记作 $H_n$。$H_{100}$ 的精确值是 $5.187377517639621$（我按同一段代码逐项加得），而用渐近式 $\ln n + \gamma$ 估算得 $5.18239$（$\gamma \approx 0.5772$ 是欧拉常数），差约 $0.005$——**$n = 100$ 时渐近式已经能给出前三位，但还不够精确**。这个级数增长极慢：$H_n$ 要到 $n \approx 1.5\times 10^{43}$ 才达到 100，这也是为什么"调和级数发散"这件事在数值上几乎看不出来。
+> [!NOTE] 补充：调和级数
+> 这个和叫**调和级数（harmonic series）**，记作 $H_n$。$H_{100}$ 的精确值是 $5.187377517639621$（我按同一段代码逐项加得），而用渐近式 $\ln n + \gamma$ 估算得 $5.18239$（$\gamma \approx 0.5772$ 是欧拉常数），差约 $0.005$——**$n = 100$ 时渐近式已经能给出前三位，但还不够精确**。这个级数增长极慢：$H_n$ 要到 $n \approx 1.5\times 10^{43}$ 才达到 100，这也是为什么“调和级数发散”这件事在数值上几乎看不出来。
 
-【补】`i` 通常在 for 里声明（`for (int i = 0; ...)`），作用域就限制在循环内；p.41 与 p.48 把 `int i;` 提到外面属于 C 语言留下的习惯。
+> [!TIP] 技巧：循环变量的声明位置
+> `i` 通常在 for 里声明（`for (int i = 0; ...)`），作用域就限制在循环内；p.41 与 p.48 把 `int i;` 提到外面属于 C 语言留下的习惯。
 
 ## 7. 类与对象（p.29-35）
 
@@ -526,7 +547,8 @@ for (i = 1; i <= 100; i++) {
 
 *图 4　左边是 `DOG` 类的蓝图：上半数据成员（Breed、Size、Age、Color），下半方法（Eat()、Sleep()、Sit()、Run()）；右边是 `new DOG(...)` 造出的两个对象，字段各存一份，方法共用类里那一份；类本身只是源码里的清单，不占对象内存。*
 
-【补】这里要把上一讲的 ADT 接上，否则两讲是断开的：**L1 的 ADT 是"能做什么"的清单，本讲的 `class` 就是它在 Java 里的落地形式**——字段对应状态、方法对应操作、`private` 对应信息隐藏（p.33 那句"属性一般应保持 private"就是 L1 的封装）。课件从 p.29 起只讲 Java，没做这个连接。
+> [!NOTE] 补充：与 L1 的 ADT 接上
+> 这里要把上一讲的 ADT 接上，否则两讲是断开的：**L1 的 ADT 是“能做什么”的清单，本讲的 `class` 就是它在 Java 里的落地形式**——字段对应状态、方法对应操作、`private` 对应信息隐藏（p.33 那句“属性一般应保持 private”就是 L1 的封装）。课件从 p.29 起只讲 Java，没做这个连接。
 
 类与对象的区别可以一句话记住：**类只存在于源码里，对象才占用内存。** 写 `class Dog { … }` 时内存里没有任何一条狗；`new Dog()` 时才真的造出一条。
 
@@ -540,7 +562,8 @@ for (i = 1; i <= 100; i++) {
 
 两条规则：**名字必须与类名相同**；**不能有返回值，连 `void` 都不能写**。第二条最容易写错——`public void Turtle() { … }` 不是构造器，是一个"碰巧叫 Turtle、返回 void"的普通方法，`new Turtle()` 不会调用它。
 
-【补】三点：① **不写构造器时编译器自动生成一个无参构造器**，它什么也不做（只调父类构造器），§2.4 字节码里的 `Method Welcome()` 就是它。② **一旦你自己写了任意一个构造器，编译器就不再自动生成无参版**：p.35 的 `Person` 只有 `Person(String n, int m)`，此时 `new Person()` 会编译报错。③ **构造器可以重载**（同名不同参数），p.40 的 `new Employee("Harry", 40000)`、`new Employee(60000)`、`new Employee()` 就是三个构造器；**没有析构器**，p.35 说得很直接——"有垃圾回收，不需要手动销毁对象"。
+> [!NOTE] 补充：构造器的三点
+> 三点：① **不写构造器时编译器自动生成一个无参构造器**，它什么也不做（只调父类构造器），§2.4 字节码里的 `Method Welcome()` 就是它。② **一旦你自己写了任意一个构造器，编译器就不再自动生成无参版**：p.35 的 `Person` 只有 `Person(String n, int m)`，此时 `new Person()` 会编译报错。③ **构造器可以重载**（同名不同参数），p.40 的 `new Employee("Harry", 40000)`、`new Employee(60000)`、`new Employee()` 就是三个构造器；**没有析构器**，p.35 说得很直接——“有垃圾回收，不需要手动销毁对象”。
 
 ### 7.4 方法的解剖（p.32）
 
@@ -573,7 +596,8 @@ public Turtle(int initX, int initY) {
 
 逐块读 `public void jumpTo(int newX, int newY)`：`public` 是访问修饰符（谁能调）、`void` 是返回类型（不返回东西）、`jumpTo` 是方法名、括号里是两个带类型的参数、花括号里是方法体。`getX()` 演示"有返回值"：返回类型是 `int`，方法体里必须有 `return x;`。
 
-【补】两处：① **方法名后面的括号必须写**，哪怕没有参数（`public Turtle( )`）；`t.getX` 不带括号是"取方法本身"，不是调用。② **`x`、`y`、`penDown` 是从哪来的？** 课件写"Attribute declarations, as above"，指的是前面页的字段声明——**完整的 `Turtle` 还应有 `private int x, y;` 与 `private boolean penDown;`**。直接抄 p.32 是编译不过的（字段未声明），因为课件把类拆到两页讲了。
+> [!NOTE] 补充：方法解剖的两点
+> 两处：① **方法名后面的括号必须写**，哪怕没有参数（`public Turtle( )`）；`t.getX` 不带括号是“取方法本身”，不是调用。② **`x`、`y`、`penDown` 是从哪来的？** 课件写“Attribute declarations, as above”，指的是前面页的字段声明——**完整的 `Turtle` 还应有 `private int x, y;` 与 `private boolean penDown;`**。直接抄 p.32 是编译不过的（字段未声明），因为课件把类拆到两页讲了。
 
 ### 7.5 访问修饰符（p.33）
 
@@ -590,13 +614,15 @@ public Turtle(int initX, int initY) {
 
 注意：课件那段文字漏了"同一个包内也能访问"（表格 Package 列写的是"是"），准确规则是"本类 + 同包 + 子类"，见诚实备注一第 4 条。
 
-【补】为什么"属性私有"是共识？因为私有字段意味着外部只能通过方法改它，而方法里可以加检查（如 `setAge(int a)` 挡掉负数）。这就是 L1 的封装：**接口不变，内部随便改**。p.35 的 `Person` 就是标准写法。
+> [!NOTE] 补充：为什么属性私有
+> 为什么“属性私有”是共识？因为私有字段意味着外部只能通过方法改它，而方法里可以加检查（如 `setAge(int a)` 挡掉负数）。这就是 L1 的封装：**接口不变，内部随便改**。p.35 的 `Person` 就是标准写法。
 
 ### 7.6 main 为什么是 static（p.34）
 
 声明 main 的那页（p.34）说了两件事：**Java 里语句只能写在类的方法里**，所以必须有一个"系统在程序开始时调用的方法"，这就是 `main`；两条注解是 **`static`**（调用 `main` 时它不与对象关联，而与类关联）与 **参数 `args`**（解释器拿到的、比类名多出来的信息从这里传进来）。
 
-【补】第 1 条常被误解成"Java 不允许全局变量"，其实它说的是**语句**不能裸写在类体里：`class A { x = 3; }` 编译不过，`class A { int x = 3; }` 可以（后者是声明）。第 2 条是理解 `static` 的入口。**`static` 方法没有 `this`**，不依附任何对象，因此它**不能**直接读写实例字段、**不能**直接调用实例方法，但**能**直接读写静态字段、调用静态方法。这条规则直接解释了 p.60 那个怪例子（§14.8）：`main` 是 static、`show()` 是实例方法，所以在 `main` 里不能写 `show();`，必须先 `new` 一个对象。
+> [!IMPORTANT] 重要：static 的边界
+> 第 1 条常被误解成“Java 不允许全局变量”，其实它说的是**语句**不能裸写在类体里：`class A { x = 3; }` 编译不过，`class A { int x = 3; }` 可以（后者是声明）。第 2 条是理解 `static` 的入口。**`static` 方法没有 `this`**，不依附任何对象，因此它**不能**直接读写实例字段、**不能**直接调用实例方法，但**能**直接读写静态字段、调用静态方法。这条规则直接解释了 p.60 那个怪例子（§14.8）：`main` 是 static、`show()` 是实例方法，所以在 `main` 里不能写 `show();`，必须先 `new` 一个对象。
 
 ### 7.7 new 与调用方法（p.35）
 
@@ -641,11 +667,15 @@ class Person{
 
 这个例子几乎用上了本讲所有要素：两个类写在同一个文件里（只有 `ConfunDemo3` 是 public，所以文件名必须是 `ConfunDemo3.java`）、私有字段、构造器、getter、`\n` 换行、以及"在 `main` 里 new 一个对象再调它的方法"。输出两行：`zhangsan` 与 `3`。
 
-【补】`name+"\n"+age` 展示了 `+` 的两种用法叠在一起：`String + String` 是拼接，`String + int` 会把 `int` 转成字符串再拼，所以得到 `"zhangsan\n3"`。
+> [!NOTE] 补充：+ 的两种用法
+> `name+"\n"+age` 展示了 `+` 的两种用法叠在一起：`String + String` 是拼接，`String + int` 会把 `int` 转成字符串再拼，所以得到 `"zhangsan\n3"`。
 
-### 7.8 引用、对象与内存：`t` 到底是什么（p.35 的延伸）【补】
+### 7.8 引用、对象与内存：`t` 到底是什么（p.35 的延伸）
 
-课件只说"`new` 创建对象"，没说 `t` 里存了什么。而这一层不想清楚，后面链表、树的代码都会读得含含糊糊。结论是：
+> [!IMPORTANT] 重要
+> 本节整节为补充内容：引用与对象的内存模型是后面链表、树的地基。
+
+课件只说“`new` 创建对象”，没说 `t` 里存了什么。而这一层不想清楚，后面链表、树的代码都会读得含含糊糊。结论是：
 
 **`Turtle t;` 声明的是一个引用变量（reference），里面存的是地址；`new Turtle(100,100)` 在堆（heap）上造出对象本体，然后把地址存进 `t`。**
 
@@ -665,7 +695,10 @@ class Person{
 
 *图 6　四个面板对应引用的四种动作：① `new Turtle(100, 100)` 之后一个引用指向一个对象；② `Turtle t2 = t;` 是别名，两个名字、同一个对象（同指 0x1A2B）；③ `t = new Turtle(0, 0);` 只改 `t` 这一格，旧对象仍被 `t2` 指着、不会被回收；④ `new Turtle[3]` 只造三个 null 格子，必须逐个 `new`。*
 
-### 7.9 Java 只有值传递（p.32 的延伸）【补】
+### 7.9 Java 只有值传递（p.32 的延伸）
+
+> [!IMPORTANT] 重要
+> 本节整节为补充内容：Java 只有值传递。
 
 课件没讲参数传递，但这是读后面所有"方法修改数组/对象"的代码的前提。规则只有一条：**Java 永远按值传递（pass by value），方法拿到的是实参的一个副本。** 对基本类型和引用类型都成立，只是"副本"的内容不同：
 
@@ -721,16 +754,18 @@ catch (IOException e) {
 2. **`m`、`n` 声明在 try 外面**。这不是风格问题，是语法要求：在 `try { }` 块里声明的变量，出了这个块就不存在了，`catch` 里根本看不见。这个细节很多初学者会踩。
 3. **`catch (IOException e)` 里的 `e`** 是捕获到的异常对象，可以用 `e.getMessage()`、`e.printStackTrace()` 读它的信息（p.44 就用了后者）。
 
-【补】课件只给了一个 `IOException` 的例子，没有讲异常的分类，但这是必须知道的：
+> [!IMPORTANT] 重要：异常的分类
+> 课件只给了一个 `IOException` 的例子，没有讲异常的分类，但这是必须知道的：
+>
+> | 类别 | 特点 | 例子 | 编译器管不管 |
+> | --- | --- | --- | --- |
+> | 受检异常（checked exception） | 编译器强制你处理 | `IOException`、`FileNotFoundException` | 必须 try-catch 或在方法上写 `throws`，否则编译不过 |
+> | 非受检异常（unchecked exception） | 运行时才可能出现 | `ArithmeticException`（整数除零）、`NullPointerException`、`ArrayIndexOutOfBoundsException`、`NumberFormatException` | 编译器不管，可以不写 try |
+>
+> 这个区分有直接的实际后果：p.44 的 `catch(IOException e)` **接不住** `Integer.parseInt("abc")` 抛出的 `NumberFormatException`（它是 unchecked，且不是 `IOException` 的子类），也接不住 `s[1]` 越界抛出的 `ArrayIndexOutOfBoundsException`。程序会直接崩，而不是走进 catch。这一点在写作业读文件时非常容易踩（详见 §12）。
 
-| 类别 | 特点 | 例子 | 编译器管不管 |
-| --- | --- | --- | --- |
-| 受检异常（checked exception） | 编译器强制你处理 | `IOException`、`FileNotFoundException` | 必须 try-catch 或在方法上写 `throws`，否则编译不过 |
-| 非受检异常（unchecked exception） | 运行时才可能出现 | `ArithmeticException`（整数除零）、`NullPointerException`、`ArrayIndexOutOfBoundsException`、`NumberFormatException` | 编译器不管，可以不写 try |
-
-这个区分有直接的实际后果：p.44 的 `catch(IOException e)` **接不住** `Integer.parseInt("abc")` 抛出的 `NumberFormatException`（它是 unchecked，且不是 `IOException` 的子类），也接不住 `s[1]` 越界抛出的 `ArrayIndexOutOfBoundsException`。程序会直接崩，而不是走进 catch。这一点在写作业读文件时非常容易踩（详见 §12）。
-
-【补】还有一个 `finally`：无论有没有异常都会执行，通常用来关文件/关连接。课件 p.19 提了 `finally` 这个关键字，但没给例子。另外 p.86 演示了另一种处理方式——不写 try-catch，而是在方法签名上写 `throws Exception`，把责任推给调用者。
+> [!NOTE] 补充：finally 与 throws
+> 还有一个 `finally`：无论有没有异常都会执行，通常用来关文件/关连接。课件 p.19 提了 `finally` 这个关键字，但没给例子。另外 p.86 演示了另一种处理方式——不写 try-catch，而是在方法签名上写 `throws Exception`，把责任推给调用者。
 
 ## 9. 输出、包、注释（p.38-40）
 
@@ -754,9 +789,8 @@ System.out.println("6 * 7 = " + a);
 
 课件的定义：包（package）是类、子包与接口的集合；它帮助你把类组织成文件夹结构，便于查找与使用；更重要的是，它提高代码的**可复用性**（reusability）。
 
-【补】
-
-- **包对应目录**：`package helloworld;` 意味着文件在 `src/helloworld/` 下。**`import` 是为了少打字**：`import java.util.Scanner;` 之后可以写 `Scanner`，否则要写全名；`java.lang`（`String`、`System`、`Math`）自动导入。`import java.util.*;` 只导入本包、不含子包（p.40、p.57 都用了）。
+> [!NOTE] 补充：包与 import
+> - **包对应目录**：`package helloworld;` 意味着文件在 `src/helloworld/` 下。**`import` 是为了少打字**：`import java.util.Scanner;` 之后可以写 `Scanner`，否则要写全名；`java.lang`（`String`、`System`、`Math`）自动导入。`import java.util.*;` 只导入本包、不含子包（p.40、p.57 都用了）。
 
 ### 9.3 注释（p.40）
 
@@ -767,7 +801,8 @@ System.out.println("6 * 7 = " + a);
 
 p.40 的截图（出自教材 *Big Java*）同时展示了三种注释的真实用法：类上方的 javadoc、方法里的单行注释、以及一段完整程序。程序里出现了**对象数组**与**增强 for**：先 `Employee[] staff = new Employee[3]`，再逐个 `staff[i] = new Employee(...)`（三个构造器参数不同，是重载），最后 `for (Employee e : staff)` 遍历。
 
-【补】`for (Employee e : staff)` 叫增强 for（enhanced for / for-each），读作"对 staff 里的每一个元素，把它叫作 e，执行一次循环体"。它比 `for (int i = 0; i < staff.length; i++)` 短，但**拿不到下标**，也不能在遍历时删元素。p.76 与 p.77 也用了这种写法。
+> [!NOTE] 补充：增强 for
+> `for (Employee e : staff)` 叫增强 for（enhanced for / for-each），读作“对 staff 里的每一个元素，把它叫作 e，执行一次循环体”。它比 `for (int i = 0; i < staff.length; i++)` 短，但**拿不到下标**，也不能在遍历时删元素。p.76 与 p.77 也用了这种写法。
 
 ## 10. 数组与 ArrayList（p.41-42）
 
@@ -800,9 +835,10 @@ for (i = 0; i < someInts.length; i = i + 1) {
 | 字符串 `String` | `s.length()` | 方法 |
 | 动态数组 `ArrayList` | `list.size()` | 方法 |
 
-讲义在这里留了一个思考题（p.41）："**数组的最大长度是多少？**"课件没有回答，我补在这里【补】：
+讲义在这里留了一个思考题（p.41）：“**数组的最大长度是多少？**”课件没有回答，我补在这里：
 
-数组的长度是 `int` 类型，所以长度最大是 $2^{31}-1 = 2147483647$，最大下标是 $2^{31}-2 = 2147483646$。实际能开多大还受两个限制：**一是 JVM 的实现上限**（数组对象除了元素还要存对象头，所以真正的上限比 $2^{31}-1$ 略小几个元素），**二是可用内存**（`new int[2147483647]` 需要 $2147483647 \times 4$ 字节 $\approx 8.59\times 10^{9}$ 字节 $\approx 8$ GB，默认堆大小下必然抛 `OutOfMemoryError`）。所以实用结论是：**数组长度受内存限制，不受"类型"限制；想要更大的结构得用分块或文件。**
+> [!NOTE] 补充：数组的最大长度
+> 数组的长度是 `int` 类型，所以长度最大是 $2^{31}-1 = 2147483647$，最大下标是 $2^{31}-2 = 2147483646$。实际能开多大还受两个限制：**一是 JVM 的实现上限**（数组对象除了元素还要存对象头，所以真正的上限比 $2^{31}-1$ 略小几个元素），**二是可用内存**（`new int[2147483647]` 需要 $2147483647 \times 4$ 字节 $\approx 8.59\times 10^{9}$ 字节 $\approx 8$ GB，默认堆大小下必然抛 `OutOfMemoryError`）。所以实用结论是：**数组长度受内存限制，不受“类型”限制；想要更大的结构得用分块或文件。**
 
 ### 10.2 ArrayList：会自己变长的数组（p.42）
 
@@ -812,12 +848,13 @@ for (i = 0; i < someInts.length; i = i + 1) {
 2. 当元素个数超过它的初始大小时，它会**另造一个更大的数组，把已有元素拷过去**；
 3. 虽然更灵活，但它通常比数组**更占空间**。
 
-【补】四点：
-
-- **第 2 条就是"动态数组"的全部秘密**：扩容是"申请新数组 + 复制"，单次是 $O(n)$，但按倍数扩容（通常是 1.5 倍）均摊下来每次 `add` 是 $O(1)$。这与 §5.7 的 `StringBuilder` 是同一个套路，后面讲"摊还分析"时会再遇到。
-- **第 3 条的原因**：`ArrayList` 内部有一个数组，还要额外存 `size`（实际元素个数）与 `capacity`（数组容量），而且扩容时会留出空位，所以同样多的元素它占的内存更多。
-- **`ArrayList` 不能存基本类型**：`ArrayList<int>` 编译不过，必须写 `ArrayList<Integer>`（装箱，boxing）。这是"泛型只能用于引用类型"的直接后果，课件没提。
-- **常用方法**：`add`、`get`、`set`、`remove`、`size`。下标访问是 $O(1)$，中间插入/删除是 $O(n)$——这正是 L1 说的"数组擅长查找、不擅长更新"。
+> [!NOTE] 补充：ArrayList 的四点
+> 四点：
+>
+> - **第 2 条就是“动态数组”的全部秘密**：扩容是“申请新数组 + 复制”，单次是 $O(n)$，但按倍数扩容（通常是 1.5 倍）均摊下来每次 `add` 是 $O(1)$。这与 §5.7 的 `StringBuilder` 是同一个套路，后面讲“摊还分析”时会再遇到。
+> - **第 3 条的原因**：`ArrayList` 内部有一个数组，还要额外存 `size`（实际元素个数）与 `capacity`（数组容量），而且扩容时会留出空位，所以同样多的元素它占的内存更多。
+> - **`ArrayList` 不能存基本类型**：`ArrayList<int>` 编译不过，必须写 `ArrayList<Integer>`（装箱，boxing）。这是“泛型只能用于引用类型”的直接后果，课件没提。
+> - **常用方法**：`add`、`get`、`set`、`remove`、`size`。下标访问是 $O(1)$，中间插入/删除是 $O(n)$——这正是 L1 说的“数组擅长查找、不擅长更新”。
 
 ## 11. `this`（p.43）
 
@@ -834,7 +871,8 @@ public Person(String name, int age) {
 
 如果写成 `name = name;`，两边都是参数，字段一个都没赋上（编译器不会报错，因为这是合法的自赋值）——这是最阴的一类 bug。
 
-【补】`this` 还有两个用法：`this(...)` 在一个构造器里调用另一个构造器，`return this;` 返回自身以支持链式调用。本课用不到。
+> [!NOTE] 补充：this 的另外两个用法
+> `this` 还有两个用法：`this(...)` 在一个构造器里调用另一个构造器，`return this;` 返回自身以支持链式调用。本课用不到。
 
 ## 12. 一个完整的文件读写模板（p.44）
 
@@ -875,10 +913,10 @@ public class MyIOClass {
             stdout.flush();
             stdout.close();
             stdin.close();
-        } catch(IOException e) {
+        } catch(IOException e) {              // [!code warning]
             System.out.println("something wrong");
             e.printStackTrace();
-            System.exit(0);
+            System.exit(0);                   // [!code warning]
         }
     }
 }
@@ -902,12 +940,13 @@ public class MyIOClass {
 
 **第 35-39 行：出错怎么办。** 打印一句提示、打印堆栈、然后 `System.exit(0)` 退出。
 
-【补】这段模板有四个坑：
-
-1. **`split(" ")` 只认一个空格。** 如果输入里有连续两个空格、或者行首有空格，会切出空字符串，`parseInt("")` 直接抛 `NumberFormatException`。稳妥写法是 `line.trim().split("\\s+")`。
-2. **`catch(IOException e)` 接不住上面那些异常。** `NumberFormatException` 与 `ArrayIndexOutOfBoundsException` 都是非受检异常（§8.2），不会被这个 catch 捕获，程序会直接崩。如果输入可能不合法，要再写一个 `catch(Exception e)`。
-3. **`System.exit(0)` 的 0 表示"正常结束"**，出错时该用非零值（如 `System.exit(1)`），否则判题系统会当成"运行成功"。
-4. **路径分隔符**：Windows 上写 `"D:\\testout.txt"`（两个反斜杠，因为 `\` 在字符串里是转义符），Linux/macOS 上用 `/`。写成 `"D:\testout.txt"` 会把 `\t` 当成制表符——p.80 与 p.83 都正确地写成了 `"D:\\testout.txt"`。
+> [!CAUTION] 注意：模板的四个坑
+> 这段模板有四个坑：
+>
+> 1. **`split(" ")` 只认一个空格。** 如果输入里有连续两个空格、或者行首有空格，会切出空字符串，`parseInt("")` 直接抛 `NumberFormatException`。稳妥写法是 `line.trim().split("\\s+")`。
+> 2. **`catch(IOException e)` 接不住上面那些异常。** `NumberFormatException` 与 `ArrayIndexOutOfBoundsException` 都是非受检异常（§8.2），不会被这个 catch 捕获，程序会直接崩。如果输入可能不合法，要再写一个 `catch(Exception e)`。
+> 3. **`System.exit(0)` 的 0 表示“正常结束”**，出错时该用非零值（如 `System.exit(1)`），否则判题系统会当成“运行成功”。
+> 4. **路径分隔符**：Windows 上写 `"D:\\testout.txt"`（两个反斜杠，因为 `\` 在字符串里是转义符），Linux/macOS 上用 `/`。写成 `"D:\testout.txt"` 会把 `\t` 当成制表符——p.80 与 p.83 都正确地写成了 `"D:\\testout.txt"`。
 
 ## 13. 快捷键与自学材料（p.45-46）
 
@@ -934,7 +973,7 @@ class FibonacciExample1
             n3 = n1 + n2;
             System.out.print(" " + n3);
             n1 = n2;
-            n2 = n3;
+            n2 = n3;                          // [!code warning] 顺序不能颠倒
         }
     }
 }
@@ -948,7 +987,7 @@ for i in range(2, count):                # loop starts from 2 because 0 and 1 ar
     n3 = n1 + n2
     print(" " + str(n3), end="")
     n1 = n2
-    n2 = n3
+    n2 = n3                                   # [!code warning] 顺序不能颠倒
 ```
 
 ```cpp [C++]
@@ -962,7 +1001,7 @@ int main() {
         n3 = n1 + n2;
         std::cout << " " << n3;
         n1 = n2;
-        n2 = n3;
+        n2 = n3;                              // [!code warning] 顺序不能颠倒
     }
     return 0;
 }
@@ -979,7 +1018,7 @@ int main(void) {
         n3 = n1 + n2;
         printf(" %d", n3);
         n1 = n2;
-        n2 = n3;
+        n2 = n3;                              /* [!code warning] 顺序不能颠倒 */
     }
     return 0;
 }
@@ -989,7 +1028,8 @@ int main(void) {
 
 循环体四行是一个"滑动窗口"：算出新项、打印、把窗口往后挪一格。**`n1 = n2; n2 = n3;` 的顺序不能颠倒**——先写 `n2 = n3` 的话，`n1` 拿到的就是新值，两个变量会变成同一个数。输出是 `0 1 1 2 3 5 8 13 21 34`：`count = 10` 是要打印的项数，前两项已打印，所以循环从 `i = 2` 起跑 8 次。
 
-【补】这是斐波那契的最优迭代解：三个变量、$O(n)$ 时间、$O(1)$ 空间；它也是后面"动态规划"的雏形——每项只依赖前两项。
+> [!NOTE] 补充：迭代版是最优解
+> 这是斐波那契的最优迭代解：三个变量、$O(n)$ 时间、$O(1)$ 空间；它也是后面“动态规划”的雏形——每项只依赖前两项。
 
 ### 14.2 斐波那契：递归版（p.49）
 
@@ -1084,7 +1124,8 @@ int main(void) {
 
 :::
 
-【补】三点：① 递归调用是方法体最后一句（尾递归），计算量与 §14.1 相同——真正的递归版 `fib(n)=fib(n-1)+fib(n-2)` 才是指数级 $O(2^n)$ 的，别拿这个版本当"递归慢"的证据；② `n1`、`n2`、`n3` 必须 `static`，否则无法跨调用保存状态（副作用是只能算一次）；③ `if(count > 0)` 是终止条件，缺了就是无限递归、最后 `StackOverflowError`。
+> [!NOTE] 补充：递归版三点
+> 三点：① 递归调用是方法体最后一句（尾递归），计算量与 §14.1 相同——真正的递归版 `fib(n)=fib(n-1)+fib(n-2)` 才是指数级 $O(2^n)$ 的，别拿这个版本当“递归慢”的证据；② `n1`、`n2`、`n3` 必须 `static`，否则无法跨调用保存状态（副作用是只能算一次）；③ `if(count > 0)` 是终止条件，缺了就是无限递归、最后 `StackOverflowError`。
 
 ### 14.3 最大公因数：暴力版（p.50-51）
 
@@ -1132,7 +1173,8 @@ int gcdByBruteForce(int n1, int n2) {
 
 `i <= n1 && i <= n2` 就是 $i \le \min(n_1,n_2)$；凡是能同时整除两者的就记下来，**最后记下的就是最大的**（因为从小到大试）。输出 `GCD of 15 and 5 is: 5`。
 
-【补】p.50 说"从较小的数**往下**试"，代码从 1 **往上**试——两种都对（一个留首个命中、一个留最后命中），但方向相反。复杂度 $O(\min(a,b))$，这正是算法二要解决的。
+> [!NOTE] 补充：方向与复杂度
+> p.50 说“从较小的数**往下**试”，代码从 1 **往上**试——两种都对（一个留首个命中、一个留最后命中），但方向相反。复杂度 $O(\min(a,b))$，这正是算法二要解决的。
 
 ### 14.4 最大公因数：欧几里得算法（p.52）
 
@@ -1205,7 +1247,8 @@ int main(void) {
 
 用到 $\gcd(n_1,n_2) = \gcd(n_2,\ n_1 \bmod n_2)$。跟踪 $\gcd(20,15)$：`gcd(20,15) → gcd(15,5) → gcd(5,0) → 5`。
 
-【补】为什么一定停：余数严格小于除数，第二个参数每层严格变小，终会到 0。复杂度 $O(\log\min(a,b))$，最坏出现在相邻斐波那契数上（如 $\gcd(13,8)$）；p.50 说的"减法"是原始形式，最坏要减 $O(n)$ 次，取模是一次减到底。
+> [!NOTE] 补充：为什么一定停
+> 为什么一定停：余数严格小于除数，第二个参数每层严格变小，终会到 0。复杂度 $O(\log\min(a,b))$，最坏出现在相邻斐波那契数上（如 $\gcd(13,8)$）；p.50 说的“减法”是原始形式，最坏要减 $O(n)$ 次，取模是一次减到底。
 
 ### 14.5 素数判定（p.53-54）
 
@@ -1243,7 +1286,8 @@ public class PrimeExample
 
 思路：合数一定有不超过 $n/2$ 的因数，所以试到 $n/2$ 就够；`flag` 记录"是否已判定为合数"，`break` 找到因数就跳出。`n = 3` 时 `m = 1`，循环一次都不进，打印 `3 is prime number`。
 
-【补】三点：① `flag` 是 C 语言的习惯，Java 里可以直接 `return;`；② **试到 $\sqrt{n}$ 就够**（若 $n=ab$ 且 $a\le b$，则 $a\le\sqrt{n}$），写成 `i * i <= n` 就把 $O(n)$ 降到 $O(\sqrt{n})$；③ `n = 2` 判定正确，`n = 0/1` 被第一个 `if` 挡掉，但**负数会被判成素数**（我按 0…199 试过，非负范围内与标准判定一致）。
+> [!NOTE] 补充：素数判定三点
+> 三点：① `flag` 是 C 语言的习惯，Java 里可以直接 `return;`；② **试到 $\sqrt{n}$ 就够**（若 $n=ab$ 且 $a\le b$，则 $a\le\sqrt{n}$），写成 `i * i <= n` 就把 $O(n)$ 降到 $O(\sqrt{n})$；③ `n = 2` 判定正确，`n = 0/1` 被第一个 `if` 挡掉，但**负数会被判成素数**（我按 0…199 试过，非负范围内与标准判定一致）。
 
 ### 14.6 回文数（p.55-56）
 
@@ -1333,7 +1377,8 @@ int main(void) {
 
 核心三行：`r = n % 10` 取最低位；`sum = sum * 10 + r` 把结果左移一位再补这一位；`n = n / 10` 砍掉最低位。454 的三轮是 `(r=4,sum=4,n=45)`、`(5,45,4)`、`(4,454,0)`，退出后 `sum == temp`。
 
-【补】`n` 被改坏了，所以要先存 `temp`——这就是 p.55"存进临时变量"那一步的理由。负数会因 `while(n > 0)` 一次不进而被判"不是回文"（碰巧也对）；反转接近 `Integer.MAX_VALUE` 的数会溢出（最大项 7463847412 超出 `int`）。
+> [!NOTE] 补充：为什么要存 temp
+> `n` 被改坏了，所以要先存 `temp`——这就是 p.55“存进临时变量”那一步的理由。负数会因 `while(n > 0)` 一次不进而被判“不是回文”（碰巧也对）；反转接近 `Integer.MAX_VALUE` 的数会溢出（最大项 7463847412 超出 `int`）。
 
 ### 14.7 回文字符串（p.57）
 
@@ -1350,7 +1395,7 @@ class PalindromeExample2
         int length = original.length();
         for ( int i = length - 1; i >= 0; i-- )
             reverse = reverse + original.charAt(i);
-        if (original.equals(reverse))
+        if (original.equals(reverse))         // [!code warning] 写成 == 会永远为 false
             System.out.println("Entered string/number is a palindrome.");
         else
             System.out.println("Entered string/number isn't a palindrome.");
@@ -1360,7 +1405,8 @@ class PalindromeExample2
 
 四个 API：`new Scanner(System.in)` 从键盘读、`nextLine()` 读一整行、`charAt(i)` 取第 $i$ 个字符、`length()` 取长度（**带括号**，与数组的 `length` 不同，§10.1）。
 
-【补】`reverse = reverse + ...` 每轮都新建字符串，整体 $O(n^2)$（§5.7）；`equals` 写成 `==` 会永远为 false——本讲最该带走的一条。
+> [!IMPORTANT] 重要：equals 与性能
+> `reverse = reverse + ...` 每轮都新建字符串，整体 $O(n^2)$（§5.7）；`equals` 写成 `==` 会永远为 false——本讲最该带走的一条。
 
 ### 14.8 对象与类（p.58-60）
 
@@ -1385,7 +1431,8 @@ public static void main(String[] String)   // 参数名与类型同名
 
 输出与前一个完全相同，**但两页机制相同**：都是"把 `char` 直接赋给 `int`"，都没有 `(int)`。所以 p.61 承诺的"两种方式"没兑现；真正的强制转换是 `int x = (int) ch1;`。另外这页的 `main` 参数被命名成 `String`（诚实备注一第 6、7 条）。
 
-【补】记三个值：`'0'` 是 48、`'A'` 是 65、`'a'` 是 97，所以 `'a' - 'A' = 32`——这就是大小写互换的数学基础（§14.12）。
+> [!TIP] 技巧：三个 ASCII 基准值
+> 记三个值：`'0'` 是 48、`'A'` 是 65、`'a'` 是 97，所以 `'a' - 'A' = 32`——这就是大小写互换的数学基础（§14.12）。
 
 ### 14.10 统计非空格字符（p.64-65）
 
@@ -1406,7 +1453,10 @@ public class CountCharacter
 }
 ```
 
-输出 19。【补】可以手算核对：整串 23 个字符（含 4 个空格），$23 - 4 = 19$。所以它数的是"非空格字符"，而文案说的是"字符总数"——**文案与代码语义不完全一致**（数总数应是 23），读的时候以代码为准。
+输出 19。
+
+> [!NOTE] 补充：手算核对
+> 可以手算核对：整串 23 个字符（含 4 个空格），$23 - 4 = 19$。所以它数的是“非空格字符”，而文案说的是“字符总数”——**文案与代码语义不完全一致**（数总数应是 23），读的时候以代码为准。
 
 ### 14.11 统计标点（p.66-67）
 
@@ -1431,7 +1481,10 @@ public class CountPunctuation
 }
 ```
 
-输出 5。【补】两点：① `'\''` 必须转义（`'''` 无法解析）；② **代码检测 9 个字符**（`!` `,` `;` `.` `?` `-` `'` `"` `:`），而 p.66 的清单只有 8 个、**缺 `,` 与 `:`**——这段字符串里恰有一个逗号，**不数逗号结果会是 4**；我逐字符数得 `'`×2、`.`×2、`,`×1，合计 5，与代码一致（诚实备注一第 8 条）。
+输出 5。
+
+> [!NOTE] 补充：转义与清单核对
+> 两点：① `'\''` 必须转义（`'''` 无法解析）；② **代码检测 9 个字符**（`!` `,` `;` `.` `?` `-` `'` `"` `:`），而 p.66 的清单只有 8 个、**缺 `,` 与 `:`**——这段字符串里恰有一个逗号，**不数逗号结果会是 4**；我逐字符数得 `'`×2、`.`×2、`,`×1，合计 5，与代码一致（诚实备注一第 8 条）。
 
 
 ### 14.12 大小写互换（p.68-69）
@@ -1464,7 +1517,11 @@ public class changeCase
 
 输出 `String after case conversion : gREAT pOWER`。三个 API：`Character.isLowerCase/isUpperCase` 判断、`toUpperCase/toLowerCase` 转换、`StringBuffer.setCharAt(i, c)` 按下标改字符（`String` 没有这个方法，因为它不可变，§5.7）。
 
-【补】第二处注释写的是"Convert it into **upper** case using **toLowerCase()**"，同一句自相矛盾，应为 lower（诚实备注一第 9 条）。空格与非字母会被两个 `if` 跳过，这正是我们要的；若用 `'a'-'A'=32` 的算术写法，必须先判字母，否则空格（32）会被改坏。
+> [!WARNING] 课件笔误：第 21 行注释
+> 第二处注释写的是“Convert it into **upper** case using **toLowerCase()**”，同一句自相矛盾，应为 lower（诚实备注一第 9 条）。
+
+> [!TIP] 技巧：算术写法要先判字母
+> 空格与非字母会被两个 `if` 跳过，这正是我们要的；若用 `'a'-'A'=32` 的算术写法，必须先判字母，否则空格（32）会被改坏。
 
 ### 14.13 字符串旋转（p.70-71）
 
@@ -1553,9 +1610,11 @@ int main(void) {
 
 输出 `Second string is a rotation of first string`。
 
-**为什么拼一遍就够？**【补】`"abcdeabcde"` 包含了 `abcde` 的全部五个循环移位（`abcde`、`bcdea`、`cdeab`、`deabc`、`eabcd`），所以 `str2` 是其中任何一个就必然出现；反过来，长串里长度为 5 的子串也一定是某个循环移位。我验过：`indexOf("deabc")` 得 3。
+> [!NOTE] 补充：旋转判定原理
+> **为什么拼一遍就够？** `"abcdeabcde"` 包含了 `abcde` 的全部五个循环移位（`abcde`、`bcdea`、`cdeab`、`deabc`、`eabcd`），所以 `str2` 是其中任何一个就必然出现；反过来，长串里长度为 5 的子串也一定是某个循环移位。我验过：`indexOf("deabc")` 得 3。
 
-【补】长度检查不能省（否则 `"abc".indexOf("ab")` 也返回 0）；`indexOf` 最坏 $O(n^2)$，KMP 可做到 $O(n)$；`str1 = str1.concat(str1)` 还演示了"`String` 不可变、必须重新赋值"（§5.6）。
+> [!NOTE] 补充：边界与复杂度
+> 长度检查不能省（否则 `"abc".indexOf("ab")` 也返回 0）；`indexOf` 最坏 $O(n^2)$，KMP 可做到 $O(n)$；`str1 = str1.concat(str1)` 还演示了“`String` 不可变、必须重新赋值”（§5.6）。
 
 ## 15. File 类与文件读写（p.72-87）
 
@@ -1578,7 +1637,8 @@ int main(void) {
 | `list()` / `listFiles()` | `String[]` / `File[]` | 目录下的文件名 / 文件对象数组 |
 | `length()` | `long` | 文件字节数 |
 
-【补】`length()` 返回 `long` 而非 `int`（文件可能超过 2 GB），与数组的 `length`（`int`）不同。
+> [!NOTE] 补充：length() 的返回类型
+> `length()` 返回 `long` 而非 `int`（文件可能超过 2 GB），与数组的 `length`（`int`）不同。
 
 ### 15.2 三个 File 例子（p.74-77）
 
@@ -1598,7 +1658,11 @@ else System.out.println("File already exists.");
 
 **例三：列目录**（p.76-77）：`File f = new File("/Users/sonoojaiswal/Documents"); String filenames[] = f.list();` 再 `for (String filename : filenames)` 逐个打印；第二个例子（p.77）改用 `listFiles()`，并打印每一项的 `getName()`、`canWrite()`、`isHidden()`、`length()`，输出形如 `"info.properties" Can Write: true Is Hidden: false Length: 15 bytes`。
 
-【补】`list()` / `listFiles()` 在目录不存在或无权限时返回 `null`，直接遍历会抛 `NullPointerException`，应先判 `!= null`。另外 p.76 与 p.77 的**类名完全相同**（都叫 `FileExample`）而代码不同，同一个工程放不下两个同名 public 类（诚实备注一第 11 条）。
+> [!CAUTION] 注意：list() 可能返回 null
+> `list()` / `listFiles()` 在目录不存在或无权限时返回 `null`，直接遍历会抛 `NullPointerException`，应先判 `!= null`。
+
+> [!WARNING] 课件笔误：两个同名类
+> 另外 p.76 与 p.77 的**类名完全相同**（都叫 `FileExample`）而代码不同，同一个工程放不下两个同名 public 类（诚实备注一第 11 条）。
 
 ### 15.3 字节流：FileInputStream / FileOutputStream（p.78-84）
 
@@ -1617,7 +1681,8 @@ fin.close();
 
 文件内容是 `Welcome to javapoint.`，输出 `W`。课件解释："你会得到文件里的一个字符，它在字节形式下是 87；要看到文字，得把它转成字符。"
 
-【补】**为什么 `read()` 返回 `int` 而不是 `byte`？** 因为要同时表达"一个字节的 256 种取值"与"文件结束"。`byte` 的范围是 $-128$ 到 $127$，装不下 256 个值再加一个结束标记；用 `int` 就能规定"0–255 是读到的字节，`-1` 是结束"。p.81 的循环正是靠 `!= -1` 判断结束：
+> [!NOTE] 补充：read() 的返回类型
+> **为什么 `read()` 返回 `int` 而不是 `byte`？** 因为要同时表达“一个字节的 256 种取值”与“文件结束”。`byte` 的范围是 $-128$ 到 $127$，装不下 256 个值再加一个结束标记；用 `int` 就能规定“0–255 是读到的字节，`-1` 是结束”。p.81 的循环正是靠 `!= -1` 判断结束：
 
 ```java
 int i = 0;
@@ -1640,7 +1705,8 @@ fout.write(b);
 
 `FileOutputStream` 只会写字节，所以字符串必须先 `getBytes()`——这正是 p.85 说"`FileWriter` 不需要转字节数组"的对照点。
 
-【补】`write(int b)` **只写低 8 位**：`write(65)` 写 `0x41`，`write(321)`（`0x141`）写出去还是 `0x41`，高位被截掉。
+> [!NOTE] 补充：write(int) 只写低 8 位
+> `write(int b)` **只写低 8 位**：`write(65)` 写 `0x41`，`write(321)`（`0x141`）写出去还是 `0x41`，高位被截掉。
 
 ### 15.4 字符流：FileReader / FileWriter（p.85-87）
 
@@ -1673,7 +1739,8 @@ fw.write("Welcome to javapoint.");
 fw.close();
 ```
 
-【补】两点：① **`FileWriter` 带缓冲**，`write` 只写进内存，`close()`（或 `flush()`）才落盘——**忘记 close 就可能得到空文件**。② `new FileWriter(path)` 会先清空文件（追加要写 `new FileWriter(path, true)`）；想按行写仍要套 `BufferedWriter`（p.44 就是这么做的），因为 `FileWriter` 没有 `newLine`。
+> [!CAUTION] 注意：FileWriter 的两个坑
+> 两点：① **`FileWriter` 带缓冲**，`write` 只写进内存，`close()`（或 `flush()`）才落盘——**忘记 close 就可能得到空文件**。② `new FileWriter(path)` 会先清空文件（追加要写 `new FileWriter(path, true)`）；想按行写仍要套 `BufferedWriter`（p.44 就是这么做的），因为 `FileWriter` 没有 `newLine`。
 
 ## 16. 本讲要点小结
 

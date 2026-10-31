@@ -1,5 +1,5 @@
 ---
-title: Lecture 4 Insertion Sort and Merge Sort（插入排序与归并排序）
+title: Lecture 4 插入排序与归并排序（Insertion Sort and Merge Sort）
 course: CSC3100 Data Structures
 lecture: Lecture 4 - Insertion Sort and Merge Sort
 date: 2026-09-16
@@ -10,7 +10,7 @@ tags: [CSC3100, sorting, insertion-sort, merge-sort, divide-and-conquer, loop-in
 
 # CSC3100 Lecture 4 课堂笔记：Insertion Sort and Merge Sort（插入排序与归并排序）
 
-> ① **材料构成**：本讲基于课件整理，不含教师口述内容；课件共 32 页。② **课件结构分六块**：排序问题的形式化（p.3）、插入排序的直观与伪代码（p.4-6）、循环不变式与正确性证明（p.7-9）、插入排序的运行时间分析（p.10-14）、递归（p.15-19）、分治与归并排序（p.20-31），末页是阅读作业（p.32）。③ **已知问题**：课件有 5 处笔误与不一致（p.9 的不变式少了半句、p.13-14 把 worst 写成 worse、p.29 大小写记号混用等），已在文末「诚实备注」逐条列出。④ **来源标注约定**：正文里标【补】的地方，都是课件没有写、由我推导或补充的内容。本讲的文字层只有约 7.7 K 字符——**伪代码、成本表、公式和示意图几乎全是图片**，所以 32 页逐页渲染读过，可疑处再按 340-400 dpi 裁切放大逐字核对。
+> ① **材料构成**：本讲基于课件整理，不含教师口述内容；课件共 32 页。② **课件结构分六块**：排序问题的形式化（p.3）、插入排序的直观与伪代码（p.4-6）、循环不变式与正确性证明（p.7-9）、插入排序的运行时间分析（p.10-14）、递归（p.15-19）、分治与归并排序（p.20-31），末页是阅读作业（p.32）。③ **已知问题**：课件有 5 处笔误与不一致（p.9 的不变式少了半句、p.13-14 把 worst 写成 worse、p.29 大小写记号混用等），已在文末「诚实备注」逐条列出。④ **来源标注约定**：正文里以补充类 alert（NOTE / TIP / IMPORTANT）呈现的内容，都是课件没有写、由我推导或补充的内容。本讲的文字层只有约 7.7 K 字符——**伪代码、成本表、公式和示意图几乎全是图片**，所以 32 页逐页渲染读过，可疑处再按 340-400 dpi 裁切放大逐字核对。
 
 ## 0. 一句话概括本讲在讲什么
 
@@ -232,7 +232,10 @@ INSERTION-SORT(A)
 
 **Termination 那一行**写得没问题："$j=n+1$ when loop stops, $A[1\,..\,j-1]$ is sorted"，代入即得 $A[1\,..\,n]$ 有序。三步里最干净的一步。
 
-### 4.7 课件少了什么：CLRS 的原版不变式（【补】）
+### 4.7 课件少了什么：CLRS 的原版不变式
+
+> [!NOTE] 补充：CLRS 原版不变式
+> 本节为补充内容：对比 CLRS 原版，说明课件的不变式弱在哪、为什么推不出结论。
 
 CLRS 3rd ed 第 19 页的不变式是**两句**：
 
@@ -351,7 +354,10 @@ $$
 
 课件还有一句红框提示（p.12）："When talking about best/worst case, the algorithm itself should be able to handle all the cases"。措辞比较绕，我的理解是：**最好和最坏说的是"同一个算法面对不同输入"，不是"拿一个只能处理部分输入的算法去和别的算法比"**。比如一个"只对已排序数组有效"的排序不能算"最好情况 $O(n)$ 的排序"——它根本不是排序算法。这是我的读法，课件原句没把话说死。
 
-### 5.7 我的精确复算：$T(n) = 7I(A) + 10n - 8$（【补】）
+### 5.7 我的精确复算：$T(n) = 7I(A) + 10n - 8$
+
+> [!NOTE] 补充：精确复算
+> 本节为补充内容：课件只给符号形式，这里按 L5 计数约定把八个常数全部赋成具体值。
 
 课件停在"$an^2+bn+c$"，没给具体值——因为 $c_1,\ldots,c_8$ 是符号。用 L5 的计数约定可以把八个符号全部赋成具体数字，得到一条完全确定的公式。
 
@@ -387,7 +393,10 @@ $$
 
 **怎么验的**：按上述约定写逐行插桩的计数器，对 $n=1,\ldots,8$ 枚举**全部 $n!$ 个排列**（46203 个输入），取最小、最大和精确均值（用分数存，不经浮点），三条闭式**逐项（均值是分数精确）相等**。取到最小值的输入恒为升序、最大值的恒为降序。课件 p.5 那个 `5 2 4 6 1 3` 是 **115** 次（$I=9$，$n=6$）。具体数值见文末「诚实备注」三。
 
-### 5.8 逆序对视角：插入排序到底在为什么买单（【补】）
+### 5.8 逆序对视角：插入排序到底在为什么买单
+
+> [!NOTE] 补充：逆序对视角
+> 本节为补充内容：课件未引入逆序对，这里用它统一解释最好/最坏/平均三种情况。
 
 上面的 $I(A)$ 把"最好/最坏/平均"统一成了一个量。
 
@@ -482,7 +491,7 @@ public static int bad (int N)
     if (N == 0)
         return 0;
     else
-        return bad (N / 3 + 1) + N - 1;
+        return bad (N / 3 + 1) + N - 1;  // [!code warning]
 }
 ```
 
@@ -491,7 +500,7 @@ def bad(N):
     if N == 0:
         return 0
     else:
-        return bad(N // 3 + 1) + N - 1
+        return bad(N // 3 + 1) + N - 1  # [!code warning]
 ```
 
 ```cpp [C++]
@@ -500,7 +509,7 @@ int bad(int N)
     if (N == 0)
         return 0;
     else
-        return bad(N / 3 + 1) + N - 1;
+        return bad(N / 3 + 1) + N - 1;  // [!code warning]
 }
 ```
 
@@ -510,7 +519,7 @@ int bad(int N)
     if (N == 0)
         return 0;
     else
-        return bad(N / 3 + 1) + N - 1;
+        return bad(N / 3 + 1) + N - 1;  // [!code warning]
 }
 ```
 
@@ -529,7 +538,10 @@ Java 的整数除法在 $N \ge 0$ 时就是向下取整，逐种情况看：
 
 > 它还顺带说明了 §4.4 那件事：对 `bad(N)` 谈"终止时如何"没有意义，因为它根本不终止。
 
-### 6.4 递归在内存里长什么样（【补】）
+### 6.4 递归在内存里长什么样
+
+> [!NOTE] 补充：栈帧视角
+> 本节为补充内容：课件未讲递归的内存形态，这里补栈帧、递归深度与爆栈的结论。
 
 L3 §1.5 讲过：调用方法时 Java 会分配一块**栈帧**（stack frame）放局部变量和参数，返回时整块抹掉。递归的特殊之处只是——**同一个方法被压了很多层**。
 
@@ -545,7 +557,10 @@ L3 §1.5 讲过：调用方法时 Java 会分配一块**栈帧**（stack frame�
 
 这个反转是"用递归描述迭代"的标准手法：**循环不变式里的"已完成 $j-1$ 个"，在递归里变成"递归调用的返回值保证前 $n-1$ 个有序"**。两者是同一个断言的两种时态。
 
-### 7.2 代码（【补】）
+### 7.2 代码
+
+> [!NOTE] 补充：参考实现
+> 本节代码为补充内容：课件只给文字描述，这里补 0-based 的四语言实现。
 
 课件只给文字描述，补一份 0-based 的四语言实现：
 
@@ -645,7 +660,10 @@ $$
 
 七步走完，三个盘全部落到 C 上且顺序正确，与 p.19 的四组对比图逐帧对得上（第一组是第 1 步前后，第二组第 2-3 步，第三组第 4-5 步，第四组第 6-7 步）。
 
-### 8.3 递归解法，以及为什么是 $2^n-1$（【补】）
+### 8.3 递归解法，以及为什么是 $2^n-1$
+
+> [!NOTE] 补充：步数闭式与最优性
+> 本节为补充内容：课件未给步数闭式，这里补 $M(n)=2^n-1$ 的推导与最优性证明。
 
 课件的递归解法四句话：若 $n=1$，把唯一的盘从 A 移到 C，结束；否则**把上面 $n-1$ 个盘从 A 移到 B、用 C 作辅助**；**把剩下那个（最大的）盘从 A 移到 C**；**把 $n-1$ 个盘从 B 移到 C、用 A 作辅助**。
 
@@ -732,7 +750,10 @@ MERGE-SORT(A, p, r)
 
 **8 个元素 → 3 次对半 → 单个元素。** 拆的层数是 $\log_2 8 = 3$，合的层数也是 3。这不是巧合：递归树是对称的，拆到最底走完全部深度，回来时一层层合上去。
 
-### 10.4 每层 $cn$、共 $\log n$ 层（【补】）
+### 10.4 每层 $cn$、共 $\log n$ 层
+
+> [!NOTE] 补充：递归树读法
+> 本节为补充内容：课件没有这张递归树与逐层代价分析，由笔记补画补算。
 
 ![归并排序的递归树](img/CSC3100-Lecture4-fig02-merge-sort-recursion-tree.png)
 
@@ -807,7 +828,7 @@ static void merge(int[] a, int lo, int mid, int hi) {
     int[] tmpArray = new int[hi - lo + 1];
     int leftPos = lo, rightPos = mid + 1, tmpPos = 0;
     while (leftPos <= mid && rightPos <= hi) {
-        if (a[leftPos] <= a[rightPos])
+        if (a[leftPos] <= a[rightPos])  // [!code highlight]
             tmpArray[tmpPos++] = a[leftPos++];   // 相等时取左边
         else
             tmpArray[tmpPos++] = a[rightPos++];
@@ -828,7 +849,7 @@ def merge(a, lo, mid, hi):
     tmp_array = [0] * (hi - lo + 1)
     left_pos, right_pos, tmp_pos = lo, mid + 1, 0
     while left_pos <= mid and right_pos <= hi:
-        if a[left_pos] <= a[right_pos]:
+        if a[left_pos] <= a[right_pos]:  # [!code highlight]
             tmp_array[tmp_pos] = a[left_pos]     # 相等时取左边
             left_pos += 1
         else:
@@ -854,7 +875,7 @@ void merge(std::vector<int>& a, int lo, int mid, int hi) {
     std::vector<int> tmpArray(hi - lo + 1);
     int leftPos = lo, rightPos = mid + 1, tmpPos = 0;
     while (leftPos <= mid && rightPos <= hi) {
-        if (a[leftPos] <= a[rightPos])
+        if (a[leftPos] <= a[rightPos])  // [!code highlight]
             tmpArray[tmpPos++] = a[leftPos++];   // 相等时取左边
         else
             tmpArray[tmpPos++] = a[rightPos++];
@@ -875,7 +896,7 @@ void merge(int* a, int lo, int mid, int hi) {
     int tmpArray[hi - lo + 1];          /* C99 变长数组，长度就是本段元素个数 */
     int leftPos = lo, rightPos = mid + 1, tmpPos = 0;
     while (leftPos <= mid && rightPos <= hi) {
-        if (a[leftPos] <= a[rightPos])
+        if (a[leftPos] <= a[rightPos])  // [!code highlight]
             tmpArray[tmpPos++] = a[leftPos++];   /* 相等时取左边 */
         else
             tmpArray[tmpPos++] = a[rightPos++];
@@ -942,7 +963,7 @@ public static void mergeSort(int[] a) {
 
 private static void mergeSort(int[] a, int[] tmpArray, int left, int right) {
     if (left < right) {
-        int center = (left + right) / 2;
+        int center = (left + right) / 2;  // [!code warning]
         mergeSort(a, tmpArray, left, center);
         mergeSort(a, tmpArray, center + 1, right);
         merge(a, tmpArray, left, center + 1, right);
@@ -976,7 +997,7 @@ private static void merge(int[] a, int[] tmpArray, int leftPos, int rightPos, in
         tmpArray[tmpPos++] = a[rightPos++];
 
     for (int i = 0; i < numElements; i++, rightEnd--)
-        a[rightEnd] = tmpArray[rightEnd];
+        a[rightEnd] = tmpArray[rightEnd];  // [!code highlight]
 }
 ```
 
@@ -1007,7 +1028,7 @@ def merge(a, tmp_array, left_pos, right_pos, right_end):
 
     # 从右往左回拷：right_end 往前走 num_elements 步，正好盖住 [left_pos0, right_end]
     for i in range(num_elements):
-        a[right_end] = tmp_array[right_end]
+        a[right_end] = tmp_array[right_end]  # [!code highlight]
         right_end -= 1
 ```
 
@@ -1030,7 +1051,7 @@ void merge(std::vector<int>& a, std::vector<int>& tmpArray,
         tmpArray[tmpPos++] = a[rightPos++];
 
     for (int i = 0; i < numElements; i++, rightEnd--)
-        a[rightEnd] = tmpArray[rightEnd];
+        a[rightEnd] = tmpArray[rightEnd];  // [!code highlight]
 }
 ```
 
@@ -1052,7 +1073,7 @@ void merge(int* a, int* tmpArray, int leftPos, int rightPos, int rightEnd){
         tmpArray[tmpPos++] = a[rightPos++];
 
     for (int i = 0; i < numElements; i++, rightEnd--)
-        a[rightEnd] = tmpArray[rightEnd];
+        a[rightEnd] = tmpArray[rightEnd];  // [!code highlight]
 }
 ```
 
@@ -1072,7 +1093,10 @@ void merge(int* a, int* tmpArray, int leftPos, int rightPos, int rightEnd){
 
 还有一个性质 §13.4 会用到：**这个回拷循环无条件执行 $m$ 次**，与数据是否有序完全无关。所以每层的每个子问题**至少**要花 $5m$ 次操作。
 
-### 12.3 空间代价：$O(n)$，不是 $O(n\log n)$（【补】）
+### 12.3 空间代价：$O(n)$，不是 $O(n\log n)$
+
+> [!NOTE] 补充：空间分析
+> 本节为补充内容：课件完全没提空间，这里补 $O(n)$ 的来源与常见性能陷阱。
 
 课件完全没提空间，但这是归并排序相对其他排序**最大的代价**。
 
@@ -1126,7 +1150,10 @@ $$
 
 **为什么有效？** 因为递推式有"齐次性"：线性项 $cn$ 在规模减半时也减半，所以 $T(N)/N$ 每层都是"同一个东西加一个常数"。除掉 $N$ 之后，递推式从"乘 2、除 2"变成"只加常数"，$k$ 层就是一串常数的和。这个手法叫**望远镜求和（telescoping）**，也可理解为换变量：令 $S(N)=T(N)/N$，则 $S(N)=S(N/2)+C$，一眼能看出答案。
 
-### 13.3 $N$ 必须是 2 的幂吗（【补】）
+### 13.3 $N$ 必须是 2 的幂吗
+
+> [!NOTE] 补充：非 2 的幂
+> 本节为补充内容：回答"$N$ 不是 2 的幂怎么办"，课件未涉及。
 
 课件第一行就写 "Suppose N is a power of 2"，作用是让 $N/2$ 一直是整数，展开 $\log_2 N$ 次之后**正好**落到基例。如果 $N$ 不是 2 的幂，$N/2$ 会出现小数，展开终点也不是 1。
 
@@ -1138,7 +1165,10 @@ $$
 
 结论仍是 $T(n)=\Theta(n\log n)$，只是层数从 $\log_2 n$ 变成 $\lceil \log_2 n \rceil$（多一层，常数级差别）。直观上很好理解：不管怎么分，**每层元素总数都是 $n$、层数都是 $\log$ 量级**，总量必然是 $n\log n$ 量级。严格论证需要递归树或主定理，L6 会给工具。这里只需知道：**"$N$ 是 2 的幂"是为了算得干净的简化，不是算法的限制。**
 
-### 13.4 为什么是 $\Theta$ 而不只是 $O$（【补】）
+### 13.4 为什么是 $\Theta$ 而不只是 $O$
+
+> [!NOTE] 补充：紧界证明
+> 本节为补充内容：课件只给上界，这里补下界凑成紧界，并附实测拟合。
 
 课件最后写的是 $O(N\log N)$，只给上界。这份实现其实可以给到紧界。
 
@@ -1186,7 +1216,10 @@ $$
 
 **混合不改变量级，只改变常数。** 但它改的恰恰是最贵的部分——递归树最底下几层节点数最多、每个节点的固定开销最大，用插入排序替掉能省下可观的常数。这就是为什么真实的排序库都这么做：Java 对对象数组用 TimSort（归并 + 插入），Python 的 `sorted` 也是 TimSort。
 
-### 14.3 横向对比（【补】）
+### 14.3 横向对比
+
+> [!NOTE] 补充：对比表
+> 本节为补充内容：两种排序的横向对比表由笔记整理，课件未提供。
 
 | 维度 | 插入排序 | 归并排序 |
 | --- | --- | --- |
