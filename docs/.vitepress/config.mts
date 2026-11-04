@@ -6,6 +6,21 @@ import { courses, sidebar } from './courses.mts'
 // `@vscode/markdown-it-katex` 是 CJS 产物（exports.default = plugin），两种取法都兜一下
 const mathKatex = (mathKatexModule as any).default ?? mathKatexModule
 
+/**
+ * 把 LaTeX 源码塞进 HTML 属性前的转义。
+ *
+ * 只转这四个字符就够：`&` 与 `"` 决定属性边界，`<` `>` 防止属性值被当成标签解析。
+ * 换行不转 —— 块级公式的源码里本来就有换行，属性值允许换行，转成 `&#10;` 反而
+ * 让客户端拿到一堆字符实体。
+ */
+function escapeAttr(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
 const repoUrl = 'https://github.com/zalexk/lecture-note'
 
 /**
@@ -149,7 +164,43 @@ export default defineConfig({
       // 原本由 `withMermaid()` 代劳，现在手工接线（原因见 mermaidConfigShim 注释）。
       MermaidMarkdown(md, { class: 'mermaid' })
 
-      md.use(mathKatex)
+      md.use(mathKatex, { output: 'html' })
+
+      // 为什么是 `output: 'html'` 而不是默认的 `htmlAndMathml`：
+      // 默认会把**每个公式渲染两遍** —— 一份 <span class="katex-mathml">（给读屏软件，
+      // 靠 katex.min.css 裁成 1px 不可见）＋ 一份 <span class="katex-html">（眼睛看到的）。
+      // 实测 STA2002 L5：2,873 个公式因此产生 31,883 个 MathML 节点，占全页 119,462 个
+      // 节点的 26.7%；而且划选复制时两遍都进剪贴板，同一个公式在文本里凭空出现两次
+      // （`Xˉ±zα/2sn` 后面紧跟一遍 `Xˉ ±z α/2 n s`）。
+      // 关掉之后视觉零变化（katex-html 那半逐字节相同），代价是读屏软件失去数学语义。
+      //
+      // ⚠️ 关掉 MathML 的同时也关掉了 <annotation>（里面存的就是原始 LaTeX 源码），
+      // 于是「复制出 LaTeX」这件事没了着落 —— 下面把源码挂成 data-tex 属性补回来。
+      for (const rule of [
+        'math_inline',
+        'math_block',
+        'math_inline_block',
+        'math_inline_bare_block',
+      ] as const) {
+        const original = md.renderer.rules[rule]
+        if (!original) continue
+        md.renderer.rules[rule] = (tokens, idx, options, env, self) => {
+          const html = original(tokens, idx, options, env, self)
+          const tex = escapeAttr(tokens[idx].content.trim())
+          // ⚠️ 两个坑，都是踩过才写下的：
+          // ① 匹配串必须带结尾的 `>`。只写 `<span class="katex"` 会命中
+          //    `<span class="katex-display"` 的前缀，把块级公式的外层包裹切开，
+          //    产出 `data-tex="…">-display">` 这种畸形标签。
+          // ② 替换值必须用**函数**返回。字符串形式的 replace 会把 `$&`、`$'`、`$\``
+          //    当成特殊模式：TeX 里 `$A$` 后跟被转义的 `&quot;` 正好拼出 `$&`，
+          //    于是 `$&quot;` 被替换成「匹配到的内容 + quot;」，属性值当场撕裂
+          //    （表现为 Vue 报 "Attribute name cannot contain U+0022"）。
+          return html.replace(
+            '<span class="katex">',
+            () => `<span class="katex" data-tex="${tex}">`
+          )
+        }
+      }
     },
     // 文中的裸 HTML（如 <br/>）照常渲染
     html: true,

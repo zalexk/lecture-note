@@ -29,11 +29,16 @@ import DefaultTheme from 'vitepress/theme'
 // 放在 ./style.css 之前，好让后者的微调能覆盖它。
 import 'katex/dist/katex.min.css'
 import './style.css'
+import { installCopyTex } from './copy-tex'
 
 export default {
   extends: DefaultTheme,
 
   enhanceApp({ app }) {
+    // 划选复制时把公式还原成 $...$（见 copy-tex.ts）。
+    // 必须在 enhanceApp 里挂 —— 它在纯浏览器环境跑，SSR 阶段不会被调用。
+    installCopyTex()
+
     // ```mermaid 代码块由 config.mts 的 `MermaidMarkdown` 转成 <Mermaid> 标签，
     // 这里把同名组件注册上。用异步组件，让 mermaid 的下载推迟到
     // 页面里真的出现 <Mermaid> 的那一刻。
