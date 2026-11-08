@@ -198,6 +198,18 @@ export const courses: CourseEntry[] = [
       { text: '11 延迟、时序与毛刺', file: 'midterm-11-delay-timing-and-glitches', group: '期中题型大全（Midterm Question Types）' },
       { text: '12 概念判断题', file: 'midterm-12-concept-judgement', group: '期中题型大全（Midterm Question Types）' },
       { text: '99 考前速查', file: 'midterm-99-cheatsheet', group: '期中题型大全（Midterm Question Types）' },
+      {
+        text: 'Ch7 时序逻辑设计（Sequential Logic Design）',
+        file: 'chap7-sequential-logic-design',
+      },
+      {
+        text: 'Ch8 移位寄存器（Shift Registers）',
+        file: 'chap8-shift-registers',
+      },
+      {
+        text: 'Ch9 有限状态机（Finite State Machine）',
+        file: 'chap9-finite-state-machine',
+      },
     ],
   },
   {

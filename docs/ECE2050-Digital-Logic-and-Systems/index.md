@@ -19,6 +19,9 @@
 | [Ch4 布尔代数与逻辑化简](/ECE2050-Digital-Logic-and-Systems/chap4-boolean-algebra-and-logic-simplification) | Boolean Algebra and Logic Simplification | Chapter 4（共 63 页） |
 | [Ch5 组合逻辑设计](/ECE2050-Digital-Logic-and-Systems/chap5-combinational-logic-design) | Combinational Logic Design | Chapter 5（共 33 页） |
 | [Ch6 组合逻辑标准构件](/ECE2050-Digital-Logic-and-Systems/chap6-combinational-building-blocks) | Combinational Building Blocks | Chapter 6（共 56 页） |
+| [Ch7 时序逻辑设计](/ECE2050-Digital-Logic-and-Systems/chap7-sequential-logic-design) | Sequential Logic Design | Chapter 7（共 32 页） |
+| [Ch8 移位寄存器](/ECE2050-Digital-Logic-and-Systems/chap8-shift-registers) | Shift Registers | Chapter 8（共 34 页） |
+| [Ch9 有限状态机](/ECE2050-Digital-Logic-and-Systems/chap9-finite-state-machine) | Finite State Machine | Chapter 9（共 42 页） |
 
 ## 期中题型大全
 
@@ -42,7 +45,9 @@
 | [99 考前速查](/ECE2050-Digital-Logic-and-Systems/midterm-99-cheatsheet) | 一页速查 | — |
 
 ::: tip 阅读顺序建议
-Chapter 1 是一张「全课程导览图」——它不教具体电路，只把后面十几章的地图先摊开。先读它建立全局视野，再按 Ch2（数制）→ Ch3（逻辑门）→ Ch4（化简）→ Ch5（门级实现）→ Ch6（标准构件）往下走，之后各章才有落点。
+Chapter 1 是一张「全课程导览图」——它不教具体电路，只把后面十几章的地图先摊开。先读它建立全局视野，再按 Ch2（数制）→ Ch3（逻辑门）→ Ch4（化简）→ Ch5（门级实现）→ Ch6（标准构件）→ Ch7（时序元件）→ Ch8（移位寄存器）→ Ch9（状态机）往下走，之后各章才有落点。
 
 Ch4 解决"给定功能怎么写出一条尽量短的布尔式"，Ch5 紧接着把这条式子真正变成门：AND-OR / AOI 两种两级结构、XOR 与奇偶校验、NAND/NOR 的通用性、以及读多级电路用的气泡推移（bubble pushing）。Ch6 再把方向掉过头来：不再从真值表出发自己化简，而是从已有型号的标准构件里挑、然后级联。三章连着读效果最好——Ch6 的译码器（p29–p31）、Mux（p40、p43–p44）与毛刺修复（p52–p53）全都直接用到 Ch4 的最小项、SOP 与 K-map，而 Ch6 那些"每个输入都带气泡"的多级门电路，读法正是 Ch5 的气泡推移。
+
+Ch7–Ch9 是同一条链的三级台阶：Ch7 先造出能记住一位的元件（锁存器与触发器），并把 Ch6 末尾的传播延迟、污染延迟接成建立/保持时间约束；Ch8 把这些元件串成移位寄存器，第一次让"状态"按拍流动；Ch9 再把状态抽象成状态机，给出从文字需求到电路的一整套设计流程。**读 Ch9 的时序分析（p31–p40）之前务必先读 Ch6 的 $t_{pd}$ / $t_{cd}$ 与 Ch7 的触发器**——$T_c \ge t_{pcq}+t_{pd}+t_{setup}$ 这条式子里的每一项都来自前几章。
 :::

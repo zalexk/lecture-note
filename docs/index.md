@@ -23,7 +23,7 @@ features:
     linkText: 进入课程
   - icon: 🔌
     title: ECE2050 · Digital Logic and Systems
-    details: 数字逻辑与系统。已收录：Ch1 数字逻辑导论、Ch2 数制系统、Ch3 逻辑门、Ch4 布尔代数与逻辑化简、Ch5 组合逻辑设计、Ch6 组合逻辑标准构件（Combinational Building Blocks）（共 6 章）；另附《期中题型大全》14 篇（12 个课题、67 个题型）。
+    details: 数字逻辑与系统。已收录：Ch1 数字逻辑导论、Ch2 数制系统、Ch3 逻辑门、Ch4 布尔代数与逻辑化简、Ch5 组合逻辑设计、Ch6 组合逻辑标准构件、Ch7 时序逻辑设计、Ch8 移位寄存器、Ch9 有限状态机（Finite State Machine）（共 9 章）；另附《期中题型大全》14 篇（12 个课题、67 个题型）。
     link: /ECE2050-Digital-Logic-and-Systems/
     linkText: 进入课程
   - icon: 📗
