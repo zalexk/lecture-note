@@ -22,6 +22,10 @@
 | [Lecture 7 假设检验 II](/STA2002-Probability-and-Statistics-II/lecture7-hypothesis-testing-ii) | Hypothesis Testing II | Lecture 7（21 页） |
 | [Lecture 8 假设检验 III](/STA2002-Probability-and-Statistics-II/lecture8-hypothesis-testing-iii) | Hypothesis Testing III | Lecture 8（17 页） |
 | [Lecture 9 假设检验 IV](/STA2002-Probability-and-Statistics-II/lecture9-hypothesis-testing-iv) | Hypothesis Testing IV（功效函数与样本量） | Lecture 9（42 页） |
+| [Lecture 10 顺序统计量](/STA2002-Probability-and-Statistics-II/lecture10-order-statistics) | Order Statistics | Lecture 10（17 页） |
+| [Lecture 11 分位数与 Q-Q 图](/STA2002-Probability-and-Statistics-II/lecture11-quantile-and-qq-plots) | Quantile and Q-Q Plots | Lecture 11（18 页） |
+| [Lecture 12 无分布置信区间](/STA2002-Probability-and-Statistics-II/lecture12-distribution-free-confidence-interval) | Distribution-free Confidence Interval | Lecture 12（18 页） |
+| [Lecture 13 符号检验与 Wilcoxon 符号秩检验](/STA2002-Probability-and-Statistics-II/lecture13-sign-test-and-wilcoxon-signed-rank-test) | Sign Test & Wilcoxon Signed Rank Test | Lecture 13（21 页） |
 
 ::: tip 这门课的主线
 第 1 讲把「随机变量 — 分布 — 矩 — 三大抽样分布 — 极限定理」这条链条补齐，第 2–3 讲做**点估计**，第 4–5 讲做**区间估计**，第 6–9 讲做**假设检验**。
@@ -29,6 +33,10 @@
 三件套（点估计 / 区间估计 / 假设检验）之间其实共用同一批工具：**枢轴量（pivot）**。第 4 讲把它显式化之后，第 6 讲的检验统计量基本就是「把枢轴量里的未知参数换成假设值」。所以第 4 讲是这门课的分水岭，前面读慢了不亏。
 
 假设检验这四讲的分类维度是逐步展开的：第 6 讲按「$\sigma^2$ 已知 / 未知」分两个 case（单个均值），第 7 讲换成「两个样本的结构关系」（是否配对、方差是否相等），第 8 讲讲**比例**——那一讲整讲没有 $t$ 分布，因为 $H_0:p=p_0$ 把分母也定死成了已知常数。第 9 讲则从「拿到数据之后拒不拒」翻到**事前设计**：功效函数 $K(\mu)=\Pr(\text{拒绝};\mu)$ 是一条曲线，$\alpha$ 与 $1-\beta$ 只是它上面两个读数，而样本量 $n$ 是唯一能同时按住两类错误的旋钮。
+
+第 10–13 讲换了轨道：不再假设总体属于某个分布族，只留「连续」这一条。地基是第 10 讲的**顺序统计量**——把「排第几」翻译成「数个数」，于是 $F(X_{(k)})\sim\mathrm{Beta}(k,n-k+1)$，$E[F(X_{(k)})]=\frac{k}{n+1}$。第 11 讲用这条均值公式造出**样本分位数**与 **Q-Q 图**（$\frac{k}{n+1}$ 这个取点约定就来自它）；第 12 讲把它变成**与分布无关的置信区间**，置信系数 $\Pr(i\le W\le j-1)$ 里一个未知参数都没有；第 13 讲再变成**与分布无关的检验**——符号检验用的还是同一个二项分布，Wilcoxon 符号秩检验则多要一条对称性假设，用它在对称总体上换到约两到三倍的功效。
+
+读这四讲要盯住同一个代价：**离散**。覆盖率与显著性水平都只能取有限个值，名义 $95\%$ / $5\%$ 常常够不到，只能取最接近且不越过它的一档——这与第 9 讲比例检验那节的坑是同一件事。
 :::
 
 ::: warning 阅读提示

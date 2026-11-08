@@ -274,6 +274,22 @@ export const courses: CourseEntry[] = [
         text: 'Lecture 9 假设检验 IV（Hypothesis Testing IV）',
         file: 'lecture9-hypothesis-testing-iv',
       },
+      {
+        text: 'Lecture 10 顺序统计量（Order Statistics）',
+        file: 'lecture10-order-statistics',
+      },
+      {
+        text: 'Lecture 11 分位数与 Q-Q 图（Quantile and Q-Q Plots）',
+        file: 'lecture11-quantile-and-qq-plots',
+      },
+      {
+        text: 'Lecture 12 无分布置信区间（Distribution-free Confidence Interval）',
+        file: 'lecture12-distribution-free-confidence-interval',
+      },
+      {
+        text: 'Lecture 13 符号检验与 Wilcoxon 符号秩检验（Sign Test & Wilcoxon Signed Rank Test）',
+        file: 'lecture13-sign-test-and-wilcoxon-signed-rank-test',
+      },
     ],
   },
 ]
