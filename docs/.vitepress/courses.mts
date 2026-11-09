@@ -242,6 +242,22 @@ export const courses: CourseEntry[] = [
         text: 'Ch9 货币、物价与金融中介（Money, Prices, and Financial Intermediaries）',
         file: 'ch9-money-prices-and-financial-intermediaries',
       },
+      {
+        text: 'Ch11 支出、产出与财政政策（Spending, Output, and Fiscal Policy）',
+        file: 'ch11-spending-output-and-fiscal-policy',
+      },
+      {
+        text: 'Ch12 货币政策与美联储（Monetary Policy and the Federal Reserve）',
+        file: 'ch12-monetary-policy-and-the-federal-reserve',
+      },
+      {
+        text: 'Ch13 凯恩斯模型的总需求与总供给（The Keynesian Model of AD-AS）',
+        file: 'ch13-keynesian-model-ad-as',
+      },
+      {
+        text: 'Ch10 短期经济波动（Short-term Economic Fluctuations）',
+        file: 'ch10-short-term-economic-fluctuations',
+      },
     ],
   },
   {
