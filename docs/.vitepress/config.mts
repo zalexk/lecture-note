@@ -201,6 +201,25 @@ export default defineConfig({
           )
         }
       }
+
+      // GitHub alert（`> [!IMPORTANT] 标题`）的标题走的是另一条路：VitePress 的
+      // gitHubAlertsPlugin 把 core 规则切出来的 meta.title **原样**插进 HTML，
+      // 不像 `::: tip 标题` 那样调 md.renderInline()。于是标题里的 `$...$`
+      // 不会被 KaTeX 处理，页面上直接露出 LaTeX 源码（正文里的同一公式却是好的）。
+      // 这里把标题先过一遍 renderInline 再交给原渲染器，markup 仍由 VitePress 生成。
+      const alertOpen = md.renderer.rules.github_alert_open
+      if (alertOpen) {
+        md.renderer.rules.github_alert_open = (tokens, idx, options, env, self) => {
+          const token = tokens[idx]
+          const title = md.renderInline(token.meta.title, env)
+          // 传克隆体而不是改 token.meta：同一份 token 可能被渲染多次（dev 热更新、
+          // 搜索索引），就地改写会让第二次拿到已渲染的 HTML 再渲染一遍。
+          const patched = Object.assign(Object.create(Object.getPrototypeOf(token)), token, {
+            meta: { ...token.meta, title },
+          })
+          return alertOpen([patched], 0, options, env, self)
+        }
+      }
     },
     // 文中的裸 HTML（如 <br/>）照常渲染
     html: true,
