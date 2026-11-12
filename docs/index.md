@@ -28,7 +28,7 @@ features:
     linkText: 进入课程
   - icon: 📗
     title: ECO2021 · Principles of Macroeconomics
-    details: 宏观经济学原理。已收录：Ch4 支出、收入与 GDP（Spending, Income and GDP）、Ch5 通货膨胀与价格水平（Inflation and the Price Level）、Ch6 工资与失业（Wages and Unemployment）、Ch7 经济增长（Economic Growth）、Ch8 储蓄、资本形成与可贷资金市场（Saving, Capital Formation, and the Loanable Funds Market）、Ch9 货币、物价与金融中介（Money, Prices, and Financial Intermediaries）、Ch10 短期经济波动（Short-term Economic Fluctuations）、Ch11 支出、产出与财政政策（Spending, Output, and Fiscal Policy）、Ch12 货币政策与美联储（Monetary Policy and the Federal Reserve）、Ch13 凯恩斯模型的总需求与总供给（The Keynesian Model of AD-AS）（共 10 讲）。
+    details: 宏观经济学原理。已收录：Ch4 支出、收入与 GDP、Ch5 通胀与物价水平、Ch6 工资与失业、Ch7 经济增长、Ch8 储蓄与可贷资金市场、Ch9 货币与金融中介、Ch10 短期经济波动、Ch11 财政政策、Ch12 货币政策与美联储、Ch13 凯恩斯 AD-AS 模型（共 10 讲）。
     link: /ECO2021-Principles-of-Macroeconomics/
     linkText: 进入课程
   - icon: 📊

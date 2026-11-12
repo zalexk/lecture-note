@@ -216,7 +216,7 @@ export const courses: CourseEntry[] = [
     code: 'ECO2021',
     name: 'Principles of Macroeconomics',
     dir: 'ECO2021-Principles-of-Macroeconomics',
-    summary: '宏观经济学原理 —— 从 GDP 核算、通胀与物价水平，到劳动市场与失业。',
+    summary: '宏观经济学原理 —— 从 GDP 核算与物价水平出发，经劳动市场、经济增长与储蓄及可贷资金市场，到货币与金融中介、短期经济波动，再到财政政策、货币政策与凯恩斯 AD-AS 模型。',
     notes: [
       {
         text: 'Ch4 支出、收入与 GDP（Spending, Income and GDP）',
