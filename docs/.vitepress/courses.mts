@@ -243,6 +243,10 @@ export const courses: CourseEntry[] = [
         file: 'ch9-money-prices-and-financial-intermediaries',
       },
       {
+        text: 'Ch10 短期经济波动（Short-term Economic Fluctuations）',
+        file: 'ch10-short-term-economic-fluctuations',
+      },
+      {
         text: 'Ch11 支出、产出与财政政策（Spending, Output, and Fiscal Policy）',
         file: 'ch11-spending-output-and-fiscal-policy',
       },
@@ -253,10 +257,6 @@ export const courses: CourseEntry[] = [
       {
         text: 'Ch13 凯恩斯模型的总需求与总供给（The Keynesian Model of AD-AS）',
         file: 'ch13-keynesian-model-ad-as',
-      },
-      {
-        text: 'Ch10 短期经济波动（Short-term Economic Fluctuations）',
-        file: 'ch10-short-term-economic-fluctuations',
       },
     ],
   },
