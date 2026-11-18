@@ -26,6 +26,9 @@
 | [Lecture 11 分位数与 Q-Q 图](/STA2002-Probability-and-Statistics-II/lecture11-quantile-and-qq-plots) | Quantile and Q-Q Plots | Lecture 11（18 页） |
 | [Lecture 12 无分布置信区间](/STA2002-Probability-and-Statistics-II/lecture12-distribution-free-confidence-interval) | Distribution-free Confidence Interval | Lecture 12（18 页） |
 | [Lecture 13 符号检验与 Wilcoxon 符号秩检验](/STA2002-Probability-and-Statistics-II/lecture13-sign-test-and-wilcoxon-signed-rank-test) | Sign Test & Wilcoxon Signed Rank Test | Lecture 13（21 页） |
+| [Lecture 14 拟合优度检验](/STA2002-Probability-and-Statistics-II/lecture14-goodness-of-fit-test) | Goodness-of-Fit Test | Lecture 14（26 页） |
+| [Lecture 15 齐性检验与独立性检验](/STA2002-Probability-and-Statistics-II/lecture15-homogeneity-and-independence) | Test for Homogeneity and Test for Independence | Lecture 15（21 页） |
+| [Lecture 16 单因素方差分析与 F 检验](/STA2002-Probability-and-Statistics-II/lecture16-one-way-anova-and-f-test) | One-way ANOVA and F Test | Lecture 16（16 页） |
 
 ::: tip 这门课的主线
 第 1 讲把「随机变量 — 分布 — 矩 — 三大抽样分布 — 极限定理」这条链条补齐，第 2–3 讲做**点估计**，第 4–5 讲做**区间估计**，第 6–9 讲做**假设检验**。
@@ -37,6 +40,10 @@
 第 10–13 讲换了轨道：不再假设总体属于某个分布族，只留「连续」这一条。地基是第 10 讲的**顺序统计量**——把「排第几」翻译成「数个数」，于是 $F(X_{(k)})\sim\mathrm{Beta}(k,n-k+1)$，$E[F(X_{(k)})]=\frac{k}{n+1}$。第 11 讲用这条均值公式造出**样本分位数**与 **Q-Q 图**（$\frac{k}{n+1}$ 这个取点约定就来自它）；第 12 讲把它变成**与分布无关的置信区间**，置信系数 $\Pr(i\le W\le j-1)$ 里一个未知参数都没有；第 13 讲再变成**与分布无关的检验**——符号检验用的还是同一个二项分布，Wilcoxon 符号秩检验则多要一条对称性假设，用它在对称总体上换到约两到三倍的功效。
 
 读这四讲要盯住同一个代价：**离散**。覆盖率与显著性水平都只能取有限个值，名义 $95\%$ / $5\%$ 常常够不到，只能取最接近且不越过它的一档——这与第 9 讲比例检验那节的坑是同一件事。
+
+第 14–16 讲换回**有分布**的路子，但用的是另一套算法：**平方和分解 + 数自由度**。第 14 讲把取值范围切成 $k$ 个箱，比 $(O_i-E_i)^2/E_i$，得 $\chi^2(k-1)$（估了 $d$ 个参数就减 $d$）；第 15 讲把"一组数据"换成"一张 $k\times h$ 的列联表"，期望数变成 $n_{i\cdot}n_{\cdot j}/n$，自由度变成 $(k-1)(h-1)$——齐性检验与独立性检验在这一层是**同一个检验**，差别只在行合计是谁定的；第 16 讲把同样的分解推到连续响应变量上，$SS(TO)=SS(T)+SS(E)$，两个均方相除得 $F(m-1,n-m)$，这就是单因素方差分析。
+
+三讲的共同骨架是"**先分解，再数自由度，最后查表**"。理解这一层之后，$\chi^2$ 与 $F$ 就不再是两张要背的表，而是同一台机器在两个场景下的输出——第 16 讲还会验证 $m=2$ 时 $F$ 恰好等于 $t$ 的平方。
 :::
 
 ::: warning 阅读提示

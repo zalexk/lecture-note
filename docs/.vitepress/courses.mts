@@ -318,6 +318,18 @@ export const courses: CourseEntry[] = [
         text: 'Lecture 13 符号检验与 Wilcoxon 符号秩检验（Sign Test & Wilcoxon Signed Rank Test）',
         file: 'lecture13-sign-test-and-wilcoxon-signed-rank-test',
       },
+      {
+        text: 'Lecture 14 拟合优度检验（Goodness-of-Fit Test）',
+        file: 'lecture14-goodness-of-fit-test',
+      },
+      {
+        text: 'Lecture 15 齐性检验与独立性检验（Test for Homogeneity and Test for Independence）',
+        file: 'lecture15-homogeneity-and-independence',
+      },
+      {
+        text: 'Lecture 16 单因素方差分析与 F 检验（One-way ANOVA and F Test）',
+        file: 'lecture16-one-way-anova-and-f-test',
+      },
     ],
   },
 ]
