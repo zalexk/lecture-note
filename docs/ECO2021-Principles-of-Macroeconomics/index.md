@@ -20,8 +20,8 @@
 | [Ch8 储蓄、资本形成与可贷资金市场](/ECO2021-Principles-of-Macroeconomics/ch8-saving-capital-formation-and-the-loanable-funds-market) | Saving, Capital Formation, and the Loanable Funds Market | Chapter 8（共 77 页）+ 配套读物（3 页） |
 | [Ch9 货币、物价与金融中介](/ECO2021-Principles-of-Macroeconomics/ch9-money-prices-and-financial-intermediaries) | Money, Prices, and Financial Intermediaries | Chapter 9（共 58 页）+ 两份配套读物（8 页、7 页） |
 | [Ch10 短期经济波动](/ECO2021-Principles-of-Macroeconomics/ch10-short-term-economic-fluctuations) | Short-term Economic Fluctuations | Chapter 10（共 48 页） |
-| [Ch11 支出、产出与财政政策](/ECO2021-Principles-of-Macroeconomics/ch11-spending-output-and-fiscal-policy) | Spending, Output, and Fiscal Policy | Chapter 11（共 60 页） |
-| [Ch12 货币政策与美联储](/ECO2021-Principles-of-Macroeconomics/ch12-monetary-policy-and-the-federal-reserve) | Monetary Policy and the Federal Reserve | Chapter 12（共 52 页） |
+| [Ch11 支出、产出与财政政策](/ECO2021-Principles-of-Macroeconomics/ch11-spending-output-and-fiscal-policy) | Spending, Output, and Fiscal Policy | Chapter 11（共 60 页）+ 课堂手写批注 8 页 |
+| [Ch12 货币政策与美联储](/ECO2021-Principles-of-Macroeconomics/ch12-monetary-policy-and-the-federal-reserve) | Monetary Policy and the Federal Reserve | Chapter 12（共 52 页）+ 课堂手写批注 11 页 |
 | [Ch13 凯恩斯模型的总需求与总供给](/ECO2021-Principles-of-Macroeconomics/ch13-keynesian-model-ad-as) | The Keynesian Model of AD-AS | Chapter 13（共 57 页） |
 
 ::: tip 阅读顺序建议
